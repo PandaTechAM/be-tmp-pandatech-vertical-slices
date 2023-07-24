@@ -43,7 +43,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapGet("/ping", () => "Pong");
+app.MapGet("/ping", () => "pong");
 
 app.MapControllers();
 
