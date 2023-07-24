@@ -28,10 +28,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Tests\UnitTests\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\WebApiPostgres\WebApiPostgres.csproj" />
     </ItemGroup>
 
