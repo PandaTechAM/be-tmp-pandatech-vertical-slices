@@ -1,6 +1,6 @@
 ﻿namespace WebApiPostgres.Configurations;
 
-public class CorsPolicies
+public abstract class CorsPolicies
 {
     public static void AddCorsToAllowAll(WebApplicationBuilder builder)
     {
