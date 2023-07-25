@@ -23,7 +23,7 @@ public abstract class ConfigureLogger
                 numberOfShards: 5,
                 numberOfReplicas: 1,
                 bufferBaseFilename: "./be-tmp-web-api-postgres-logs/elastic-buffer",
-                bufferFileSizeLimitBytes: 1024 * 1024 * 32); //32 MB each buffer file
+                bufferFileSizeLimitBytes: 1024 * 1024 * 32) //32 MB each buffer file
             .CreateLogger();
 #endif
 
