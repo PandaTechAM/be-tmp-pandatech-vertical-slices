@@ -43,12 +43,9 @@
 
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
-    </ItemGroup>
-
-
-    <ItemGroup>
       <_ContentIncludedByDefault Remove="be-tmp-web-api-postgres-logs\elastic-buffer-20230824.json" />
     </ItemGroup>
+
+
 
 </Project>

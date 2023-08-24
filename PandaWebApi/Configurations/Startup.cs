@@ -15,7 +15,7 @@ public class Startup : IHostedService
 
     public Task StartAsync(CancellationToken cancellationToken)
     {
-        EnvironmentVariableValidator.ValidateEnvironmentVariables(RequiredEnvironments.GetEnvironmentVariables());
+        EnvironmentVariableValidator.ValidateEnvironmentVariables(Environments.GetEnvironmentVariables());
         
         using (var scope = _serviceProvider.CreateScope())
         {
