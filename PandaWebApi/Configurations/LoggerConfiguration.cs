@@ -17,16 +17,17 @@ public static class LoggerConfiguration
         //This part is for "DEVELOPMENT" environment
         if (builder.Environment.IsDevelopment())
         {
-            loggerConfig.MinimumLevel.Debug()
+            loggerConfig.MinimumLevel.Information()
                 .WriteTo.Console();
         }
 
         //This part is for "STAGING" environment
         if (builder.Environment.IsStaging())
         {
-            loggerConfig.MinimumLevel.Debug()
+            loggerConfig.MinimumLevel.Information()
                 .WriteTo.Elasticsearch(Environment.GetEnvironmentVariable("ELASTIC_SEARCH_URL"),
-                    indexFormat: $"{repoName}-logs-{DateTime.UtcNow:yyyy.MM}", autoRegisterTemplate: true,
+                    indexFormat: $"{repoName}-logs-{DateTime.UtcNow:yyyy.MM}", 
+                    autoRegisterTemplate: true,
                     detectElasticsearchVersion: true,
                     numberOfShards: 5,
                     numberOfReplicas: 1,
@@ -39,7 +40,8 @@ public static class LoggerConfiguration
         {
             loggerConfig.MinimumLevel.Information()
                 .WriteTo.Elasticsearch(Environment.GetEnvironmentVariable("ELASTIC_SEARCH_URL"),
-                    indexFormat: $"{repoName}-logs-{DateTime.UtcNow:yyyy.MM}", autoRegisterTemplate: true,
+                    indexFormat: $"{repoName}-logs-{DateTime.UtcNow:yyyy.MM}", 
+                    autoRegisterTemplate: true,
                     detectElasticsearchVersion: true,
                     numberOfShards: 5,
                     numberOfReplicas: 1,

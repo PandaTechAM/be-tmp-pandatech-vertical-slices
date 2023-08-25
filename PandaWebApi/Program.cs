@@ -1,8 +1,6 @@
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.EntityFrameworkCore;
 using PandaWebApi.Configurations;
-using PandaWebApi.Contexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
