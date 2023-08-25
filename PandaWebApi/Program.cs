@@ -1,6 +1,7 @@
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using PandaWebApi.Configurations;
+using PandaWebApi.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +27,8 @@ builder.AddSwaggerGen();
 builder.Services.AddHostedService<Startup>();
 builder.AddHealthChecks();
 
+builder.Services.AddSingleton<DatabaseReset>();
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
 var app = builder.Build();
@@ -36,15 +39,20 @@ app.UseSwagger();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
-app.MapGet("/ping", () => "pong");
+app.MapGet("/ping", () => "pong").WithTags("Above Board");
 
-//Due to microsoft bug which is planned to be resolved in .net 8.0, we cannot see this endpoint in swagger.
+#if DEBUG
+app.MapGet("/reset-database", (DatabaseReset warning) => warning.ResetDatabase()).WithTags("Above Board");;
+#endif
+
 app.MapHealthChecks("/health", new HealthCheckOptions()
 {
     ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-});
-    
+}).WithTags("Above Board");
+
 app.MapControllers();
 app.Run();
 
-public abstract partial class Program { }
+public abstract partial class Program
+{
+}
