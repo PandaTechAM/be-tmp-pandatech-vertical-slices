@@ -5,6 +5,7 @@ namespace PandaWebApi.Controllers;
 
 [ApiController]
 [Route("api/v1")]
+[Produces("application/json")]
 public class SomeController : ExtendedController
 {
     private readonly ILogger<SomeController> _logger;
@@ -14,7 +15,7 @@ public class SomeController : ExtendedController
     {
         _logger = logger;
     }
-    
+
     [HttpGet("some-endpoint")]
     public ServiceResponse GetSomeEndpoint()
     {

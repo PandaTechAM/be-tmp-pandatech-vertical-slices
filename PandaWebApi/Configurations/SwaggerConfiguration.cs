@@ -1,5 +1,4 @@
 ﻿using BaseConverter;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 
 namespace PandaWebApi.Configurations;
@@ -12,12 +11,12 @@ public static class SwaggerConfiguration
         {
             options.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = $"PandaTech API - {AppDomain.CurrentDomain.FriendlyName}",
+                Title = $"{AppDomain.CurrentDomain.FriendlyName}",
                 Description =
-                    "PandaTech is an enterprise software engineering company dedicated to providing top-tier fintech solutions and more. Leveraging cutting-edge technology and industry expertise, we strive to deliver excellence and innovation in every project.",
+                    "Powered by PandaTech LLC: Where precision meets innovation. Let's build the future, one endpoint at a time.",
                 Contact = new OpenApiContact
                 {
-                    Name = "PandaTech",
+                    Name = "PandaTech LLC",
                     Email = "info@pandatech.it",
                     Url = new Uri("https://www.pandatech.it"),
                 }
@@ -59,7 +58,13 @@ public static class SwaggerConfiguration
     public static void UseSwagger(this WebApplication app)
     {
         if (app.Environment.IsProduction()) return;
+
         SwaggerBuilderExtensions.UseSwagger(app);
-        app.UseSwaggerUI();
+
+        app.UseSwaggerUI(options =>
+        {
+            options.InjectStylesheet("/assets/css/panda-style.css");
+            options.InjectJavascript("/assets/js/docs.js");
+        });
     }
 }

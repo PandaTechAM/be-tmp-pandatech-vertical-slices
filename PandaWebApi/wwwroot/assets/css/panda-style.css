@@ -1,0 +1,87 @@
+/* body {
+  background-image: url("../images/images.png");
+} */
+
+.swagger-ui .topbar .download-url-wrapper {
+  display: none;
+}
+
+.swagger-ui .info hgroup.main a {
+  display: none;
+}
+
+.swagger-ui .topbar-wrapper img {
+  visibility: hidden;
+}
+
+.swagger-ui .topbar-wrapper .link::before {
+  content: "";
+  background: url("../images/logo.svg") no-repeat center;
+  background-size: contain;
+  width: 36.402px;
+  height: 28.8px;
+  display: inline-block;
+  position: relative;
+}
+
+/* Add your second image */
+.swagger-ui .topbar-wrapper .link::after {
+  content: "";
+  background: url("../images/logo-wording.svg") no-repeat center;
+  background-size: contain;
+  width: 90.0276px;
+  height: 20.2044px;
+  display: inline-block;
+  position: relative;
+  left: -132px;
+}
+
+div.topbar {
+  background: linear-gradient(to right, white, #c7aad4) !important;
+}
+
+.swagger-ui .btn.authorize.unlocked {
+  background-color: white !important;
+  color: black !important;
+  border: 2px solid #ffb133 !important;
+}
+
+.swagger-ui .btn.authorize.unlocked svg {
+  fill: black !important;
+}
+
+.swagger-ui .btn.authorize.locked {
+  background-color: #ffb133 !important;
+  color: black !important;
+  border: 2px solid #ffb133 !important;
+}
+
+.swagger-ui .btn.authorize.locked svg {
+  fill: black !important;
+}
+
+.swagger-ui .auth-container .btn.modal-btn.auth {
+  background-color: #ffb133 !important;
+  color: black !important;
+  border: 1px solid #ffb133 !important;
+}
+
+.opblock-summary-get:hover {
+  background-color: #b3e0ff !important;
+}
+
+.opblock-summary-post:hover {
+  background-color: #83e697 !important;
+}
+
+.opblock-summary-put:hover {
+  background-color: #f0cc9f !important;
+}
+
+.opblock-summary-patch:hover {
+  background-color: #a2eede !important;
+}
+
+.opblock-summary-delete:hover {
+  background-color: #faa3a3 !important;
+}

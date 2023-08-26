@@ -35,6 +35,7 @@ var app = builder.Build();
 
 app.UseCorsToAllowAll();
 
+app.UseStaticFiles();
 app.UseSwagger();
 app.UseHttpsRedirection();
 app.UseAuthorization();
@@ -42,7 +43,7 @@ app.UseAuthorization();
 app.MapGet("/ping", () => "pong").WithTags("Above Board");
 
 #if DEBUG
-app.MapGet("/reset-database", (DatabaseReset warning) => warning.ResetDatabase()).WithTags("Above Board");;
+app.MapGet("/reset-database", (DatabaseReset warning) => warning.ResetDatabase()).WithTags("Above Board");
 #endif
 
 app.MapHealthChecks("/health", new HealthCheckOptions()
@@ -53,6 +54,6 @@ app.MapHealthChecks("/health", new HealthCheckOptions()
 app.MapControllers();
 app.Run();
 
-public abstract partial class Program
+public partial class Program
 {
 }
