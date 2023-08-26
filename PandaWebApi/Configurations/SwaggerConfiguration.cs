@@ -61,6 +61,8 @@ public static class SwaggerConfiguration
 
         SwaggerBuilderExtensions.UseSwagger(app);
 
+        app.UseStaticFiles();
+
         app.UseSwaggerUI(options =>
         {
             options.InjectStylesheet("/assets/css/panda-style.css");
