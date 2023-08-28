@@ -27,6 +27,7 @@ builder.AddCorsToAllowAll();
 builder.AddPostgresContext();
 builder.AddSwaggerGen();
 
+builder.Services.AddHttpClient();
 builder.Services.AddHostedService<Startup>();
 builder.AddHealthChecks();
 
