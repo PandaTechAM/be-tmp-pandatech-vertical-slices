@@ -1,6 +1,9 @@
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using PandaWebApi.Configurations;
+using PandaWebApi.Configurations.Health;
+using PandaWebApi.Contexts;
+using PandaWebApi.Helpers;
 using PandaWebApi.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,7 +30,7 @@ builder.AddSwaggerGen();
 builder.Services.AddHostedService<Startup>();
 builder.AddHealthChecks();
 
-builder.Services.AddSingleton<DatabaseReset>();
+builder.Services.AddSingleton<DatabaseHelper>();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
@@ -42,7 +45,7 @@ app.UseAuthorization();
 app.MapGet("/ping", () => "pong").WithTags("Above Board");
 
 #if DEBUG
-app.MapGet("/reset-database", (DatabaseReset warning) => warning.ResetDatabase()).WithTags("Above Board");
+app.MapGet("/reset-database", (DatabaseHelper helper) => helper.ResetDatabase<PostgresContext>()).WithTags("Above Board");
 #endif
 
 app.MapHealthChecks("/health", new HealthCheckOptions()
@@ -53,6 +56,8 @@ app.MapHealthChecks("/health", new HealthCheckOptions()
 app.MapControllers();
 app.Run();
 
+#pragma warning disable S1118
 public partial class Program
+#pragma warning restore S1118
 {
 }
