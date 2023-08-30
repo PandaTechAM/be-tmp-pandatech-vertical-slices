@@ -22,26 +22,33 @@ public static class Environments
         switch (aspEnv)
         {
             case "Development":
-                
-                return environmentVariables;
-            
-            case "Staging":
-                environmentVariables.Add("ELASTIC_SEARCH_URL");
-                environmentVariables.Add("CERTIFICATE");
-                environmentVariables.Add("CERTIFICATE_KEY");
 
                 return environmentVariables;
-            
+
+            case "Staging":
+                environmentVariables.Add("ELASTIC_SEARCH_URL");
+                environmentVariables.Add("ELASTIC_INDEX_NAME");
+                environmentVariables.Add("CERTIFICATE");
+                environmentVariables.Add("CERTIFICATE_KEY");
+                environmentVariables.Add("USER_MANAGEMENT_ADDRESS");
+
+                return environmentVariables;
+
             case "Production":
             {
                 environmentVariables.Add("ELASTIC_SEARCH_URL");
+                environmentVariables.Add("ELASTIC_INDEX_NAME");
                 environmentVariables.Add("CERTIFICATE");
                 environmentVariables.Add("CERTIFICATE_KEY");
+                environmentVariables.Add("CORS_ALLOWED_ORIGINS");
+                environmentVariables.Add("USER_MANAGEMENT_ADDRESS");
+
 
                 return environmentVariables;
             }
             default:
-                throw new ArgumentException($"`ASPNETCORE_ENVIRONMENT` has value set to `{aspEnv}`, which is invalid value");
+                throw new ArgumentException(
+                    $"`ASPNETCORE_ENVIRONMENT` has value set to `{aspEnv}`, which is invalid value");
         }
     }
 }

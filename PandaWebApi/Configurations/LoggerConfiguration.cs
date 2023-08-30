@@ -6,7 +6,7 @@ public static class LoggerConfiguration
 {
     public static void AddSerilog(this WebApplicationBuilder builder)
     {
-        const string repoName = "be-tmp-panda-web-api";
+        var indexName = Environment.GetEnvironmentVariable("ELASTIC_INDEX_NAME");
 
         //This part is for general configuration
         var loggerConfig = new Serilog.LoggerConfiguration()
@@ -26,12 +26,12 @@ public static class LoggerConfiguration
         {
             loggerConfig.MinimumLevel.Information()
                 .WriteTo.Elasticsearch(Environment.GetEnvironmentVariable("ELASTIC_SEARCH_URL"),
-                    indexFormat: $"{repoName}-logs-{DateTime.UtcNow:yyyy.MM}", 
+                    indexFormat: $"{indexName}-logs-{DateTime.UtcNow:yyyy.MM}", 
                     autoRegisterTemplate: true,
                     detectElasticsearchVersion: true,
                     numberOfShards: 5,
                     numberOfReplicas: 1,
-                    bufferBaseFilename: $"./{repoName}-logs/elastic-buffer",
+                    bufferBaseFilename: $"./{indexName}-logs/elastic-buffer",
                     bufferFileSizeLimitBytes: 1024 * 1024 * 32); //32 MB each buffer file
         }
 
@@ -40,12 +40,12 @@ public static class LoggerConfiguration
         {
             loggerConfig.MinimumLevel.Information()
                 .WriteTo.Elasticsearch(Environment.GetEnvironmentVariable("ELASTIC_SEARCH_URL"),
-                    indexFormat: $"{repoName}-logs-{DateTime.UtcNow:yyyy.MM}", 
+                    indexFormat: $"{indexName}-logs-{DateTime.UtcNow:yyyy.MM}", 
                     autoRegisterTemplate: true,
                     detectElasticsearchVersion: true,
                     numberOfShards: 5,
                     numberOfReplicas: 1,
-                    bufferBaseFilename: $"./{repoName}-logs/elastic-buffer",
+                    bufferBaseFilename: $"./{indexName}-logs/elastic-buffer",
                     bufferFileSizeLimitBytes: 1024 * 1024 * 32); //32 MB each buffer file
         }
 
