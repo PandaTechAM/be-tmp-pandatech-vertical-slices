@@ -4,7 +4,7 @@ namespace PandaWebApi.Helpers
 {
     public static class RegExHelper
     {
-        private static readonly TimeSpan RegexTimeout = TimeSpan.FromMilliseconds(500);
+        private static readonly TimeSpan RegexTimeout = TimeSpan.FromMilliseconds(200);
 
         private static readonly Regex RegexValidEmail = 
             new Regex(@"^[\w-_]+(\.[\w!#$%'*+\/=?\^`{|}]+)*@((([\-\w]+\.)+[a-zA-Z]{2,20})|(([0-9]{1,3}\.){3}[0-9]{1,3}))$", 

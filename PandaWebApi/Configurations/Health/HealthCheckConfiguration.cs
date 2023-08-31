@@ -6,6 +6,8 @@ public static class HealthCheckConfiguration
 {
     public static void AddHealthChecks(this WebApplicationBuilder builder)
     {
+        var timeoutSeconds = TimeSpan.FromSeconds(5);
+
         //This part is only for RMQ health check
         ConnectionFactory factory = new()
         {
@@ -19,8 +21,8 @@ public static class HealthCheckConfiguration
             builder.Services
                 .AddSingleton(connection)
                 .AddHealthChecks()
-                .AddNpgSql(Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING")!)
-                .AddRedis(Environment.GetEnvironmentVariable("REDIS_CONNECTION_STRING")!)
+                .AddNpgSql(Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING")!, timeout: timeoutSeconds)
+                .AddRedis(Environment.GetEnvironmentVariable("REDIS_CONNECTION_STRING")!, timeout: timeoutSeconds)
                 .AddRabbitMQ();
         }
 
@@ -29,10 +31,10 @@ public static class HealthCheckConfiguration
             builder.Services
                 .AddSingleton(connection)
                 .AddHealthChecks()
-                .AddCheck<UserManagementHealthCheck>("UserManagementHealthCheck")
-                .AddNpgSql(Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING")!)
-                .AddRedis(Environment.GetEnvironmentVariable("REDIS_CONNECTION_STRING")!)
-                .AddElasticsearch(Environment.GetEnvironmentVariable("ELASTIC_SEARCH_URL")!)
+                .AddCheck<UserManagementHealthCheck>("UserManagementHealthCheck", timeout: timeoutSeconds)
+                .AddNpgSql(Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING")!, timeout: timeoutSeconds)
+                .AddRedis(Environment.GetEnvironmentVariable("REDIS_CONNECTION_STRING")!, timeout: timeoutSeconds)
+                .AddElasticsearch(Environment.GetEnvironmentVariable("ELASTIC_SEARCH_URL")!, timeout: timeoutSeconds)
                 .AddRabbitMQ();
         }
 
@@ -41,10 +43,10 @@ public static class HealthCheckConfiguration
             builder.Services
                 .AddSingleton(connection)
                 .AddHealthChecks()
-                .AddCheck<UserManagementHealthCheck>("UserManagementHealthCheck")
-                .AddNpgSql(Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING")!)
-                .AddRedis(Environment.GetEnvironmentVariable("REDIS_CONNECTION_STRING")!)
-                .AddElasticsearch(Environment.GetEnvironmentVariable("ELASTIC_SEARCH_URL")!)
+                .AddCheck<UserManagementHealthCheck>("UserManagementHealthCheck", timeout: timeoutSeconds)
+                .AddNpgSql(Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING")!, timeout: timeoutSeconds)
+                .AddRedis(Environment.GetEnvironmentVariable("REDIS_CONNECTION_STRING")!, timeout: timeoutSeconds)
+                .AddElasticsearch(Environment.GetEnvironmentVariable("ELASTIC_SEARCH_URL")!, timeout: timeoutSeconds)
                 .AddRabbitMQ();
         }
     }
