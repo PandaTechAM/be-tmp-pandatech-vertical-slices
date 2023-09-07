@@ -10,7 +10,7 @@ jobs:
       DOTNET_VERSION: 7.x.x
       NEXUS_SOURCE: https://hubrepopanda.pandatech.it/repository/nuget-hosted/index.json
       NUGET_SOURCE: https://api.nuget.org/v3/index.json
-      DOCKER_REPO: repopanda.pandatech.it/pandatech/repository/pandatech
+      DOCKER_REPO: repopanda.pandatech.it/pandatech/repository/pandatech/dev
       SERVICE_NAME: ${{ github.event.repository.name }}
       K8S_NAMESPACE: dev
       K8S_CLUSTER_ADDRESS: https://10.0.8.11:6443
