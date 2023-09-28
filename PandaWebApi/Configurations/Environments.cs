@@ -28,8 +28,6 @@ public static class Environments
             case "Staging":
                 environmentVariables.Add("ELASTIC_SEARCH_URL");
                 environmentVariables.Add("ELASTIC_INDEX_NAME");
-                environmentVariables.Add("CERTIFICATE");
-                environmentVariables.Add("CERTIFICATE_KEY");
                 environmentVariables.Add("USER_MANAGEMENT_ADDRESS");
 
                 return environmentVariables;
@@ -38,11 +36,8 @@ public static class Environments
             {
                 environmentVariables.Add("ELASTIC_SEARCH_URL");
                 environmentVariables.Add("ELASTIC_INDEX_NAME");
-                environmentVariables.Add("CERTIFICATE");
-                environmentVariables.Add("CERTIFICATE_KEY");
                 environmentVariables.Add("CORS_ALLOWED_ORIGINS");
                 environmentVariables.Add("USER_MANAGEMENT_ADDRESS");
-
 
                 return environmentVariables;
             }
