@@ -9,12 +9,12 @@
     }
   },
   "profiles": {
-    "https": {
+    "http": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
-      "applicationUrl": "https://localhost:443",
+      "applicationUrl": "http://localhost:80",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "POSTGRES_CONNECTION_STRING": "Server=localhost;Port=5432;Database=panda_web_api;User Id=test;Password=test;Integrated Security=true;Pooling=true;",
@@ -25,9 +25,7 @@
         "RABBITMQ_ROUTING_KEY_DLX": "pt_dead_panda_web_api",
         "RABBITMQ_QUEUE_NAME_DLX": "pt_dead_panda_web_api",
         "RABBITMQ_URI": "amqp://test:test@localhost:5672",
-        "REDIS_CONNECTION_STRING": "localhost:6379",
-        "CERTIFICATE": "some certificate",
-        "CERTIFICATE_KEY": "some certificate key"
+        "REDIS_CONNECTION_STRING": "localhost:6379"
       }
     }
   }

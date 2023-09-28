@@ -21,7 +21,6 @@ var builder = WebApplication.CreateBuilder(args);
 //todo Set database connection and other environment variables. Set same env variable hardcoded in MigrationCreate project.
 //todo Update ReadMe.md file.
 
-builder.ReadCertificatesFromEnvironments();
 builder.AddSerilog();
 builder.AddExceptionHandler();
 builder.AddCors();
