@@ -1,8 +1,8 @@
 ﻿using PandaWebApi.Helpers;
 
-namespace PandaWebApi.Configurations;
+namespace PandaWebApi.Extensions;
 
-public static class CorsPolicies
+public static class CorsExtension
 {
     public static void AddCors(this WebApplicationBuilder builder)
     {

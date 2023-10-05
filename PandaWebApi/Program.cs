@@ -1,10 +1,9 @@
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using PandaWebApi.Configurations;
-using PandaWebApi.Configurations.Health;
 using PandaWebApi.Contexts;
+using PandaWebApi.Extensions;
+using PandaWebApi.Extensions.Health;
 using PandaWebApi.Helpers;
-using PandaWebApi.Services.Implementations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -58,7 +57,10 @@ app.MapControllers();
 app.Run();
 
 #pragma warning disable S1118
-public partial class Program
-#pragma warning restore S1118
+namespace PandaWebApi
 {
+    public partial class Program
+#pragma warning restore S1118
+    {
+    }
 }

@@ -1,17 +1,21 @@
 ﻿using RabbitMQ.Client;
 
-namespace PandaWebApi.Configurations.Health;
+namespace PandaWebApi.Extensions.Health;
 
-public static class HealthCheckConfiguration
+public static class HealthCheckExtension
 {
     public static void AddHealthChecks(this WebApplicationBuilder builder)
     {
         var timeoutSeconds = TimeSpan.FromSeconds(5);
+        var postgresConnectionString = Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING")!;
+        var redisConnectionString = Environment.GetEnvironmentVariable("REDIS_CONNECTION_STRING")!;
+        var elasticSearchUrl = Environment.GetEnvironmentVariable("ELASTIC_SEARCH_URL")!;
+        var rabbitMqUri = Environment.GetEnvironmentVariable("RABBITMQ_URI")!;
 
         //This part is only for RMQ health check
         ConnectionFactory factory = new()
         {
-            Uri = new Uri(Environment.GetEnvironmentVariable("RABBITMQ_URI")!),
+            Uri = new Uri(rabbitMqUri)
         };
         var connection = factory.CreateConnection();
 
@@ -21,8 +25,8 @@ public static class HealthCheckConfiguration
             builder.Services
                 .AddSingleton(connection)
                 .AddHealthChecks()
-                .AddNpgSql(Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING")!, timeout: timeoutSeconds)
-                .AddRedis(Environment.GetEnvironmentVariable("REDIS_CONNECTION_STRING")!, timeout: timeoutSeconds)
+                .AddNpgSql(postgresConnectionString, timeout: timeoutSeconds)
+                .AddRedis(redisConnectionString, timeout: timeoutSeconds)
                 .AddRabbitMQ();
         }
 
@@ -32,9 +36,9 @@ public static class HealthCheckConfiguration
                 .AddSingleton(connection)
                 .AddHealthChecks()
                 .AddCheck<UserManagementHealthCheck>("UserManagementHealthCheck", timeout: timeoutSeconds)
-                .AddNpgSql(Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING")!, timeout: timeoutSeconds)
-                .AddRedis(Environment.GetEnvironmentVariable("REDIS_CONNECTION_STRING")!, timeout: timeoutSeconds)
-                .AddElasticsearch(Environment.GetEnvironmentVariable("ELASTIC_SEARCH_URL")!, timeout: timeoutSeconds)
+                .AddNpgSql(postgresConnectionString, timeout: timeoutSeconds)
+                .AddRedis(redisConnectionString, timeout: timeoutSeconds)
+                .AddElasticsearch(elasticSearchUrl, timeout: timeoutSeconds)
                 .AddRabbitMQ();
         }
 
@@ -44,9 +48,9 @@ public static class HealthCheckConfiguration
                 .AddSingleton(connection)
                 .AddHealthChecks()
                 .AddCheck<UserManagementHealthCheck>("UserManagementHealthCheck", timeout: timeoutSeconds)
-                .AddNpgSql(Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING")!, timeout: timeoutSeconds)
-                .AddRedis(Environment.GetEnvironmentVariable("REDIS_CONNECTION_STRING")!, timeout: timeoutSeconds)
-                .AddElasticsearch(Environment.GetEnvironmentVariable("ELASTIC_SEARCH_URL")!, timeout: timeoutSeconds)
+                .AddNpgSql(postgresConnectionString, timeout: timeoutSeconds)
+                .AddRedis(redisConnectionString, timeout: timeoutSeconds)
+                .AddElasticsearch(elasticSearchUrl, timeout: timeoutSeconds)
                 .AddRabbitMQ();
         }
     }

@@ -1,10 +1,10 @@
 ﻿using BaseConverter;
 using Microsoft.OpenApi.Models;
-using PandaWebApi.Configurations.Health;
+using PandaWebApi.Extensions.Health;
 
-namespace PandaWebApi.Configurations;
+namespace PandaWebApi.Extensions;
 
-public static class SwaggerConfiguration
+public static class SwaggerExtension
 {
     public static void AddSwaggerGen(this WebApplicationBuilder builder)
     {
@@ -19,7 +19,7 @@ public static class SwaggerConfiguration
                 {
                     Name = "PandaTech LLC",
                     Email = "info@pandatech.it",
-                    Url = new Uri("https://www.pandatech.it"),
+                    Url = new Uri("https://pandatech.it"),
                 }
             });
 

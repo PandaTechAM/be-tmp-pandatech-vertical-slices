@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PandaWebApi.Contexts;
 
-namespace PandaWebApi.Configurations;
+namespace PandaWebApi.Extensions;
 
-public static class DatabasesConfiguration
+public static class DatabasesExtension
 {
     public static void AddPostgresContext(this WebApplicationBuilder builder)
     {

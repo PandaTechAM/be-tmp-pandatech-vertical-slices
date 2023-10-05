@@ -6,9 +6,9 @@
   display: none;
 }
 
-.swagger-ui .info hgroup.main a {
-  display: none;
-}
+/*.swagger-ui .info hgroup.main a {*/
+/*  display: none;*/
+/*}*/
 
 .swagger-ui .topbar-wrapper img {
   visibility: hidden;

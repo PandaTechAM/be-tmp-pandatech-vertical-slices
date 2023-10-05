@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace PandaWebApi.Configurations.Health;
+namespace PandaWebApi.Extensions.Health;
 
 public class UserManagementHealthCheck : IHealthCheck
 {

@@ -1,8 +1,8 @@
 ﻿using PandaTech.ServiceResponse;
 
-namespace PandaWebApi.Configurations;
+namespace PandaWebApi.Extensions;
 
-public static class ExceptionHandler
+public static class ExceptionExtension
 {
     public static void AddExceptionHandler(this WebApplicationBuilder builder)
     {

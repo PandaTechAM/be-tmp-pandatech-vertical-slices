@@ -2,7 +2,7 @@
 using PandaWebApi.Contexts;
 using StartupEnvironmentCheck;
 
-namespace PandaWebApi.Configurations;
+namespace PandaWebApi.Extensions;
 
 public class Startup : IHostedService
 {

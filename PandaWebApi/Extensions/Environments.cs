@@ -1,4 +1,4 @@
-﻿namespace PandaWebApi.Configurations;
+﻿namespace PandaWebApi.Extensions;
 
 public static class Environments
 {

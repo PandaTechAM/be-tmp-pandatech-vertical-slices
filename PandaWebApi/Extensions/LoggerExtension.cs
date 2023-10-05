@@ -1,15 +1,16 @@
 ﻿using Serilog;
 
-namespace PandaWebApi.Configurations;
+namespace PandaWebApi.Extensions;
 
-public static class LoggerConfiguration
+public static class LoggerExtension
 {
     public static void AddSerilog(this WebApplicationBuilder builder)
     {
         var indexName = Environment.GetEnvironmentVariable("ELASTIC_INDEX_NAME");
+        var elasticSearchUrl = Environment.GetEnvironmentVariable("ELASTIC_SEARCH_URL");
 
         //This part is for general configuration
-        var loggerConfig = new Serilog.LoggerConfiguration()
+        var loggerConfig = new LoggerConfiguration()
             .Enrich.FromLogContext()
             .Enrich.WithMachineName();
 
@@ -25,7 +26,8 @@ public static class LoggerConfiguration
         if (builder.Environment.IsStaging())
         {
             loggerConfig.MinimumLevel.Information()
-                .WriteTo.Elasticsearch(Environment.GetEnvironmentVariable("ELASTIC_SEARCH_URL"),
+                
+                .WriteTo.Elasticsearch(elasticSearchUrl,
                     indexFormat: $"{indexName}-logs-{DateTime.UtcNow:yyyy.MM}", 
                     autoRegisterTemplate: true,
                     detectElasticsearchVersion: true,
@@ -39,7 +41,8 @@ public static class LoggerConfiguration
         if (builder.Environment.IsProduction())
         {
             loggerConfig.MinimumLevel.Information()
-                .WriteTo.Elasticsearch(Environment.GetEnvironmentVariable("ELASTIC_SEARCH_URL"),
+                
+                .WriteTo.Elasticsearch(elasticSearchUrl,
                     indexFormat: $"{indexName}-logs-{DateTime.UtcNow:yyyy.MM}", 
                     autoRegisterTemplate: true,
                     detectElasticsearchVersion: true,
