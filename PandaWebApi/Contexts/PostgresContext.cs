@@ -18,7 +18,7 @@ public class PostgresContextFactory : IDesignTimeDbContextFactory<PostgresContex
     {
         var optionsBuilder = new DbContextOptionsBuilder<PostgresContext>();
         
-        optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING"));
+        optionsBuilder.UseNpgsql(Environment.GetEnvironmentVariable("POSTGRES_CONNECTION_STRING")).UseSnakeCaseNamingConvention();
         
         return new PostgresContext(optionsBuilder.Options);
     }
