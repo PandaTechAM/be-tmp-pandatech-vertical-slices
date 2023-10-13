@@ -57,10 +57,8 @@ app.MapControllers();
 app.Run();
 
 #pragma warning disable S1118
-namespace PandaWebApi
-{
-    public partial class Program
+// ReSharper disable once ClassNeverInstantiated.Global
+public partial class Program
 #pragma warning restore S1118
-    {
-    }
+{
 }
