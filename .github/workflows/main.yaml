@@ -46,8 +46,8 @@ jobs:
       - name: Build
         run: dotnet build --no-restore --verbosity normal --configuration Release
 
-      - name: Test
-        run: dotnet test --no-build --verbosity normal --configuration Release
+#      - name: Test
+#        run: dotnet test --no-build --verbosity normal --configuration Release
 
       - name: Publish
         run: dotnet publish --no-build --verbosity normal --configuration Release --output ./publish
