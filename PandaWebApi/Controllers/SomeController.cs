@@ -19,18 +19,7 @@ public class SomeController : ExtendedController
     [HttpGet("some-endpoint")]
     public ServiceResponse GetSomeEndpoint()
     {
-        var serviceResponse = new ServiceResponse();
-        try
-        {
-            //some logic
-        }
-        catch (Exception ex)
-        {
-            serviceResponse = ExceptionHandler.Handle(serviceResponse, ex);
-            _logger.LogError("Some endpoint was failed due to following reason: {Reason}",
-                serviceResponse.Message);
-        }
-
-        return SetResponse(serviceResponse);
+        // _service.SomeMethod();
+        return new();
     }
 }
