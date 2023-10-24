@@ -44,9 +44,11 @@ app.UseAuthorization();
 
 app.MapGet("/ping", () => "pong").WithTags("Above Board");
 
-#if DEBUG
-app.MapGet("/reset-database", (DatabaseHelper helper) => helper.ResetDatabase<PostgresContext>()).WithTags("Above Board");
-#endif
+if (app.Environment.IsDevelopment())
+{
+    app.MapGet("/reset-database", (DatabaseHelper helper) => helper.ResetDatabase<PostgresContext>())
+        .WithTags("Above Board");
+}
 
 app.MapHealthChecks("/health", new HealthCheckOptions()
 {
