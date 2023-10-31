@@ -37,7 +37,6 @@ builder.Services.AddControllers();
 var app = builder.Build();
 
 app.UseCors();
-
 app.UseSwagger();
 app.UseHttpsRedirection();
 app.UseAuthorization();

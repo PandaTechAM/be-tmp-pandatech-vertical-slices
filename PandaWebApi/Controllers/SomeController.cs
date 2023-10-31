@@ -17,7 +17,7 @@ public class SomeController : ExtendedController
     }
 
     [HttpGet("some-endpoint")]
-    public ServiceResponse GetSomeEndpoint()
+    public async Task<ServiceResponse> GetSomeEndpoint()
     {
         // _service.SomeMethod();
         return new();
