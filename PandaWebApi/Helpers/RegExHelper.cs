@@ -32,7 +32,7 @@ namespace PandaWebApi.Helpers
                       RegexTimeout);
 
         private static readonly Regex RegexValidSecureUrl = 
-            new Regex(@"^https:\/\/[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+$", 
+            new Regex(@"^https:\/\/([a-zA-Z0-9-]+\.){1,3}[a-zA-Z0-9-]+$", 
                       RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled, 
                       RegexTimeout);
 
