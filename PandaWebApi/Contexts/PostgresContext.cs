@@ -22,4 +22,4 @@ public class PostgresContextFactory : IDesignTimeDbContextFactory<PostgresContex
         
         return new PostgresContext(optionsBuilder.Options);
     }
-} 
+}
