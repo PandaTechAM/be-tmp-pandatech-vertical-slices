@@ -1,6 +1,7 @@
 on:
   push:
-    branches: [ development ]
+    branches:
+      - '*'  # Triggers the workflow on push to any branch
 
 jobs:
   deploy:
