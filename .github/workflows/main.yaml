@@ -45,6 +45,7 @@ jobs:
         run: dotnet restore --verbosity normal --no-cache --force --disable-parallel
 
       - name: Build
+        if: github.ref != 'refs/heads/development'
         run: dotnet build --no-restore --verbosity normal --configuration Release
       
       #      - name: Test
@@ -70,6 +71,7 @@ jobs:
           docker push ${{ env.DOCKER_REPO }}/${{ env.SERVICE_NAME }}:latest
 
       - name: Update Deployment
+        if: github.ref != 'refs/heads/main'
         run: |
           export KUBECONFIG=/home/runner/.kube/config
           sed -i "s|${{ env.DOCKER_REPO }}/${{ env.SERVICE_NAME }}:IMAGE_TAG_PLACEHOLDER|${{ env.DOCKER_REPO }}/${{ env.SERVICE_NAME }}:${{ env.DOCKER_TAG }}|g" ./kubernetes/deployment.yaml
