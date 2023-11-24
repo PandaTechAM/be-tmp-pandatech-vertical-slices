@@ -3,7 +3,7 @@
 This readme file contains a list of environment variables used in the project along with their descriptions and
 examples. These variables are used to configure various aspects of the application.
 
-## Existing Environment Variables
+## Existing Environment Variables 
 
 | ENV name                   | Scope (minimum) | Description                                                                                                                                      | Example                                                                                                                   |
 |----------------------------|-----------------|--------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
