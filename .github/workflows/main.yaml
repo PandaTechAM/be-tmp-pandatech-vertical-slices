@@ -62,12 +62,15 @@ jobs:
       - name: Set DOCKER_REPO_PATH
         run: |
           if [ "${{ github.event_name }}" == "push" ] && [ "${{ startsWith(github.ref, 'refs/heads/') }}" == "true" ]; then
-            DOCKER_REPO_PATH=$(echo "${{ github.ref }}" | sed 's#^refs/heads/##')
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+          DOCKER_REPO_PATH="prod"
           else
-            DOCKER_REPO_PATH="unknown-branch"
+          DOCKER_REPO_PATH=$(echo "${{ github.ref }}" | sed 's#^refs/heads/##')
+          fi
+          else
+          DOCKER_REPO_PATH="unknown-branch"
           fi
           echo "DOCKER_REPO_PATH=${DOCKER_REPO_PATH}" >> $GITHUB_ENV 
-
       
       - name: Display DOCKER_REPO_PATH
         run: echo "DOCKER_REPO_PATH=${{ env.DOCKER_REPO_PATH }}"
@@ -115,3 +118,4 @@ jobs:
           rm -rf ./* || true
           rm -rf ./.??* || true
           ls -la ./
+Update main.yaml · PandaTechAM/be-tmp-panda-web-api@133042b
