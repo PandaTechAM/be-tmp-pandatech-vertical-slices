@@ -118,4 +118,3 @@ jobs:
           rm -rf ./* || true
           rm -rf ./.??* || true
           ls -la ./
-Update main.yaml · PandaTechAM/be-tmp-panda-web-api@133042b
