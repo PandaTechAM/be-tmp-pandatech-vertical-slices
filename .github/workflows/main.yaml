@@ -1,7 +1,10 @@
 on:
   push:
     branches:
-      - '*'  # Triggers the workflow on push to any branch
+      - main
+      - development
+      - qa
+      - staging
 
 jobs:
   deploy:
