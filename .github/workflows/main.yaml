@@ -57,10 +57,27 @@ jobs:
       - name: Build Docker Image
         run: |
           DOCKER_TAG=$(date +'%Y%m%d%H%M%S')-$GITHUB_RUN_NUMBER
-          docker build . -t ${{ env.DOCKER_REPO }}/${{ env.SERVICE_NAME }}:${DOCKER_TAG}
-          docker tag ${{ env.DOCKER_REPO }}/${{ env.SERVICE_NAME }}:${DOCKER_TAG} ${{ env.DOCKER_REPO }}/${{ env.SERVICE_NAME }}:latest
-          echo "DOCKER_TAG=${DOCKER_TAG}" >> $GITHUB_ENV
+          DOCKER_REPO_PROD=repopanda.pandatech.it/pandatech/repository/pandatech/prod
+          DOCKER_REPO_DEV=repopanda.pandatech.it/pandatech/repository/pandatech/dev
+          DOCKER_REPO_QA=repopanda.pandatech.it/pandatech/repository/pandatech/qa
+          DOCKER_REPO_STAGING=repopanda.pandatech.it/pandatech/repository/pandatech/staging
 
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            DOCKER_REPO=${DOCKER_REPO_PROD}
+          elif [ "${{ github.ref }}" == "refs/heads/development" ]; then
+            DOCKER_REPO=${DOCKER_REPO_DEV}
+          elif [ "${{ github.ref }}" == "refs/heads/qa" ]; then
+            DOCKER_REPO=${DOCKER_REPO_QA}
+          elif [ "${{ github.ref }}" == "refs/heads/staging" ]; then
+            DOCKER_REPO=${DOCKER_REPO_STAGING}
+          else
+            echo "Unsupported branch for deployment."
+            exit 1
+          fi
+
+          docker build . -t $DOCKER_REPO/${{ env.SERVICE_NAME }}:${DOCKER_TAG}
+          docker tag $DOCKER_REPO/${{ env.SERVICE_NAME }}:${DOCKER_TAG} $DOCKER_REPO/${{ env.SERVICE_NAME }}:latest
+          echo "DOCKER_TAG=${DOCKER_TAG}" >> $GITHUB_ENV
       - name: Login to Nexus
         run: docker login ${{ env.DOCKER_REPO }} -u ${{ secrets.nexus_username }} -p ${{ secrets.nexus_password }}
 
