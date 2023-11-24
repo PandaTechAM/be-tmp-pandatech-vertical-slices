@@ -66,18 +66,23 @@ jobs:
           else
             DOCKER_REPO_PATH="unknown-branch"
           fi
-          echo "DOCKER_REPO_PATH=${DOCKER_REPO_PATH}" >> $GITHUB_ENV  
+          echo "DOCKER_REPO_PATH=${DOCKER_REPO_PATH}" >> $GITHUB_ENV 
+
       
       - name: Display DOCKER_REPO_PATH
         run: echo "DOCKER_REPO_PATH=${{ env.DOCKER_REPO_PATH }}"
       
       - name: Build Docker Image
         run: |
-          DOCKER_TAG=${{ env.DOCKER_TAG }}
+          DOCKER_TAG=$(date +'%Y%m%d%H%M%S')-$GITHUB_RUN_NUMBER
           DOCKER_REPO_BASE=repopanda.pandatech.it/pandatech/repository/pandatech
           DOCKER_REPO_PATH=${{ env.DOCKER_REPO_PATH }}
           
-          DOCKER_REPO=${DOCKER_REPO_BASE}/${DOCKER_REPO_PATH}
+          if [ "${{ env.DOCKER_REPO_PATH }}" == "main" ]; then
+            DOCKER_REPO=${DOCKER_REPO_BASE}/prod
+          else
+            DOCKER_REPO=${DOCKER_REPO_BASE}/${DOCKER_REPO_PATH}
+          fi
       
           docker build . -t $DOCKER_REPO/${{ env.SERVICE_NAME }}:${DOCKER_TAG} -t $DOCKER_REPO/${{ env.SERVICE_NAME }}:latest
     
