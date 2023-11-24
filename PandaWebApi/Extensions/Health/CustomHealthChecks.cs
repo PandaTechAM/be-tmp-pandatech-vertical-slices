@@ -1,12 +1,17 @@
-﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace PandaWebApi.Extensions.Health;
 
-public class UserManagementHealthCheck : IHealthCheck
+[SuppressMessage("ReSharper", "ConvertToPrimaryConstructor")] //todo how to make this global?
+
+public class CustomHealthChecks : IHealthCheck
 {
     private readonly IHttpClientFactory _httpClientFactory;
+    private const string Endpoint = "/ping";
+    private const string ExpectedResponse = "pong";
 
-    public UserManagementHealthCheck(IHttpClientFactory httpClientFactory)
+    public CustomHealthChecks(IHttpClientFactory httpClientFactory)
     {
         _httpClientFactory = httpClientFactory;
     }
@@ -17,13 +22,10 @@ public class UserManagementHealthCheck : IHealthCheck
         try
         {
             var httpClient = _httpClientFactory.CreateClient();
-            var response = await httpClient.GetAsync(
-                Environment.GetEnvironmentVariable("USER_MANAGEMENT_ADDRESS") + "/ping",
-                cancellationToken
-            );
+            var response = await httpClient.GetAsync(Endpoint, cancellationToken);
 
             var content = await response.Content.ReadAsStringAsync(cancellationToken);
-            return content == "pong"
+            return content == ExpectedResponse
                 ? HealthCheckResult.Healthy()
                 : HealthCheckResult.Unhealthy();
         }

@@ -5,17 +5,19 @@ namespace PandaWebApi.Helpers;
 public class DatabaseHelper
 {
     private readonly IServiceProvider _serviceProvider;
+    private readonly WebApplicationBuilder _builder;
 
-    public DatabaseHelper(IServiceProvider serviceProvider)
+    public DatabaseHelper(IServiceProvider serviceProvider, WebApplicationBuilder builder, ForTempTests tempTest)
     {
         _serviceProvider = serviceProvider;
+        _builder = builder;
     }
 
-    public string ResetDatabase<T>() where T: DbContext
+    public string ResetDatabase<T>() where T : DbContext
     {
         try
         {
-            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") != "Development")
+            if (_builder.Environment.IsDevelopment() || _builder.Environment.IsEnvironment("Local"))
             {
                 return "Database reset is not allowed outside of Development environment!";
             }

@@ -8,8 +8,8 @@
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:80",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "POSTGRES_CONNECTION_STRING": "Server=localhost;Port=5432;Database=panda_web_api;User Id=test;Password=test;Integrated Security=true;Pooling=true;",
+        "ASPNETCORE_ENVIRONMENT": "Local",
+        "POSTGRES_CONNECTION_STRING": "Server=localhost;Port=5432;Database=panda_web_api;User Id=test;Password=test;Pooling=true;",
         "ELASTIC_SEARCH_URL": "http://localhost:9200",
         "RABBITMQ_EXCHANGE_NAME": "panda_web_api",
         "RABBITMQ_ROUTING_KEY": "panda_web_api",
@@ -17,7 +17,11 @@
         "RABBITMQ_ROUTING_KEY_DLX": "pt_dead_panda_web_api",
         "RABBITMQ_QUEUE_NAME_DLX": "pt_dead_panda_web_api",
         "RABBITMQ_URI": "amqp://test:test@localhost:5672",
-        "REDIS_CONNECTION_STRING": "localhost:6379"
+        "REDIS_CONNECTION_STRING": "localhost:6379",
+        "SUPER_USERNAME": "admin",
+        "SUPER_PASSWORD": "admin",
+        "TOKEN_EXPIRATION_MINUTES": "5",
+        "AES_KEY": "12345678901234567890123456789012"
       }
     }
   }

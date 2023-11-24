@@ -1,9 +1,9 @@
-using HealthChecks.UI.Client;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
+using PandaWebApi;
 using PandaWebApi.Contexts;
 using PandaWebApi.Extensions;
 using PandaWebApi.Extensions.Health;
-using PandaWebApi.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,42 +20,43 @@ var builder = WebApplication.CreateBuilder(args);
 //todo Set database connection and other environment variables. Set same env variable hardcoded in MigrationCreate project.
 //todo Update ReadMe.md file.
 
+//Adding custom extensions and services
 builder.AddSerilog();
 builder.AddExceptionHandler();
 builder.AddCors();
 builder.AddPostgresContext();
-builder.AddSwaggerGen();
-
-builder.Services.AddHttpClient();
-builder.Services.AddHostedService<Startup>();
 builder.AddHealthChecks();
+builder.AddSwaggerGen();
+builder.Services.AddHostedService<Startup>();
+builder.Services.AddHttpClient();
+builder.Services.RegisterAllCustomServices();
+builder.Services.AddSingleton<ForTempTests>();
 
-builder.Services.AddSingleton<DatabaseHelper>();
+//Adding Microsoft Identity
+builder.Services.AddAuthorization();
+builder.Services.AddIdentityApiEndpoints<IdentityUser>().AddEntityFrameworkStores<PostgresContext>();
 
+//ASP.NET Core default services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
-var app = builder.Build();
 
+var app = builder.Build();
 app.UseCors();
 app.UseSwagger();
 app.UseHttpsRedirection();
 app.UseAuthorization();
 
-app.MapGet("/ping", () => "pong").WithTags("Above Board");
-
-if (app.Environment.IsDevelopment())
-{
-    app.MapGet("/reset-database", (DatabaseHelper helper) => helper.ResetDatabase<PostgresContext>())
-        .WithTags("Above Board");
-}
-
-app.MapHealthChecks("/health", new HealthCheckOptions()
-{
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-}).WithTags("Above Board");
+//Adding identity and other custom endpoints
+app.AddPingEndpoint();
+app.AddDatabaseResetEndpoints();
+app.AddHealthCheckEndpoint();
+app.MapIdentityApi<IdentityUser>();
+app.MapGet("/test" , (ForTempTests tests) => tests.Test());
 
 app.MapControllers();
 app.Run();
+
+//Delete below rows if you have no integration PandaWebApi.Tests in your solution.
 
 #pragma warning disable S1118
 // ReSharper disable once ClassNeverInstantiated.Global

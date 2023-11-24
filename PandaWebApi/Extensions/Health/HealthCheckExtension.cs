@@ -20,7 +20,7 @@ public static class HealthCheckExtension
         var connection = factory.CreateConnection();
 
 
-        if (builder.Environment.IsDevelopment())
+        if (builder.Environment.IsDevelopment() || builder.Environment.IsEnvironment("Local"))
         {
             builder.Services
                 .AddSingleton(connection)
@@ -35,7 +35,7 @@ public static class HealthCheckExtension
             builder.Services
                 .AddSingleton(connection)
                 .AddHealthChecks()
-                .AddCheck<UserManagementHealthCheck>("UserManagementHealthCheck", timeout: timeoutSeconds)
+                .AddCheck<CustomHealthChecks>("UserManagementHealthCheck", timeout: timeoutSeconds)
                 .AddNpgSql(postgresConnectionString, timeout: timeoutSeconds)
                 .AddRedis(redisConnectionString, timeout: timeoutSeconds)
                 .AddElasticsearch(elasticSearchUrl, timeout: timeoutSeconds)
@@ -47,7 +47,7 @@ public static class HealthCheckExtension
             builder.Services
                 .AddSingleton(connection)
                 .AddHealthChecks()
-                .AddCheck<UserManagementHealthCheck>("UserManagementHealthCheck", timeout: timeoutSeconds)
+                .AddCheck<CustomHealthChecks>("UserManagementHealthCheck", timeout: timeoutSeconds)
                 .AddNpgSql(postgresConnectionString, timeout: timeoutSeconds)
                 .AddRedis(redisConnectionString, timeout: timeoutSeconds)
                 .AddElasticsearch(elasticSearchUrl, timeout: timeoutSeconds)

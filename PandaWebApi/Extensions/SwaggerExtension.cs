@@ -27,7 +27,7 @@ public static class SwaggerExtension
             options.DocumentFilter<HealthChecksFilter>();
 
             // Add string input support into int64 field
-            options.ParameterFilter<PandaParameterBaseConverter>();
+            options.ParameterFilter<PandaParameterBaseConverterAttribute>();
 
             // Add the token authentication option
             options.AddSecurityDefinition("token", new OpenApiSecurityScheme

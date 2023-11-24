@@ -21,6 +21,10 @@ public static class Environments
 
         switch (aspEnv)
         {
+            case "Local":
+
+                return environmentVariables;
+            
             case "Development":
 
                 return environmentVariables;

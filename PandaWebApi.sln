@@ -2,7 +2,7 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PandaWebApi", "PandaWebApi\PandaWebApi.csproj", "{07201830-8A54-413B-8F39-25D311656378}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PandaWebApiTests", "PandaWebApiTests\PandaWebApiTests.csproj", "{9E07A206-2A0D-46B1-AC66-6C81F6C83380}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PandaWebApi.Tests", "PandaWebApi.Tests\PandaWebApi.Tests.csproj", "{9E07A206-2A0D-46B1-AC66-6C81F6C83380}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

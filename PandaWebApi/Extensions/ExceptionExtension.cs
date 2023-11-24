@@ -6,7 +6,7 @@ public static class ExceptionExtension
 {
     public static void AddExceptionHandler(this WebApplicationBuilder builder)
     {
-        if (!builder.Environment.IsProduction())
+        if (!builder.Environment.IsProduction() || !builder.Environment.IsStaging())
         {
             builder.Services.AddTransient<IExceptionHandler, DebugExceptionHandler>();
         }

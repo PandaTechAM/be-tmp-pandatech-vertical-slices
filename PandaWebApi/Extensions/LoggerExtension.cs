@@ -16,7 +16,7 @@ public static class LoggerExtension
 
 
         //This part is for "DEVELOPMENT" environment
-        if (builder.Environment.IsDevelopment())
+        if (builder.Environment.IsDevelopment() || builder.Environment.IsEnvironment("Local"))
         {
             loggerConfig.MinimumLevel.Information()
                 .WriteTo.Console();
