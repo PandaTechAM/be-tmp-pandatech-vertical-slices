@@ -29,9 +29,9 @@
         <PackageReference Include="PandaTech.BaseConverter" Version="1.0.18" />
         <PackageReference Include="Pandatech.Crypto" Version="2.2.1" />
         <PackageReference Include="PandaTech.IEnumerableFilters" Version="3.2.30" />
-        <PackageReference Include="Pandatech.RegexBox" Version="1.1.0" />
+        <PackageReference Include="Pandatech.PandaVaultClient" Version="2.1.1" />
+        <PackageReference Include="Pandatech.RegexBox" Version="1.1.1" />
         <PackageReference Include="PandaTech.ServiceResponse" Version="1.2.12" />
-        <PackageReference Include="PandaTech.StartupEnvironmentCheck" Version="1.0.4" />
         <PackageReference Include="RabbitMQ.Client" Version="6.7.0" />
         <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
         <PackageReference Include="Serilog.Enrichers.Environment" Version="2.3.0" />

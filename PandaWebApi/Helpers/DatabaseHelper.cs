@@ -7,7 +7,7 @@ public class DatabaseHelper
     private readonly IServiceProvider _serviceProvider;
     private readonly WebApplicationBuilder _builder;
 
-    public DatabaseHelper(IServiceProvider serviceProvider, WebApplicationBuilder builder, ForTempTests tempTest)
+    public DatabaseHelper(IServiceProvider serviceProvider, WebApplicationBuilder builder)
     {
         _serviceProvider = serviceProvider;
         _builder = builder;

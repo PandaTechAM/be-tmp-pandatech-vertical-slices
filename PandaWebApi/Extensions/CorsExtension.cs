@@ -1,5 +1,4 @@
-﻿using PandaWebApi.Helpers;
-using RegexBox;
+﻿using RegexBox;
 
 namespace PandaWebApi.Extensions;
 
@@ -7,20 +6,23 @@ public static class CorsExtension
 {
     public static void AddCors(this WebApplicationBuilder builder)
     {
+        var configuration = builder.Configuration;
         if (builder.Environment.IsProduction())
         {
-            var allowedOrigins = Environment.GetEnvironmentVariable("CORS_ALLOWED_ORIGINS");
+            var allowedOrigins = configuration["CorsSettings:AllowedOrigins"];
 
             ValidateCorsOrigins(allowedOrigins!);
 
-            builder.Services.AddCors(options => options.AddPolicy("AllowSpecific", p => p.WithOrigins(allowedOrigins!)
+            builder.Services.AddCors(options => options.AddPolicy("AllowSpecific", p => p
+                .WithOrigins(allowedOrigins!)
                 .AllowAnyMethod()
                 .AllowAnyHeader()));
         }
 
         else
         {
-            builder.Services.AddCors(options => options.AddPolicy("AllowAll", p => p.AllowAnyOrigin()
+            builder.Services.AddCors(options => options.AddPolicy("AllowAll", p => p
+                .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader()));
         }
@@ -28,20 +30,7 @@ public static class CorsExtension
 
     public static void UseCors(this WebApplication app)
     {
-        if (app.Environment.IsProduction())
-        {
-            app.UseCors("AllowSpecific");
-        }
-        else
-        {
-            app.UseCors(
-                policyBuilder =>
-                    policyBuilder
-                        .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowAnyOrigin()
-            );
-        }
+        app.UseCors(app.Environment.IsProduction() ? "AllowSpecific" : "AllowAll");
     }
 
     private static void ValidateCorsOrigins(string allowedOrigins)

@@ -1,6 +1,6 @@
 ﻿using BaseConverter;
 using Microsoft.OpenApi.Models;
-using PandaWebApi.Extensions.Health;
+using PandaWebApi.Configurations;
 
 namespace PandaWebApi.Extensions;
 
