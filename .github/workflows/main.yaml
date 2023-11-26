@@ -1,31 +1,29 @@
 on:
   push:
     branches:
-      - '*'  # Triggers the workflow on push to any branch
+      - main
+      - development
+      - qa
+      - staging
 
 jobs:
   deploy:
     runs-on: self-hosted
 
     env:
-      DOTNET_VERSION: 8.x.x
+      DOTNET_VERSION: 7.x.x
       NEXUS_SOURCE: https://hubrepopanda.pandatech.it/repository/nuget-hosted/index.json
       NUGET_SOURCE: https://api.nuget.org/v3/index.json
-      DOCKER_REPO: repopanda.pandatech.it/pandatech/repository/pandatech/dev
+      DOCKER_REPO_BASE: repopanda.pandatech.it/pandatech/repository/pandatech
       SERVICE_NAME: ${{ github.event.repository.name }}
-      K8S_NAMESPACE: ${{
-        (github.ref == 'refs/heads/main' && 'production') ||
-        (github.ref == 'refs/heads/staging' && 'staging') ||
-        (github.ref == 'refs/heads/qa' && 'qa') ||
-        (github.ref == 'refs/heads/development' && 'dev')
-      }}
+      K8S_NAMESPACE: dev
       K8S_CLUSTER_ADDRESS: https://10.0.8.11:6443
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
 
       - name: Setup .NET Core
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v1
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
           include-prerelease: false
@@ -49,31 +47,65 @@ jobs:
       - name: Restore
         run: dotnet restore --verbosity normal --no-cache --force --disable-parallel
 
-      - name: Build        
+      - name: Build
         run: dotnet build --no-restore --verbosity normal --configuration Release
-      
-      #      - name: Test
-      #        run: dotnet test --no-build --verbosity normal --configuration Release
 
       - name: Publish
         run: dotnet publish --no-build --verbosity normal --configuration Release --output ./publish
 
+      - name: Set DOCKER_TAG
+        run: echo "DOCKER_TAG=$(date +'%Y%m%d%H%M%S')-$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+
+      - name: Display DOCKER_TAG
+        run: echo "DOCKER_TAG=${{ env.DOCKER_TAG }}"
+        
+      - name: Set DOCKER_REPO_PATH
+        run: |
+          if [ "${{ github.event_name }}" == "push" ] && [ "${{ startsWith(github.ref, 'refs/heads/') }}" == "true" ]; then
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            DOCKER_REPO_PATH="prod"
+          elif [ "${{ github.ref }}" == "refs/heads/development" ]; then
+            DOCKER_REPO_PATH="dev"
+          else
+            DOCKER_REPO_PATH=$(echo "${{ github.ref }}" | sed 's#^refs/heads/##')
+          fi
+          else
+          DOCKER_REPO_PATH="unknown-branch"
+          fi
+          echo "DOCKER_REPO_PATH=${DOCKER_REPO_PATH}" >> $GITHUB_ENV 
+      
+      - name: Display DOCKER_REPO_PATH
+        run: echo "DOCKER_REPO_PATH=${{ env.DOCKER_REPO_PATH }}"
+      
       - name: Build Docker Image
         run: |
           DOCKER_TAG=$(date +'%Y%m%d%H%M%S')-$GITHUB_RUN_NUMBER
-          docker build . -t ${{ env.DOCKER_REPO }}/${{ env.SERVICE_NAME }}:${DOCKER_TAG}
-          docker tag ${{ env.DOCKER_REPO }}/${{ env.SERVICE_NAME }}:${DOCKER_TAG} ${{ env.DOCKER_REPO }}/${{ env.SERVICE_NAME }}:latest
-          echo "DOCKER_TAG=${DOCKER_TAG}" >> $GITHUB_ENV
-
+          DOCKER_REPO_BASE=repopanda.pandatech.it/pandatech/repository/pandatech
+          DOCKER_REPO_PATH=${{ env.DOCKER_REPO_PATH }}
+          
+          if [ "${{ env.DOCKER_REPO_PATH }}" == "main" ]; then
+            DOCKER_REPO=${DOCKER_REPO_BASE}/prod
+          elif [ "${{ env.DOCKER_REPO_PATH }}" == "development" ]; then
+            DOCKER_REPO=${DOCKER_REPO_BASE}/dev
+          else
+            DOCKER_REPO=${DOCKER_REPO_BASE}/${DOCKER_REPO_PATH}
+          fi
+      
+          docker build . -t $DOCKER_REPO/${{ env.SERVICE_NAME }}:${DOCKER_TAG} -t $DOCKER_REPO/${{ env.SERVICE_NAME }}:latest
+    
+      - name: Display Docker Image Tags
+        run: docker images $DOCKER_REPO/${{ env.SERVICE_NAME }}
+          
       - name: Login to Nexus
-        run: docker login ${{ env.DOCKER_REPO }} -u ${{ secrets.nexus_username }} -p ${{ secrets.nexus_password }}
+        run: docker login ${{ env.DOCKER_REPO_BASE }} -u ${{ secrets.nexus_username }} -p ${{ secrets.nexus_password }}
 
       - name: Push Docker Image to Nexus
         run: |
           DOCKER_TAG=${{ env.DOCKER_TAG }}
-          docker push ${{ env.DOCKER_REPO }}/${{ env.SERVICE_NAME }}:${DOCKER_TAG}
-          docker push ${{ env.DOCKER_REPO }}/${{ env.SERVICE_NAME }}:latest
-
+          DOCKER_REPO=${DOCKER_REPO_BASE}/${DOCKER_REPO_PATH}
+          docker push "${DOCKER_REPO}/${SERVICE_NAME}:${DOCKER_TAG}"
+          docker push "${DOCKER_REPO}/${SERVICE_NAME}:latest"
+          
       - name: Update Deployment
         if: github.ref != 'refs/heads/main'
         run: |
