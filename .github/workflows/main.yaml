@@ -16,7 +16,11 @@ jobs:
       NUGET_SOURCE: https://api.nuget.org/v3/index.json
       DOCKER_REPO_BASE: repopanda.pandatech.it/pandatech/repository/pandatech
       SERVICE_NAME: ${{ github.event.repository.name }}
-      K8S_NAMESPACE: ${{ github.ref_name }}
+      K8S_NAMESPACE: ${{
+        (github.ref == 'refs/heads/staging' && 'staging') ||
+        (github.ref == 'refs/heads/qa' && 'qa') ||
+        (github.ref == 'refs/heads/development' && 'dev')
+        }}
       K8S_CLUSTER_ADDRESS: https://10.0.8.11:6443
 
     steps:
