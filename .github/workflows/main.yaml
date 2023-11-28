@@ -21,16 +21,17 @@ jobs:
         (github.ref == 'refs/heads/qa' && 'qa') ||
         (github.ref == 'refs/heads/development' && 'dev')
         }}
+        #(github.ref == 'refs/heads/main' && 'production') ||
       K8S_CLUSTER_ADDRESS: https://10.0.8.11:6443
-
+      DOTNET_INSTALL_DIR: $HOME/dotnet
     steps:
       - uses: actions/checkout@v3
-
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
           include-prerelease: false
+          dotnet-install-dir: ${{ env.DOTNET_INSTALL_DIR }}
 
       - name: remove old nuget sources
         run: |
@@ -118,7 +119,7 @@ jobs:
           sed -i "s|${{ env.DOCKER_REPO }}/${{ env.SERVICE_NAME }}:IMAGE_TAG_PLACEHOLDER|${{ env.DOCKER_REPO }}/${{ env.SERVICE_NAME }}:${{ env.DOCKER_TAG }}|g" ./kubernetes/deployment.yaml
           sed -i "s|namespace: .*|namespace: ${{ env.K8S_NAMESPACE }}|g" ./kubernetes/service.yaml
           sed -i "s|namespace: .*|namespace: ${{ env.K8S_NAMESPACE }}|g" ./kubernetes/ingress.yaml
-          kubectl apply -f ./kubernetes/deployment.yaml -f ./kubernetes/service.yaml -f ./kubernetes/ingress.yaml -n ${{ env.K8S_NAMESPACE }}
+          kubectl apply -f ./kubernetes/deployment.yaml -n ${{ env.K8S_NAMESPACE }}
         env:
           DOCKER_TAG: ${{ env.DOCKER_TAG }}
           K8S_CLUSTER_ADDRESS: ${{ env.K8S_CLUSTER_ADDRESS }}
