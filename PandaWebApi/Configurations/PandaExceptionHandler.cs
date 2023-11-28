@@ -19,6 +19,7 @@ public class PandaExceptionHandler : IExceptionHandler
         CancellationToken cancellationToken)
     {
         _logger.LogError(exception, exception.Message);
+
         
         if (_aspEnvironment is "Staging" or "Production")
         {
@@ -26,7 +27,7 @@ public class PandaExceptionHandler : IExceptionHandler
             {
                 Status = (int)HttpStatusCode.InternalServerError,
                 Type = exception.GetType().Name,
-                Title = "An unexpected error occurred",
+                Title = "Internal Server Error",
                 Detail = "Please try again later and/or contact IT support.",
                 Instance = $"{httpContext.Request.Method} {httpContext.Request.Path}"
             }, cancellationToken: cancellationToken);
@@ -37,7 +38,7 @@ public class PandaExceptionHandler : IExceptionHandler
             {
                 Status = (int)HttpStatusCode.InternalServerError,
                 Type = exception.GetType().Name,
-                Title = "An unexpected error occurred",
+                Title = "error.password",
                 Detail = exception.Message,
                 Instance = $"{httpContext.Request.Method} {httpContext.Request.Path}"
             }, cancellationToken: cancellationToken);

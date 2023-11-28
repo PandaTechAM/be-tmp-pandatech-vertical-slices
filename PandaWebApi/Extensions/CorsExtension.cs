@@ -4,7 +4,7 @@ namespace PandaWebApi.Extensions;
 
 public static class CorsExtension
 {
-    public static void AddCors(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddCors(this WebApplicationBuilder builder)
     {
         var configuration = builder.Configuration;
         if (builder.Environment.IsProduction())
@@ -26,11 +26,14 @@ public static class CorsExtension
                 .AllowAnyMethod()
                 .AllowAnyHeader()));
         }
+
+        return builder;
     }
 
-    public static void UseCors(this WebApplication app)
+    public static WebApplication UseCors(this WebApplication app)
     {
         app.UseCors(app.Environment.IsProduction() ? "AllowSpecific" : "AllowAll");
+        return app;
     }
 
     private static void ValidateCorsOrigins(string allowedOrigins)

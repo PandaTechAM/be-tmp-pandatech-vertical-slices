@@ -6,7 +6,7 @@ namespace PandaWebApi.Extensions;
 
 public static class HealthCheckBuilderExtension
 {
-    public static void AddHealthChecks(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddHealthChecks(this WebApplicationBuilder builder)
     {
         var configuration = builder.Configuration;
         var timeoutSeconds = TimeSpan.FromSeconds(5);
@@ -57,5 +57,7 @@ public static class HealthCheckBuilderExtension
                 .AddCheck("AuditTrail", userManagementHealthCheck, timeout: timeoutSeconds, failureStatus: HealthStatus.Degraded)
                 .AddRabbitMQ();
         }
+
+        return builder;
     }
 }

@@ -1,24 +1,25 @@
-using Microsoft.AspNetCore.Identity;
 using PandaVaultClient;
 using PandaWebApi.Configurations;
-using PandaWebApi.Contexts;
 using PandaWebApi.Extensions;
+using PandaWebApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 //Adding custom extensions and services
-builder.AddSerilog();
-builder.AddCors();
-builder.AddPostgresContext();
-builder.AddHealthChecks();
-builder.AddSwaggerGen();
-builder.Services.AddHttpClient();
-builder.Services.RegisterAllCustomServices();
-builder.Services.AddExceptionHandler<PandaExceptionHandler>();
+builder.AddSerilog()
+    .AddCors()
+    .AddPostgresContext()
+    .AddHealthChecks()
+    .AddSwaggerGen()
+    .RegisterPandaVaultEndpoint() //optional
+    .AddMicrosoftIdentity();
 
-//Adding Microsoft Identity
-builder.Services.AddAuthorization();
-builder.Services.AddIdentityApiEndpoints<IdentityUser>().AddEntityFrameworkStores<PostgresContext>();
+if (!builder.Environment.IsEnvironment("Local"))
+    builder.Configuration.AddPandaVault();
+
+builder.Services.RegisterAllCustomServices();
+builder.Services.AddHttpClient();
+builder.Services.AddExceptionHandler<PandaExceptionHandler>();
 
 //ASP.NET Core default services
 builder.Services.AddEndpointsApiExplorer();
@@ -26,31 +27,23 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
-//Adding PandaVaultClient
-if (!app.Environment.IsEnvironment("Local"))
-    app.RunPandaVaultClient();
-
 //Adding ExceptionHandler lambda is due to .net 8.0.100 bug
 app.UseExceptionHandler(_ => { });
 
 //Adding custom Extensions
-app.MigrateDatabase();
-app.UseCors();
-app.UseSwagger();
+app.MigrateDatabase()
+    .UseCors()
+    .UseSwagger();
 
-//Adding Microsoft Identity
+//ASP.NET Core default app.Use
 app.UseHttpsRedirection();
 app.UseAuthorization();
-app.MapIdentityApi<IdentityUser>();
 
 //Adding custom endpoints
-app.MapPingApi();
-app.MapDatabaseResetApi();
-app.MapHealthApi();
-app.MapPandaVaultApi();
-//app.MapErrorApi(); for testing only
-app.EnsureHealthy();
+app.MapIdentityApi<User>();
+app.MapPandaStandardEndpoints();
 
+app.EnsureHealthy();
 app.MapControllers();
 app.Run();
 

@@ -6,7 +6,7 @@ namespace PandaWebApi.Extensions;
 
 public static class SwaggerExtension
 {
-    public static void AddSwaggerGen(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddSwaggerGen(this WebApplicationBuilder builder)
     {
         builder.Services.AddSwaggerGen(options =>
         {
@@ -54,12 +54,12 @@ public static class SwaggerExtension
                 }
             });
         });
+        return builder;
     }
 
-    public static void UseSwagger(this WebApplication app)
+    public static WebApplication UseSwagger(this WebApplication app)
     {
-        if (app.Environment.IsProduction()) return;
-
+        if (app.Environment.IsProduction()) return app;
         SwaggerBuilderExtensions.UseSwagger(app);
 
         app.UseStaticFiles();
@@ -69,5 +69,6 @@ public static class SwaggerExtension
             options.InjectStylesheet("/assets/css/panda-style.css");
             options.InjectJavascript("/assets/js/docs.js");
         });
+        return app;
     }
 }

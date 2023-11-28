@@ -4,7 +4,7 @@ namespace PandaWebApi.Extensions;
 
 public static class SerilogExtension
 {
-    public static void AddSerilog(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddSerilog(this WebApplicationBuilder builder)
     {
         var configuration = builder.Configuration;
         var indexName = configuration["Serilog:ElasticIndexName"]!;
@@ -21,6 +21,7 @@ public static class SerilogExtension
         builder.Logging.ClearProviders();
         builder.Logging.AddSerilog();
         builder.Services.AddSingleton(Log.Logger);
+        return builder;
     }
 
     private static void ConfigureEnvironmentSpecificSettings(IHostEnvironment environment,
