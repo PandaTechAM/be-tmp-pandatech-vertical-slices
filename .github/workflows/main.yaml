@@ -114,8 +114,11 @@ jobs:
         if: github.ref != 'refs/heads/main'
         run: |
           export KUBECONFIG=/home/runner/.kube/config
+          sed -i "s|namespace: .*|namespace: ${{ env.K8S_NAMESPACE }}|g" ./kubernetes/deployment.yaml
           sed -i "s|${{ env.DOCKER_REPO }}/${{ env.SERVICE_NAME }}:IMAGE_TAG_PLACEHOLDER|${{ env.DOCKER_REPO }}/${{ env.SERVICE_NAME }}:${{ env.DOCKER_TAG }}|g" ./kubernetes/deployment.yaml
-          kubectl apply -f ./kubernetes/deployment.yaml -n ${{ env.K8S_NAMESPACE }}
+          sed -i "s|namespace: .*|namespace: ${{ env.K8S_NAMESPACE }}|g" ./kubernetes/service.yaml
+          sed -i "s|namespace: .*|namespace: ${{ env.K8S_NAMESPACE }}|g" ./kubernetes/ingress.yaml
+          kubectl apply -f ./kubernetes/deployment.yaml -f ./kubernetes/service.yaml -f ./kubernetes/ingress.yaml -n ${{ env.K8S_NAMESPACE }}
         env:
           DOCKER_TAG: ${{ env.DOCKER_TAG }}
           K8S_CLUSTER_ADDRESS: ${{ env.K8S_CLUSTER_ADDRESS }}
