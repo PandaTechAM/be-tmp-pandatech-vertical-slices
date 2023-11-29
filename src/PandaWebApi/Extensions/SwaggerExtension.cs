@@ -62,7 +62,6 @@ public static class SwaggerExtension
         if (app.Environment.IsProduction()) return app;
         SwaggerBuilderExtensions.UseSwagger(app);
 
-        app.UseStaticFiles();
 
         app.UseSwaggerUI(options =>
         {

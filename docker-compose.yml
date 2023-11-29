@@ -32,7 +32,7 @@ services:
       - postgres_db
       - rabbitmq
       - redis
-      - elasticsearch
+#      - elasticsearch
     environment:
       - ASPNETCORE_ENVIRONMENT=Local
       - PANDAVAULT_URL=https://bevault.pandatech.it

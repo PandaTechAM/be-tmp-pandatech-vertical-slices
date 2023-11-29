@@ -4,7 +4,7 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-COPY ["./PandaWebApi/PandaWebApi.csproj", "PandaWebApi/"]
+COPY ["./src/PandaWebApi", "PandaWebApi/"]
 RUN dotnet restore "PandaWebApi/PandaWebApi.csproj"
 COPY ../ .
 WORKDIR "/src/PandaWebApi"

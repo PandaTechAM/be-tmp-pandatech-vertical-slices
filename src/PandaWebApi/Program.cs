@@ -33,6 +33,7 @@ app.UseResponseCrafter()
     //.EnsureHealthy()
     .MigrateDatabase()
     .UseCors()
+    .UseStaticFiles()
     .UseSwagger();
 
 //ASP.NET Core default app.Use
