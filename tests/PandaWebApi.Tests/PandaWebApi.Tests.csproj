@@ -33,6 +33,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\src\PandaWebApi\PandaWebApi.csproj" />
       <ProjectReference Include="..\PandaWebApi\PandaWebApi.csproj" />
     </ItemGroup>
 

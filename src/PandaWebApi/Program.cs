@@ -1,7 +1,7 @@
 using PandaVaultClient;
-using PandaWebApi.Configurations;
 using PandaWebApi.Extensions;
 using PandaWebApi.Models;
+using ResponseCrafter;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,16 +10,16 @@ builder.AddSerilog()
     .AddCors()
     .AddPostgresContext()
     .AddHealthChecks()
+    .RegisterAllCustomServices()
     .AddSwaggerGen()
+    .AddResponseCrafter()
     .RegisterPandaVaultEndpoint() //optional
-    .AddMicrosoftIdentity();
+    .AddMicrosoftIdentity(); //Identity endpoints
 
-if (!builder.Environment.IsEnvironment("Local"))
+if (!builder.Environment.IsLocal())
     builder.Configuration.AddPandaVault();
 
-builder.Services.RegisterAllCustomServices();
 builder.Services.AddHttpClient();
-builder.Services.AddExceptionHandler<PandaExceptionHandler>();
 
 //ASP.NET Core default services
 builder.Services.AddEndpointsApiExplorer();
@@ -27,23 +27,21 @@ builder.Services.AddControllers();
 
 var app = builder.Build();
 
-//Adding ExceptionHandler lambda is due to .net 8.0.100 bug
-app.UseExceptionHandler(_ => { });
-
 //Adding custom Extensions
-app.MigrateDatabase()
+
+app.UseResponseCrafter()
+    //.EnsureHealthy()
+    .MigrateDatabase()
     .UseCors()
     .UseSwagger();
 
 //ASP.NET Core default app.Use
-app.UseHttpsRedirection();
 app.UseAuthorization();
 
 //Adding custom endpoints
-app.MapIdentityApi<User>();
+app.MapIdentityApi<User>(); //Identity endpoints
 app.MapPandaStandardEndpoints();
 
-app.EnsureHealthy();
 app.MapControllers();
 app.Run();
 

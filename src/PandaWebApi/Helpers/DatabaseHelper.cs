@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PandaWebApi.Extensions;
 
 namespace PandaWebApi.Helpers;
 
@@ -17,7 +18,7 @@ public class DatabaseHelper
     {
         try
         {
-            if (_builder.Environment.IsDevelopment() || _builder.Environment.IsEnvironment("Local"))
+            if (_builder.Environment.IsDevelopment() || _builder.Environment.IsLocal())
             {
                 return "Database reset is not allowed outside of Development environment!";
             }

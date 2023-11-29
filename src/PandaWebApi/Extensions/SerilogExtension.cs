@@ -27,7 +27,7 @@ public static class SerilogExtension
     private static void ConfigureEnvironmentSpecificSettings(IHostEnvironment environment,
         LoggerConfiguration loggerConfig, string elasticSearchUrl, string indexName)
     {
-        if (environment.IsEnvironment("Local"))
+        if (environment.IsLocal())
         {
             loggerConfig.WriteTo.Console();
         }

@@ -14,24 +14,24 @@ public static class HealthCheckBuilderExtension
         var redisConnectionString = configuration.GetConnectionString("Redis")!;
         var elasticSearchUrl = configuration.GetConnectionString("ElasticSearch")!;
         var rabbitMqUri = configuration.GetConnectionString("RabbitMQ")!;
-        var userManagementHealthCheck = new CustomHealthChecks(configuration.GetConnectionString("AuditTrail")!);
+        var auditTrailUrl = new CustomHealthChecks(configuration.GetConnectionString("AuditTrail")!);
 
         //This part is only for RMQ health check
-        ConnectionFactory factory = new()
-        {
-            Uri = new Uri(rabbitMqUri)
-        };
-        var connection = factory.CreateConnection();
+         ConnectionFactory factory = new()
+         {
+             Uri = new Uri(rabbitMqUri)
+         };
+         var connection = factory.CreateConnection();
 
 
-        if (builder.Environment.IsEnvironment("Local"))
+        if (builder.Environment.IsLocal())
         {
             builder.Services
                 .AddSingleton(connection)
                 .AddHealthChecks()
-                .AddRabbitMQ()
+                .AddRabbitMQ(name: "rabbit_mq")
                 .AddNpgSql(postgresConnectionString, timeout: timeoutSeconds, name: "postgres")
-                .AddCheck("AuditTrail", userManagementHealthCheck, timeout: timeoutSeconds, failureStatus: HealthStatus.Degraded)
+                .AddCheck("audit_trail", auditTrailUrl, timeout: timeoutSeconds, failureStatus: HealthStatus.Degraded)
                 .AddRedis(redisConnectionString, timeout: timeoutSeconds);
         }
 
@@ -43,7 +43,7 @@ public static class HealthCheckBuilderExtension
                 .AddNpgSql(postgresConnectionString, timeout: timeoutSeconds, name: "postgres")
                 .AddRedis(redisConnectionString, timeout: timeoutSeconds)
                 .AddElasticsearch(elasticSearchUrl, timeout: timeoutSeconds)
-                .AddCheck("AuditTrail", userManagementHealthCheck, timeout: timeoutSeconds, failureStatus: HealthStatus.Degraded)
+                .AddCheck("audit_trail", auditTrailUrl, timeout: timeoutSeconds, failureStatus: HealthStatus.Degraded)
                 .AddRabbitMQ();
         }
         else
@@ -54,7 +54,7 @@ public static class HealthCheckBuilderExtension
                 .AddNpgSql(postgresConnectionString, timeout: timeoutSeconds, name: "postgres")
                 .AddRedis(redisConnectionString, timeout: timeoutSeconds)
                 .AddElasticsearch(elasticSearchUrl, timeout: timeoutSeconds)
-                .AddCheck("AuditTrail", userManagementHealthCheck, timeout: timeoutSeconds, failureStatus: HealthStatus.Degraded)
+                .AddCheck("audit_trail", auditTrailUrl, timeout: timeoutSeconds, failureStatus: HealthStatus.Degraded)
                 .AddRabbitMQ();
         }
 

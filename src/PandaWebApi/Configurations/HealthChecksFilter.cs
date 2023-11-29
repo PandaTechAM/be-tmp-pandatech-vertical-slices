@@ -3,10 +3,10 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace PandaWebApi.Configurations;
 
-//This class is created because due to some bug /health endpoint is not working in .NET 7. It's included in Microsoft planning.
+//This class is created because due to some bug /health endpoint is not working in .NET 8. It's included in Microsoft planning.
 public class HealthChecksFilter : IDocumentFilter
 {
-    private const string HealthCheckEndpoint = @"/health";
+    private const string HealthCheckEndpoint = "/panda-wellness";
 
     public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
     {
@@ -18,8 +18,8 @@ public class HealthChecksFilter : IDocumentFilter
 
         var properties = new Dictionary<string, OpenApiSchema>
         {
-            { "status", new OpenApiSchema() { Type = "string" } },
-            { "errors", new OpenApiSchema() { Type = "array" } }
+            { "status", new OpenApiSchema { Type = "string" } },
+            { "errors", new OpenApiSchema { Type = "array" } }
         };
 
         var response = new OpenApiResponse();

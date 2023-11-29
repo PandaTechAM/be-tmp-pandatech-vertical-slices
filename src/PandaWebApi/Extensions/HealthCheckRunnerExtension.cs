@@ -4,7 +4,7 @@ namespace PandaWebApi.Extensions;
 
 public static class HealthCheckRunnerExtension
 {
-    public static void EnsureHealthy(this WebApplication app)
+    public static WebApplication EnsureHealthy(this WebApplication app)
     {
         var healthCheckService = app.Services.GetRequiredService<HealthCheckService>();
         var report = healthCheckService.CheckHealthAsync().Result;
@@ -17,7 +17,9 @@ public static class HealthCheckRunnerExtension
                 .ToList();
 
             var message = $"Unhealthy services detected: {string.Join(", ", unhealthyChecks)}";
-            throw new InvalidOperationException(message);
+            throw new Exception(message);
         }
+
+        return app;
     }
 }

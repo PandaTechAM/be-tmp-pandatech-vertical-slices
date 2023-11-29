@@ -25,7 +25,7 @@ public static class EndpointExtensions
 
     private static WebApplication MapDatabaseResetApi(this WebApplication app)
     {
-        if (app.Environment.IsEnvironment("Local"))
+        if (app.Environment.IsLocal())
         {
             app.MapGet("/reset-database", (DatabaseHelper helper) => helper.ResetDatabase<PostgresContext>())
                 .WithTags("Above Board");

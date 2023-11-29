@@ -18,7 +18,6 @@ public static class CorsExtension
                 .AllowAnyMethod()
                 .AllowAnyHeader()));
         }
-
         else
         {
             builder.Services.AddCors(options => options.AddPolicy("AllowAll", p => p
