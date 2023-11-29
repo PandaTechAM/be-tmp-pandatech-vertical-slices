@@ -12,7 +12,7 @@ jobs:
 
     env:
       DOTNET_VERSION: 8.x.x
-      DOTNET_SRC: ./src
+      DOTNET_SRC: ./
       NEXUS_SOURCE: https://hubrepopanda.pandatech.it/repository/nuget-hosted/index.json
       NUGET_SOURCE: https://api.nuget.org/v3/index.json
       DOCKER_REPO_BASE: repopanda.pandatech.it/pandatech/repository/pandatech
