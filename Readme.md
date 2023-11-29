@@ -1,4 +1,4 @@
-﻿# PandaWebApi - A Web API Project Using N-Tier Architecture
+﻿# PandaWebApi - A Web API Project Using All-in-one Architecture
 
 ## Description
 
