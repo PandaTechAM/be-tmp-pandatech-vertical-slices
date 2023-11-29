@@ -40,12 +40,12 @@ jobs:
           dotnet nuget remove source nuget.org
         continue-on-error: true
 
-      - name: Add nuget source
+      - name: Add local nuget source
         run: |
           dotnet nuget add source ${{ env.NEXUS_SOURCE }} -n pandatech -u ${{ secrets.nexus_username }} -p ${{ secrets.nexus_password }} --store-password-in-clear-text
         continue-on-error: true
 
-      - name: Add nuget source
+      - name: Add NuGet.org source
         run: |
           dotnet nuget add source ${{ env.NUGET_SOURCE }} -n nuget.org
         continue-on-error: true
