@@ -30,7 +30,7 @@ var app = builder.Build();
 //Adding custom Extensions
 
 app.UseResponseCrafter()
-    //.EnsureHealthy()
+    .EnsureHealthy()
     .MigrateDatabase()
     .UseCors()
     .UseStaticFiles()
