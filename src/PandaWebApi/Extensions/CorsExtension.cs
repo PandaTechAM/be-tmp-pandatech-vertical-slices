@@ -47,7 +47,7 @@ public static class CorsExtension
 
         foreach (var origin in originsArray)
         {
-            if (PandaValidator.IsUri(origin, true, false))
+            if (!PandaValidator.IsUri(origin, true, false))
             {
                 throw new InvalidOperationException(
                     $"The origin {origin} in the ORIGINS environment variable is not valid.");

@@ -11,10 +11,11 @@ builder.AddSerilog()
     .AddPostgresContext()
     .AddHealthChecks()
     .RegisterAllCustomServices()
-    .AddSwaggerGen()
+    .AddPandaSwagger()
     .AddResponseCrafter()
     .RegisterPandaVaultEndpoint() //optional
     .AddMicrosoftIdentity(); //Identity endpoints
+
 
 if (!builder.Environment.IsLocal())
     builder.Configuration.AddPandaVault();
@@ -33,8 +34,9 @@ app.UseResponseCrafter()
     .EnsureHealthy()
     .MigrateDatabase()
     .UseCors()
-    .UseStaticFiles()
-    .UseSwagger();
+    .UsePandaSwagger()
+    .UseStaticFiles();
+
 
 //ASP.NET Core default app.Use
 app.UseAuthorization();

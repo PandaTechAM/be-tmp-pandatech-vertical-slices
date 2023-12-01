@@ -12,7 +12,7 @@ using PandaWebApi.Contexts;
 namespace PandaWebApi.Migrations
 {
     [DbContext(typeof(PostgresContext))]
-    [Migration("20231128083251_V1")]
+    [Migration("20231201065631_V1")]
     partial class V1
     {
         /// <inheritdoc />

@@ -65,5 +65,3 @@ public class PostgresContextFactory : IDesignTimeDbContextFactory<PostgresContex
         return new PostgresContext(optionsBuilder.Options);
     }
 }
-
-//dotnet ef migrations add v1

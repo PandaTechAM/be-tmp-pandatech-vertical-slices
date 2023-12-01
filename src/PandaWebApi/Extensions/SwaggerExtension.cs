@@ -1,12 +1,13 @@
 ﻿using BaseConverter;
 using Microsoft.OpenApi.Models;
 using PandaWebApi.Configurations;
+using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace PandaWebApi.Extensions;
 
 public static class SwaggerExtension
 {
-    public static WebApplicationBuilder AddSwaggerGen(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddPandaSwagger(this WebApplicationBuilder builder)
     {
         builder.Services.AddSwaggerGen(options =>
         {
@@ -57,16 +58,16 @@ public static class SwaggerExtension
         return builder;
     }
 
-    public static WebApplication UseSwagger(this WebApplication app)
+    public static WebApplication UsePandaSwagger(this WebApplication app)
     {
         if (app.Environment.IsProduction()) return app;
-        SwaggerBuilderExtensions.UseSwagger(app);
-
+        app.UseSwagger();
 
         app.UseSwaggerUI(options =>
         {
             options.InjectStylesheet("/assets/css/panda-style.css");
             options.InjectJavascript("/assets/js/docs.js");
+            options.DocExpansion(DocExpansion.None);
         });
         return app;
     }
