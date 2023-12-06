@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
+﻿using System.Runtime.InteropServices;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace PandaWebApi.Extensions;
 
@@ -17,7 +18,7 @@ public static class HealthCheckRunnerExtension
                 .ToList();
 
             var message = $"Unhealthy services detected: {string.Join(", ", unhealthyChecks)}";
-            throw new Exception(message);
+            throw new ExternalException(message);
         }
 
         return app;

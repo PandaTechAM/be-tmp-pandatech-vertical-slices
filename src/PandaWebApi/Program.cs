@@ -1,24 +1,21 @@
 using PandaVaultClient;
 using PandaWebApi.Extensions;
-using PandaWebApi.Models;
 using ResponseCrafter;
 
 var builder = WebApplication.CreateBuilder(args);
+
+if (!builder.Environment.IsLocal())
+    builder.Configuration.AddPandaVault();
 
 //Adding custom extensions and services
 builder.AddSerilog()
     .AddCors()
     .AddPostgresContext()
     .AddHealthChecks()
-    .RegisterAllCustomServices()
+    .RegisterAllServices()
     .AddPandaSwagger()
     .AddResponseCrafter()
-    .RegisterPandaVaultEndpoint() //optional
-    .AddMicrosoftIdentity(); //Identity endpoints
-
-
-if (!builder.Environment.IsLocal())
-    builder.Configuration.AddPandaVault();
+    .RegisterPandaVaultEndpoint(); //optional
 
 builder.Services.AddHttpClient();
 
@@ -30,19 +27,17 @@ var app = builder.Build();
 
 //Adding custom Extensions
 
+app.UseStaticFiles();
 app.UseResponseCrafter()
-    .EnsureHealthy()
     .MigrateDatabase()
+    .EnsureHealthy()
     .UseCors()
-    .UsePandaSwagger()
-    .UseStaticFiles();
-
+    .UsePandaSwagger();
 
 //ASP.NET Core default app.Use
 app.UseAuthorization();
 
 //Adding custom endpoints
-app.MapIdentityApi<User>(); //Identity endpoints
 app.MapPandaStandardEndpoints();
 
 app.MapControllers();

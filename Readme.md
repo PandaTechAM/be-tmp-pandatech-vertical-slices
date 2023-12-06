@@ -15,7 +15,7 @@ allowing easy removal of unnecessary components and addition of new features.
 
 ## Dependencies
 
-The template integrates various services and configurations:
+This project integrates various services and configurations:
 
 **Microservices:** [List any microservices and their roles]
 
@@ -27,7 +27,7 @@ The template integrates various services and configurations:
 
 **Elasticsearch:** Employed for advanced search capabilities.
 
-**appsettings{environment}.json:** Configuration settings for the application. [Detail key configurations]
+**appsettings{environment}.json:** Configuration settings for the application.
 
 ## Getting Started
 ### Pre-requisites:

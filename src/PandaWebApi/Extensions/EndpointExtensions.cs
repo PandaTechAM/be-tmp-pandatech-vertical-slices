@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.AspNetCore.Mvc;
 using PandaVaultClient;
 using PandaWebApi.Contexts;
 using PandaWebApi.Helpers;
@@ -12,9 +13,13 @@ public static class EndpointExtensions
     public static void MapPandaStandardEndpoints(this WebApplication app)
     {
         app.MapHealthApi()
-            .MapDatabaseResetApi()
             .MapPingApi()
             .MapPandaVaultApi(); //optional
+
+        if (app.Environment.IsLocal())
+        {
+            app.MapDatabaseResetApi();
+        }
     }
 
     private static WebApplication MapPingApi(this WebApplication app)
@@ -25,11 +30,9 @@ public static class EndpointExtensions
 
     private static WebApplication MapDatabaseResetApi(this WebApplication app)
     {
-        if (app.Environment.IsLocal())
-        {
-            app.MapGet("/reset-database", (DatabaseHelper helper) => helper.ResetDatabase<PostgresContext>())
-                .WithTags("Above Board");
-        }
+        app.MapGet("/reset-database", ([FromServices] DatabaseHelper helper) => helper.ResetDatabase<PostgresContext>())
+            .WithTags("Above Board");
+
 
         return app;
     }

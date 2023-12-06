@@ -4,10 +4,10 @@
     "http_local": {
       "commandName": "Project",
       "dotnetRunMessages": true,
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:80",
-      "environmentVariables": {
+      "environmentVariables": { 
         "ASPNETCORE_ENVIRONMENT": "Local",
         "PANDAVAULT_URL": "https://bevault.pandatech.it",
         "PANDAVAULT_SECRET": "0c579832-968e-463e-a69e-f9634332d29e"

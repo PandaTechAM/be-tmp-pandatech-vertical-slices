@@ -1,37 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PandaWebApi.Extensions;
 
 namespace PandaWebApi.Helpers;
 
 public class DatabaseHelper
 {
     private readonly IServiceProvider _serviceProvider;
-    private readonly WebApplicationBuilder _builder;
 
-    public DatabaseHelper(IServiceProvider serviceProvider, WebApplicationBuilder builder)
+    public DatabaseHelper(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
-        _builder = builder;
     }
 
     public string ResetDatabase<T>() where T : DbContext
     {
-        try
-        {
-            if (_builder.Environment.IsDevelopment() || _builder.Environment.IsLocal())
-            {
-                return "Database reset is not allowed outside of Development environment!";
-            }
-
-            using var scope = _serviceProvider.CreateScope();
-            var dbContext = scope.ServiceProvider.GetRequiredService<T>();
-            dbContext.Database.EnsureDeleted();
-            dbContext.Database.Migrate();
-        }
-        catch (Exception e)
-        {
-            return $"Database has not been reset due to following error: {e.Message}";
-        }
+        using var scope = _serviceProvider.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<T>();
+        dbContext.Database.EnsureDeleted();
+        dbContext.Database.Migrate();
 
         return "Database reset success!";
     }

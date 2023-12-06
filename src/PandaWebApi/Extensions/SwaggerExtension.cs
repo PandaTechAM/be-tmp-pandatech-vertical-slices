@@ -1,6 +1,6 @@
 ﻿using BaseConverter;
 using Microsoft.OpenApi.Models;
-using PandaWebApi.Configurations;
+using PandaWebApi.Filters;
 using Swashbuckle.AspNetCore.SwaggerUI;
 
 namespace PandaWebApi.Extensions;

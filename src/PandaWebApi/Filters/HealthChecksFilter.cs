@@ -1,7 +1,7 @@
 ﻿using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace PandaWebApi.Configurations;
+namespace PandaWebApi.Filters;
 
 //This class is created because due to some bug /health endpoint is not working in .NET 8. It's included in Microsoft planning.
 public class HealthChecksFilter : IDocumentFilter

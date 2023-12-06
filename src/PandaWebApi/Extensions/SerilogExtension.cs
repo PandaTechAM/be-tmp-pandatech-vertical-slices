@@ -7,7 +7,7 @@ public static class SerilogExtension
     public static WebApplicationBuilder AddSerilog(this WebApplicationBuilder builder)
     {
         var configuration = builder.Configuration;
-        var indexName = configuration["Serilog:ElasticIndexName"]!;
+        var indexName = configuration["ElasticIndexName"]!;
         var elasticSearchUrl = configuration.GetConnectionString("ElasticSearch")!;
 
         var loggerConfig = new LoggerConfiguration()

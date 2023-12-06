@@ -13,7 +13,7 @@ public static class HealthCheckBuilderExtension
         var postgresConnectionString = configuration.GetConnectionString("Postgres")!;
         var redisConnectionString = configuration.GetConnectionString("Redis")!;
         var elasticSearchUrl = configuration.GetConnectionString("ElasticSearch")!;
-        var rabbitMqUri = configuration.GetConnectionString("RabbitMQ")!;
+        var rabbitMqUri = configuration["RabbitMqSettings:RabbitMqHost"]!;
         var auditTrailUrl = new CustomHealthChecks(configuration.GetConnectionString("AuditTrail")!);
 
         //This part is only for RMQ health check
