@@ -10,6 +10,7 @@ env:
   NEXUS_USERNAME: ${{ secrets.nexus_username }}
   NEXUS_PASSWORD: ${{ secrets.nexus_password }}
   NUGET_ORG_SOURCE: "https://api.nuget.org/v3/index.json"
+  NEXUS_SOURCE: "https://hubrepopanda.pandatech.it/repository/nuget-hosted/index.json"
   DOCKER_REPO_BASE: "repopanda.pandatech.it/pandatech/repository/pandatech"
   DOCKER_REPO_PATH: "staging"
   K8S_NAMESPACE: "staging"
@@ -30,7 +31,7 @@ jobs:
         run: |
           dotnet nuget remove source pandatech || true
           dotnet nuget remove source nuget.org || true
-          dotnet nuget add source ${{ secrets.NEXUS_SOURCE }} -n pandatech -u ${{ env.NEXUS_USERNAME }} -p ${{ env.NEXUS_PASSWORD }} --store-password-in-clear-text
+          dotnet nuget add source ${{ env.NEXUS_SOURCE }} -n pandatech -u ${{ env.NEXUS_USERNAME }} -p ${{ env.NEXUS_PASSWORD }} --store-password-in-clear-text
           dotnet nuget add source ${{ env.NUGET_ORG_SOURCE }} -n nuget.org
         continue-on-error: true
 
