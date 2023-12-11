@@ -33,7 +33,7 @@
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
         <PackageReference Include="PandaTech.BaseConverter" Version="2.0.2" />
         <PackageReference Include="Pandatech.Crypto" Version="2.2.3" />
-        <PackageReference Include="PandaTech.IEnumerableFilters" Version="3.2.33" />
+        <PackageReference Include="PandaTech.IEnumerableFilters" Version="3.2.34" />
         <PackageReference Include="Pandatech.PandaVaultClient" Version="3.0.3" />
         <PackageReference Include="Pandatech.RegexBox" Version="1.1.4" />
         <PackageReference Include="Pandatech.ResponseCrafter" Version="1.0.3" />
@@ -42,7 +42,7 @@
         <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
         <PackageReference Include="Serilog.Enrichers.Environment" Version="2.3.0" />
         <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="9.14.0.81108">
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="9.15.0.81779">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
