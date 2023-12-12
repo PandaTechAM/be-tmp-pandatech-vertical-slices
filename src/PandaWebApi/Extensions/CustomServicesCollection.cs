@@ -1,4 +1,5 @@
 ﻿using BaseConverter;
+using Microsoft.AspNetCore.Authentication;
 using Pandatech.Crypto;
 using PandaTech.IEnumerableFilters.Extensions;
 using PandaWebApi.Helpers;
@@ -9,6 +10,8 @@ public static class CustomServicesCollection
 {
     public static WebApplicationBuilder RegisterAllServices(this WebApplicationBuilder builder)
     {
+        builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+        
         builder.RegisterAllDefaultServices();
         return builder;
     }
