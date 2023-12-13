@@ -27,7 +27,7 @@ public class CustomHealthChecks : IHealthCheck
             var content = await response.Content.ReadAsStringAsync(cancellationToken);
             return content == ExpectedResponse
                 ? HealthCheckResult.Healthy()
-                : HealthCheckResult.Degraded();
+                : HealthCheckResult.Unhealthy();
         }
         catch (Exception e)
         {

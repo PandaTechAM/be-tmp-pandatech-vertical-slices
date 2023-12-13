@@ -7,17 +7,17 @@ using PandaWebApi.Services.Interfaces;
 
 namespace PandaWebApi.Extensions;
 
-public static class CustomServicesCollection
+public static class RegisterServicesExtension
 {
     public static WebApplicationBuilder RegisterAllServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
         builder.Services.AddScoped<RequestContextDataProvider>();
-        builder.RegisterAllDefaultServices();
+        builder.AddPandaStandardServices();
         return builder;
     }
 
-    private static WebApplicationBuilder RegisterAllDefaultServices(this WebApplicationBuilder builder)
+    private static WebApplicationBuilder AddPandaStandardServices(this WebApplicationBuilder builder)
     {
         if (builder.Environment.IsLocal())
         {
