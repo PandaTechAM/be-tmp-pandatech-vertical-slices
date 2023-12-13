@@ -1,8 +1,9 @@
 ﻿using BaseConverter;
-using Microsoft.AspNetCore.Authentication;
 using Pandatech.Crypto;
 using PandaTech.IEnumerableFilters.Extensions;
 using PandaWebApi.Helpers;
+using PandaWebApi.Services.Implementations;
+using PandaWebApi.Services.Interfaces;
 
 namespace PandaWebApi.Extensions;
 
@@ -11,7 +12,7 @@ public static class CustomServicesCollection
     public static WebApplicationBuilder RegisterAllServices(this WebApplicationBuilder builder)
     {
         builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-        
+        builder.Services.AddScoped<RequestContextDataProvider>();
         builder.RegisterAllDefaultServices();
         return builder;
     }

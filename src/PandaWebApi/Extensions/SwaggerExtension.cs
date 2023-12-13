@@ -34,7 +34,7 @@ public static class SwaggerExtension
             options.AddSecurityDefinition("token", new OpenApiSecurityScheme
             {
                 Type = SecuritySchemeType.ApiKey,
-                In = ParameterLocation.Header,
+                In = ParameterLocation.Cookie,
                 Name = "token",
                 Description = "Token authentication using the bearer scheme"
             });

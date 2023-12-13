@@ -17,12 +17,14 @@ public class AuthenticationService : IAuthenticationService
     private readonly Argon2Id _argon2Id;
     private readonly RequestContextDataProvider _requestContextDataProvider;
     private readonly string _domain;
+    private readonly IConfiguration _configuration;
 
     public AuthenticationService(Argon2Id argon2Id, PostgresContext context, RequestContextDataProvider requestContextDataProvider, IConfiguration configuration)
     {
         _argon2Id = argon2Id;
         _context = context;
         _requestContextDataProvider = requestContextDataProvider;
+        _configuration = configuration;
         _domain = configuration["Security:CookieDomain"]!;
 
     }
@@ -70,11 +72,17 @@ public class AuthenticationService : IAuthenticationService
             throw new BadRequestException("Invalid username or password.");
         }
 
+        int expirationMinutesInt = 30;
+        var expirationMinutesString = _configuration["Security:TokenExpirationMinutes"];
+        if (Int32.TryParse(expirationMinutesString, out int expirationMinutes))
+        {
+            expirationMinutesInt = expirationMinutes;
+        }
+        
         var token = new Token
         {
             TokenString = Guid.NewGuid(),
-            ExpirationDate =
-                DateTime.UtcNow.AddMinutes(30000),
+            ExpirationDate = DateTime.UtcNow.AddMinutes(expirationMinutesInt),
             UserId = user.Id,
             CreationDate = DateTime.UtcNow
         };

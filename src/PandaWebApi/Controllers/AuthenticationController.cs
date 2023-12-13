@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using PandaWebApi.DTOs.Authentication;
 using PandaWebApi.Enums;
 using PandaWebApi.Helpers;
-using PandaWebApi.Services.Implementations;
 using PandaWebApi.Services.Interfaces;
 
 namespace PandaWebApi.Controllers;
@@ -15,7 +14,7 @@ public class AuthenticationController : Controller
 {
     private readonly IAuthenticationService _service;
 
-    public AuthenticationController(AuthenticationService service)
+    public AuthenticationController(IAuthenticationService service)
     {
         _service = service;
     }
