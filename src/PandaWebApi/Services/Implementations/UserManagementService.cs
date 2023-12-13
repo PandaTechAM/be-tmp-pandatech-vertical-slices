@@ -1,5 +1,4 @@
-using System.Linq.Dynamic.Core;
-using System.Security.Cryptography;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Pandatech.Crypto;
 using PandaTech.IEnumerableFilters;
@@ -23,19 +22,26 @@ public class UserManagementService : IUserManagementService
     private readonly Argon2Id _argon2Id;
     private readonly RequestContextDataProvider _requestContextDataProvider;
     private readonly string _domain;
-    private readonly IConfiguration _configuration;
+    private readonly IConfiguration _configuration;    
+    private readonly IValidator<string> _passwordValidator;
 
-    public UserManagementService(Argon2Id argon2Id, PostgresContext context, RequestContextDataProvider requestContextDataProvider, IConfiguration configuration)
+
+    public UserManagementService(Argon2Id argon2Id, PostgresContext context, RequestContextDataProvider requestContextDataProvider, IConfiguration configuration, IValidator<string> passwordValidator)
     {
         _argon2Id = argon2Id;
         _context = context;
         _requestContextDataProvider = requestContextDataProvider;
         _configuration = configuration;
+        _passwordValidator = passwordValidator;
         _domain = configuration["Security:CookieDomain"]!;
 
     }
     public async Task<LoginResponseDto> LoginAsync(LoginDto loginDto, HttpContext httpContext)
     {
+        var validationResult = await _passwordValidator.ValidateAsync(loginDto.Password);
+        if (!validationResult.IsValid)
+            throw new BadRequestException("invalid password");
+        
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == loginDto.Username.ToLower());
         var newHistory = new UserAuthenticationHistory();
         if (user == null || user.Status == Statuses.Deleted)
@@ -163,6 +169,10 @@ public class UserManagementService : IUserManagementService
 
     public async Task UpdatePasswordAsync(ChangePasswordDto changePasswordDto)
     {
+        var validationResult = await _passwordValidator.ValidateAsync(changePasswordDto.NewPassword);
+        if (!validationResult.IsValid)
+            throw new BadRequestException("invalid password");
+        
         var user = _requestContextDataProvider.User;
         var userToUpdate = await _context.Users.FirstOrDefaultAsync(x => x.Id == changePasswordDto.Id);
         if (userToUpdate == null)
@@ -171,22 +181,20 @@ public class UserManagementService : IUserManagementService
         if (userToUpdate.Role == Roles.SuperAdmin && user.Role != Roles.SuperAdmin)
             throw new ForbiddenException("you cant change superAdmins password");
 
-        if (!Password.Validate(changePasswordDto.NewPassword, 8, false, false, false, false))
-            throw new BadRequestException("invalid password"); //todo change
-        
         userToUpdate.PasswordHash = _argon2Id.HashPassword(changePasswordDto.NewPassword);
-        throw new NotImplementedException();
+        await _context.SaveChangesAsync();
     }
 
     public async Task CreateUserAsync(AddUserDto addUserDto)
     {
-        if (!Password.Validate(addUserDto.Password, 8, false, false, false, false))
-            throw new BadRequestException("invalid password"); //todo change
+        var validationResult = await _passwordValidator.ValidateAsync(addUserDto.Password);
+        if (!validationResult.IsValid)
+            throw new BadRequestException("invalid password");
         
         if (addUserDto.Role == Roles.SuperAdmin)
             throw new ForbiddenException("you cant create second superAdmin");
         
-        var checkIfUsernameExists = _context.Users.FirstOrDefaultAsync(x => x.Username == addUserDto.Username);
+        var checkIfUsernameExists = await _context.Users.FirstOrDefaultAsync(x => x.Username == addUserDto.Username);
         if (checkIfUsernameExists != null)
             throw new BadRequestException("username already exists");
         
@@ -313,7 +321,7 @@ public class UserManagementService : IUserManagementService
     public async Task<DistinctColumnValuesResult> UserColumnValuesAsync(string columnName, string filterString, int page, int pageSize)
     {
         var q = _context.Users
-            .Where(x => x.Status != Statuses.Deleted)
+            .Where(x => x.Status != Statuses.Deleted && x.Role != Roles.SuperAdmin)
             .AsQueryable();
 
         return await q
@@ -369,6 +377,10 @@ public class UserManagementService : IUserManagementService
     
     public async Task ChangeOwnPasswordAsync(ChangeOwnPasswordDto changeOwnPasswordDto) 
     {
+        var validationResult = await _passwordValidator.ValidateAsync(changeOwnPasswordDto.NewPassword);
+        if (!validationResult.IsValid)
+            throw new BadRequestException("invalid password");
+        
         var userInfo = _requestContextDataProvider.User;
         var userId = userInfo.Id;
 

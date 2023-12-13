@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
-using PandaWebApi.Helpers;
+﻿using PandaWebApi.Helpers;
 using RabbitMQ.Client;
 
 namespace PandaWebApi.Extensions;

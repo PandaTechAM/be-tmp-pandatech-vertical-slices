@@ -1,13 +1,13 @@
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using PandaFileExporter;
 using PandaTech.IEnumerableFilters.Dto;
 using PandaTech.ServiceResponse;
 using PandaWebApi.DTOs.Authentication;
 using PandaWebApi.DTOs.UserManagement;
 using PandaWebApi.Enums;
+using PandaWebApi.Filters;
 using PandaWebApi.Helpers;
 using PandaWebApi.Services.Interfaces;
-using IdentifyUserDto = PandaWebApi.DTOs.Authentication.IdentifyUserDto;
 
 namespace PandaWebApi.Controllers;
 
@@ -52,6 +52,14 @@ public class UserManagementController : Controller
             var data = _userManagementService.IdentifyUser();
 
             return Ok(data);
+        }
+        
+        [Authorize(Roles.Admin)]
+        [HttpPost("user")]
+        public async Task<IActionResult> CreateUser(AddUserDto addUserDto)
+        {
+            await _userManagementService.CreateUserAsync(addUserDto);
+            return Ok();
         }
 
         [Authorize(Roles.Admin)]

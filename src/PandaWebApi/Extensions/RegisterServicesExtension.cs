@@ -1,4 +1,5 @@
 ﻿using BaseConverter;
+using FluentValidation;
 using Pandatech.Crypto;
 using PandaTech.IEnumerableFilters.Extensions;
 using PandaWebApi.Helpers;
@@ -13,6 +14,8 @@ public static class RegisterServicesExtension
     {
         builder.Services.AddScoped<IUserManagementService, UserManagementService>();
         builder.Services.AddScoped<RequestContextDataProvider>();
+        builder.Services.AddTransient<IValidator<string>, PasswordValidator>();
+
         builder.AddPandaStandardServices();
         return builder;
     }
