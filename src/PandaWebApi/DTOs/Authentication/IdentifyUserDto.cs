@@ -4,7 +4,7 @@ namespace PandaWebApi.DTOs.Authentication;
 
 public class IdentifyUserDto
 {
-    public long UserId { get; set; }
+    public long Id { get; set; }
     public string Username { get; set; } = null!;
     public string FullName { get; set; } = null!;
     public Roles Role { get; set; }

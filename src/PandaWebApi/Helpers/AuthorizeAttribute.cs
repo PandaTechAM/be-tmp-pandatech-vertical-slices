@@ -52,7 +52,7 @@ public class AuthorizeAttribute : Attribute, IAsyncAuthorizationFilter
 
         var identifyUser = new IdentifyUserDto()
         {
-            UserId = user.Id,
+            Id = user.Id,
             Role = user.Role,
             FullName = user.FullName,
             TokenExpirationDate = tokenObject.ExpirationDate,

@@ -17,5 +17,5 @@ public class User
     public DateTime CreationDate { get; set; }
     public Statuses Status { get; set; }
     public bool ForcePasswordChange { get; set; }
-    public string? Notes { get; set; }
+    public string? Comment { get; set; }
 }

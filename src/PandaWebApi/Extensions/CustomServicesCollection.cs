@@ -11,7 +11,7 @@ public static class CustomServicesCollection
 {
     public static WebApplicationBuilder RegisterAllServices(this WebApplicationBuilder builder)
     {
-        builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+        builder.Services.AddScoped<IUserManagementService, UserManagementService>();
         builder.Services.AddScoped<RequestContextDataProvider>();
         builder.RegisterAllDefaultServices();
         return builder;

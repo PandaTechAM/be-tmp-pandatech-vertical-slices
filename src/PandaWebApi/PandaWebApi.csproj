@@ -33,6 +33,7 @@
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
         <PackageReference Include="PandaTech.BaseConverter" Version="2.0.2" />
         <PackageReference Include="Pandatech.Crypto" Version="2.2.3" />
+        <PackageReference Include="PandaTech.FileExporter" Version="0.0.49" />
         <PackageReference Include="PandaTech.IEnumerableFilters" Version="3.2.33" />
         <PackageReference Include="Pandatech.PandaVaultClient" Version="3.0.3" />
         <PackageReference Include="Pandatech.RegexBox" Version="1.1.4" />
@@ -52,5 +53,9 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="be-tmp-web-api-postgres-logs\elastic-buffer-20230824.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Controllers\UserManagementController.cs" />
     </ItemGroup>
 </Project>
