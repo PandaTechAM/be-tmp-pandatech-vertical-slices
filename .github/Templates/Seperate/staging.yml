@@ -14,7 +14,6 @@ env:
   DOCKER_REPO_BASE: "repopanda.pandatech.it/pandatech/repository/pandatech"
   DOCKER_REPO_PATH: "staging"
   K8S_NAMESPACE: "staging"
-  DEPLOYMENT_ENV: "staging"
   ASPNETCORE_ENVIRONMENT: "Staging"
 
 jobs:

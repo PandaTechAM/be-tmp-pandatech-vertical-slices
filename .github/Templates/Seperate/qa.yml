@@ -14,7 +14,6 @@ env:
   DOCKER_REPO_BASE: "repopanda.pandatech.it/pandatech/repository/pandatech"
   DOCKER_REPO_PATH: "qa"
   K8S_NAMESPACE: "qa"
-  DEPLOYMENT_ENV: "qa"
   ASPNETCORE_ENVIRONMENT: "QA"
 
 jobs:

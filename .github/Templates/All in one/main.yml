@@ -23,22 +23,18 @@ jobs:
       - name: Set Environment Variables
         run: |
           if [ "${{ github.ref }}" == "refs/heads/development" ]; then
-              echo "DEPLOYMENT_ENV=dev" >> $GITHUB_ENV
               echo "ASPNETCORE_ENVIRONMENT=Development" >> $GITHUB_ENV
               echo "DOCKER_REPO_PATH=dev" >> $GITHUB_ENV
               echo "K8S_NAMESPACE=dev" >> $GITHUB_ENV
           elif [ "${{ github.ref }}" == "refs/heads/qa" ]; then
-              echo "DEPLOYMENT_ENV=qa" >> $GITHUB_ENV
               echo "ASPNETCORE_ENVIRONMENT=QA" >> $GITHUB_ENV
               echo "DOCKER_REPO_PATH=qa" >> $GITHUB_ENV
               echo "K8S_NAMESPACE=qa" >> $GITHUB_ENV
           elif [ "${{ github.ref }}" == "refs/heads/staging" ]; then
-              echo "DEPLOYMENT_ENV=staging" >> $GITHUB_ENV
               echo "ASPNETCORE_ENVIRONMENT=Staging" >> $GITHUB_ENV
               echo "DOCKER_REPO_PATH=staging" >> $GITHUB_ENV
               echo "K8S_NAMESPACE=staging" >> $GITHUB_ENV
           elif [ "${{ github.ref }}" == "refs/heads/main" ]; then
-              echo "DEPLOYMENT_ENV=prod" >> $GITHUB_ENV
               echo "ASPNETCORE_ENVIRONMENT=Production" >> $GITHUB_ENV
               echo "DOCKER_REPO_PATH=prod" >> $GITHUB_ENV
               echo "K8S_NAMESPACE=prod" >> $GITHUB_ENV
