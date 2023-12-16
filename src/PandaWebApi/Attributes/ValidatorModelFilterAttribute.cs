@@ -5,10 +5,6 @@ namespace PandaWebApi.Attributes;
 
 public class ValidatorModelFilterAttribute : ActionFilterAttribute
 {
-    /// <summary>
-    /// Action for checking model state
-    /// </summary>
-    /// <param name="context"></param>
     public override void OnActionExecuting(ActionExecutingContext context)
     {
         if (context.ModelState.IsValid)

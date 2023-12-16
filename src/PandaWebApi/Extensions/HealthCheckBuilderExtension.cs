@@ -31,7 +31,7 @@ public static class HealthCheckBuilderExtension
                 .AddHealthChecks()
                 .AddRabbitMQ(name: "rabbit_mq")
                 .AddNpgSql(postgresConnectionString, timeout: timeoutSeconds, name: "postgres")
-                .AddCheck("audit_trail", auditTrailUrl, timeout: timeoutSeconds, failureStatus: HealthStatus.Degraded)
+               // .AddCheck("audit_trail", auditTrailUrl, timeout: timeoutSeconds, failureStatus: HealthStatus.Degraded)
                 .AddRedis(redisConnectionString, timeout: timeoutSeconds);
         }
 

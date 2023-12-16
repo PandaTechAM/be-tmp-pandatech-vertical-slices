@@ -23,7 +23,7 @@ public class HelperMethods
                 exportData = FileExporter.ToExcelArray(itemsToExport);
                 break;
             default:
-                throw new BadRequestException("Not supported extension");
+                throw new BadRequestException("not_supported_export_type");
         }
 
         return exportData;

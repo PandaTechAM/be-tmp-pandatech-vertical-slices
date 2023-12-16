@@ -1,4 +1,3 @@
-using FluentValidation.AspNetCore;
 using PandaVaultClient;
 using PandaWebApi.Extensions;
 using ResponseCrafter;
@@ -22,8 +21,8 @@ builder.Services.AddHttpClient();
 
 //ASP.NET Core default services
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddControllers()
-        .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Program>());
+builder.Services.AddControllers();
+        
 
 var app = builder.Build();
 
@@ -32,7 +31,7 @@ var app = builder.Build();
 app.UseStaticFiles();
 app.UseResponseCrafter()
     .MigrateDatabase()
-    //.EnsureHealthy()
+    .EnsureHealthy()
     .UseCors()
     .UsePandaSwagger();
 

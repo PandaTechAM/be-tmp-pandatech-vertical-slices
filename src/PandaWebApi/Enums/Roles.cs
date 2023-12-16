@@ -1,8 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿namespace PandaWebApi.Enums;
 
-namespace PandaWebApi.Enums;
-
-[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum Roles
 {
     SuperAdmin,
