@@ -31,7 +31,9 @@ public static class SerilogExtension
         {
             loggerConfig.WriteTo.Console();
         }
+
         else if (environment.IsDevelopment())
+
         {
             loggerConfig.WriteTo.Console();
             ConfigureElasticsearch(loggerConfig, elasticSearchUrl, indexName);

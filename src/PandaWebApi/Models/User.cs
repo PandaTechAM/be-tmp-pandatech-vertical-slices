@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PandaWebApi.Enums;
 
 namespace PandaWebApi.Models;
@@ -19,4 +19,5 @@ public class User
     public string? Comment { get; set; }
     
     public List<UserAuthenticationHistory>? UserAuthenticationHistories { get; set; }
+
 }

@@ -1,6 +1,7 @@
 ﻿using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc;
+using Nest;
 using PandaVaultClient;
 using PandaWebApi.Contexts;
 using PandaWebApi.Helpers;

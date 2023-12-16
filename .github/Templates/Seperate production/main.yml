@@ -1,0 +1,85 @@
+name: Unified CI Pipeline
+
+on:
+  push:
+    branches:
+      - development
+      - qa
+      - staging
+
+env:
+  DOTNET_VERSION: "8.x.x"
+  NEXUS_USERNAME: ${{ secrets.nexus_username }}
+  NEXUS_PASSWORD: ${{ secrets.nexus_password }}
+  NUGET_ORG_SOURCE: "https://api.nuget.org/v3/index.json"
+  NEXUS_SOURCE: "https://hubrepopanda.pandatech.it/repository/nuget-hosted/index.json"
+  DOCKER_REPO_BASE: "repopanda.pandatech.it/pandatech/repository/pandatech"
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Set Environment Variables
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/development" ]; then
+              echo "ASPNETCORE_ENVIRONMENT=Development" >> $GITHUB_ENV
+              echo "DOCKER_REPO_PATH=dev" >> $GITHUB_ENV
+              echo "K8S_NAMESPACE=dev" >> $GITHUB_ENV
+          elif [ "${{ github.ref }}" == "refs/heads/qa" ]; then
+              echo "ASPNETCORE_ENVIRONMENT=QA" >> $GITHUB_ENV
+              echo "DOCKER_REPO_PATH=qa" >> $GITHUB_ENV
+              echo "K8S_NAMESPACE=qa" >> $GITHUB_ENV
+          elif [ "${{ github.ref }}" == "refs/heads/staging" ]; then
+              echo "ASPNETCORE_ENVIRONMENT=Staging" >> $GITHUB_ENV
+              echo "DOCKER_REPO_PATH=staging" >> $GITHUB_ENV
+              echo "K8S_NAMESPACE=staging" >> $GITHUB_ENV
+          fi
+
+      - uses: actions/checkout@v4
+      - name: Setup .NET Core SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Configure NuGet
+        run: |
+          dotnet nuget remove source pandatech || true
+          dotnet nuget remove source nuget.org || true
+          dotnet nuget add source ${{ env.NEXUS_SOURCE }} -n pandatech -u ${{ env.NEXUS_USERNAME }} -p ${{ env.NEXUS_PASSWORD }} --store-password-in-clear-text
+          dotnet nuget add source ${{ env.NUGET_ORG_SOURCE }} -n nuget.org
+        continue-on-error: true
+
+      - name: Build and Publish .NET App
+        run: |
+          dotnet restore --no-cache --force --disable-parallel
+          dotnet build --no-restore --configuration Release
+          dotnet publish --no-build --configuration Release --output ./publish
+          echo "DOCKER_TAG=$(date +'%Y-%m-%d-%H-%M')-$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+
+      - name: Login to Docker Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.DOCKER_REPO_BASE }}
+          username: ${{ env.NEXUS_USERNAME }}
+          password: ${{ env.NEXUS_PASSWORD }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.DOCKER_REPO_BASE }}/${{ env.DOCKER_REPO_PATH }}/${{ github.event.repository.name }}:${{ env.DOCKER_TAG }}
+            ${{ env.DOCKER_REPO_BASE }}/${{ env.DOCKER_REPO_PATH }}/${{ github.event.repository.name }}:latest
+
+      - name: Update and Apply Kubernetes Deployment
+        run: |
+          export KUBECONFIG=/home/runner/.kube/config
+          sed -i "s|\$(ASPNETCORE_ENVIRONMENT)|${{ env.ASPNETCORE_ENVIRONMENT }}|g" ./kubernetes/deployment.yaml
+          sed -i "s|namespace: .*|namespace: ${{ env.K8S_NAMESPACE }}|g" ./kubernetes/deployment.yaml
+          sed -i "s|\$(IMAGE_REFERENCE)|${{ env.DOCKER_REPO_BASE }}/${{ env.DOCKER_REPO_PATH }}/${{ github.event.repository.name }}:${{ env.DOCKER_TAG }}|g" ./kubernetes/deployment.yaml
+
+          kubectl apply -f ./kubernetes/deployment.yaml -n ${{ env.K8S_NAMESPACE }}
+
+      - name: Cleanup
+        run: rm -rf ./publish
