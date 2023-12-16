@@ -21,7 +21,6 @@ public class AuthenticationController(IAuthenticationService service) : Controll
         return Ok(response);
     }
 
-    [Authorize(Roles.User)]
     [HttpPost("logout")]
     public async Task<IActionResult> LogoutAsync()
     {
@@ -29,7 +28,6 @@ public class AuthenticationController(IAuthenticationService service) : Controll
         return Ok();
     }
 
-    [Authorize(Roles.User)]
     [HttpGet("user-identify")]
     public IActionResult IdentifyUser()
     {
@@ -38,7 +36,6 @@ public class AuthenticationController(IAuthenticationService service) : Controll
         return Ok(data);
     }
 
-    [Authorize(Roles.User)]
     [HttpPatch("change-own-password")]
     public async Task<IActionResult> ChangeOwnPassword([FromBody] UpdateOwnPasswordDto updatePasswordDto)
     {

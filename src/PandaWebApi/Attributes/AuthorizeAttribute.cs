@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using PandaWebApi.Contexts;
 using PandaWebApi.DTOs;
@@ -16,7 +15,7 @@ public class AuthorizeAttribute : Attribute, IAsyncAuthorizationFilter
 
     public AuthorizeAttribute()
     {
-        _minimalRoleLevel = Roles.User;
+        _minimalRoleLevel = Roles.Admin;
     }
 
     public AuthorizeAttribute(Roles role)

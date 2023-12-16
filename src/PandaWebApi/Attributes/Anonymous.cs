@@ -1,6 +1,4 @@
 namespace PandaWebApi.Attributes;
 
-[AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-public class Anonymous : Attribute
-{
-}
+[AttributeUsage(AttributeTargets.Method)]
+public class Anonymous : Attribute;

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace PandaWebApi.Helpers;
 
-[SuppressMessage("ReSharper", "ConvertToPrimaryConstructor")] //todo how to make this global?
+[SuppressMessage("ReSharper", "ConvertToPrimaryConstructor")]
 public class CustomHealthChecks : IHealthCheck
 {
     private readonly string _baseUrl;
@@ -27,7 +27,7 @@ public class CustomHealthChecks : IHealthCheck
             var content = await response.Content.ReadAsStringAsync(cancellationToken);
             return content == ExpectedResponse
                 ? HealthCheckResult.Healthy()
-                : HealthCheckResult.Unhealthy();
+                : HealthCheckResult.Degraded();
         }
         catch (Exception e)
         {

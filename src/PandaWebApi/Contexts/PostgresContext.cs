@@ -5,11 +5,8 @@ using PandaWebApi.Models;
 
 namespace PandaWebApi.Contexts;
 
-public class PostgresContext : PostgresDbContext
+public class PostgresContext(DbContextOptions<PostgresContext> options) : PostgresDbContext(options)
 {
-    public PostgresContext(DbContextOptions<PostgresContext> options) : base(options)
-    {
-    }
     public DbSet<Token> Tokens { get; set; } = null!;
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<UserAuthenticationHistory> UserAuthenticationHistory { get; set; } = null!;

@@ -1,9 +1,6 @@
 ﻿using BaseConverter;
-using FluentValidation;
-using FluentValidation.AspNetCore;
 using Pandatech.Crypto;
 using PandaTech.IEnumerableFilters.Extensions;
-using PandaWebApi.Attributes;
 using PandaWebApi.DTOs;
 using PandaWebApi.Helpers;
 using PandaWebApi.Services.Implementations;

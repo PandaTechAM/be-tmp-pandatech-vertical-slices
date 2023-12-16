@@ -1,7 +1,9 @@
-﻿using PandaWebApi.Enums;
+﻿using System.Diagnostics.CodeAnalysis;
+using PandaWebApi.Enums;
 
 namespace PandaWebApi.DTOs.Authentication;
 
+[SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global")]
 public class IdentifyUserDto
 {
     public long Id { get; set; }

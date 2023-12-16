@@ -25,7 +25,8 @@ public static class SwaggerExtension
             });
 
             //This option is created because due to some bug /health endpoint is not working in .NET 7. It's included in Microsoft planning.
-            options.DocumentFilter<HealthChecksFilter>();
+            if(!builder.Environment.IsProduction() && !builder.Environment.IsStaging())
+              options.DocumentFilter<HealthChecksFilter>();
 
             // Add string input support into int64 field
             options.ParameterFilter<PandaParameterBaseConverterAttribute>();

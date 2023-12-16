@@ -1,4 +1,3 @@
-using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Pandatech.Crypto;
 using PandaTech.IEnumerableFilters;
