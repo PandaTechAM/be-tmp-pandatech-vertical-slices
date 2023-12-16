@@ -22,6 +22,7 @@ builder.Services.AddHttpClient();
 //ASP.NET Core default services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
+        
 
 var app = builder.Build();
 
@@ -58,7 +59,10 @@ app.Run();
 
 #pragma warning disable S1118
 // ReSharper disable once ClassNeverInstantiated.Global
-public partial class Program
-#pragma warning restore S1118
+namespace PandaWebApi
 {
+    public partial class Program
+#pragma warning restore S1118
+    {
+    }
 }

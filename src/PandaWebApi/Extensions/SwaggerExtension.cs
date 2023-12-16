@@ -29,31 +29,6 @@ public static class SwaggerExtension
 
             // Add string input support into int64 field
             options.ParameterFilter<PandaParameterBaseConverterAttribute>();
-
-            // Add the token authentication option
-            options.AddSecurityDefinition("token", new OpenApiSecurityScheme
-            {
-                Type = SecuritySchemeType.ApiKey,
-                In = ParameterLocation.Header,
-                Name = "token",
-                Description = "Token authentication using the bearer scheme"
-            });
-
-            // Require the token to be passed as a header for API calls
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference
-                        {
-                            Type = ReferenceType.SecurityScheme,
-                            Id = "token"
-                        }
-                    },
-                    Array.Empty<string>()
-                }
-            });
         });
         return builder;
     }
@@ -67,7 +42,7 @@ public static class SwaggerExtension
         {
             // Specify the custom display name for the tab
             options.DocumentTitle = $"Swagger - {AppDomain.CurrentDomain.FriendlyName}";
-            
+
             options.InjectStylesheet("/assets/css/panda-style.css");
             options.InjectJavascript("/assets/js/docs.js");
             options.DocExpansion(DocExpansion.None);

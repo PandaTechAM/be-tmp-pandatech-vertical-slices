@@ -1,0 +1,14 @@
+using PandaWebApi.Enums;
+
+namespace PandaWebApi.DTOs;
+
+public class ContextUser
+{
+    public long Id { get; set; }
+    public string Username { get; set; } = null!;
+    public string FullName { get; set; } = null!;
+    public Roles Role { get; set; } 
+    public long TokenId { get; set; }
+    public DateTime TokenExpirationDate { get; set; }
+    public bool ForcePasswordChange { get; set; }
+}

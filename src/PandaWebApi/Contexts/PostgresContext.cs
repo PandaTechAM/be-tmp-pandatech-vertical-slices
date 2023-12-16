@@ -10,7 +10,10 @@ public class PostgresContext : PostgresDbContext
     public PostgresContext(DbContextOptions<PostgresContext> options) : base(options)
     {
     }
-    
+    public DbSet<Token> Tokens { get; set; } = null!;
+    public DbSet<User> Users { get; set; } = null!;
+    public DbSet<UserAuthenticationHistory> UserAuthenticationHistory { get; set; } = null!;
+
 }
 
 

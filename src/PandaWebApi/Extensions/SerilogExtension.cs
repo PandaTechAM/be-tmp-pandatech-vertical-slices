@@ -31,7 +31,9 @@ public static class SerilogExtension
         {
             loggerConfig.WriteTo.Console();
         }
-        else if (environment.IsQa() || environment.IsDevelopment())
+
+        else if (environment.IsDevelopment())
+
         {
             loggerConfig.WriteTo.Console();
             ConfigureElasticsearch(loggerConfig, elasticSearchUrl, indexName);
@@ -51,7 +53,7 @@ public static class SerilogExtension
             detectElasticsearchVersion: true,
             numberOfShards: 5,
             numberOfReplicas: 1,
-            bufferBaseFilename: "./elastic-buffer",
+            bufferBaseFilename: "./logs/elastic-buffer",
             bufferFileSizeLimitBytes: 1024 * 1024 * 16); // 16 MB each buffer file
     }
 }

@@ -2,18 +2,11 @@
 
 namespace PandaWebApi.Helpers;
 
-public class DatabaseHelper
+public class DatabaseHelper(IServiceProvider serviceProvider)
 {
-    private readonly IServiceProvider _serviceProvider;
-
-    public DatabaseHelper(IServiceProvider serviceProvider)
-    {
-        _serviceProvider = serviceProvider;
-    }
-
     public string ResetDatabase<T>() where T : DbContext
     {
-        using var scope = _serviceProvider.CreateScope();
+        using var scope = serviceProvider.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<T>();
         dbContext.Database.EnsureDeleted();
         dbContext.Database.Migrate();
