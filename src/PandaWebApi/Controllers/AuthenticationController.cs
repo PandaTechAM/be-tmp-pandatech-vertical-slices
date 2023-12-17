@@ -16,9 +16,9 @@ public class AuthenticationController(IAuthenticationService service) : Controll
     [HttpPost("login")]
     public async Task<IActionResult> LoginAsync([FromBody] LoginDto loginDto)
     {
-        var response = await service.LoginAsync(loginDto);
+        await service.LoginAsync(loginDto);
 
-        return Ok(response);
+        return Ok();
     }
 
     [HttpPost("logout")]

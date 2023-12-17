@@ -1,5 +1,6 @@
 using PandaTech.IEnumerableFilters.Dto;
 using PandaWebApi.DTOs;
+using PandaWebApi.DTOs.Token;
 using PandaWebApi.DTOs.User;
 using PandaWebApi.Models;
 using ResponseCrafter.Dtos;
@@ -21,5 +22,5 @@ public interface IUserService
 
     public Task<object?> UserAggregateAsync(string columnName, string filterString, AggregateType aggregate);
     public Task<List<GetUserDto>> ExportUsersAsync(GetDataRequest request);
-    public void SetUserContext(Token token, ContextUser contextUser);
+    public void SetUserContext(IdentifyTokenDto token, ContextUser contextUser);
 }

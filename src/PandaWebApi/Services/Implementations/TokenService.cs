@@ -1,7 +1,10 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using BaseConverter;
 using Microsoft.EntityFrameworkCore;
 using Pandatech.Crypto;
 using PandaWebApi.Contexts;
+using PandaWebApi.DTOs.Authentication;
+using PandaWebApi.DTOs.Token;
 using PandaWebApi.Enums;
 using PandaWebApi.Models;
 using PandaWebApi.Services.Interfaces;
@@ -25,7 +28,7 @@ public class TokenService : ITokenService
         _domain = configuration["Security:CookieDomain"]!;
     }
 
-    public async Task<Token> CreateTokenAsync(long userId, HttpContext httpContext)
+    public async Task<Token> CreateTokenAsync(IdentifyUserDto user, HttpContext httpContext)
     {
         var expirationMinutesInt = 15;
 
@@ -52,28 +55,32 @@ public class TokenService : ITokenService
         {
             SignatureHash = Sha3.Hash(tokenSignature),
             ExpirationDate = DateTime.UtcNow.AddMinutes(expirationMinutesInt),
-            UserId = userId,
+            UserId = user.Id,
             CreatedAt = DateTime.UtcNow
         };
 
         await _context.Tokens.AddAsync(token);
         await _context.SaveChangesAsync();
 
-        httpContext.Response.Cookies.Append(
-            "Token", tokenSignature,
-            new CookieOptions
-            {
-                Expires = token.ExpirationDate,
-                HttpOnly = true,
-                Secure = true,
-                Domain = _domain
-            }
-        );
+        var cookies = new Dictionary<string, string>
+        {
+            { "Token", tokenSignature },
+            { "UserId", PandaBaseConverter.Base10ToBase36(user.Id)! },
+            { "Role", ((int)user.Role).ToString() },
+            { "FullName", user.FullName },
+            { "Username", user.Username },
+            { "ForcePasswordChange", user.ForcePasswordChange.ToString() }
+        };
+
+        AppendCookies(cookies, httpContext, _domain, token.ExpirationDate);
+
         return token;
     }
 
-    public async Task<Token> ValidateTokenAsync(string? cookie, PostgresContext dbContext)
+    public async Task<IdentifyTokenDto> ValidateTokenAsync(PostgresContext dbContext, HttpContext httpContext)
     {
+        var cookie = httpContext.Request.Cookies["Token"];
+
         if (string.IsNullOrEmpty(cookie))
             throw new UnauthorizedException();
 
@@ -85,19 +92,37 @@ public class TokenService : ITokenService
         if (token == null || token.ExpirationDate < DateTime.UtcNow || token.User.Status != Statuses.Active)
             throw new UnauthorizedException();
 
-        return token;
+        var response = new IdentifyTokenDto
+        {
+            TokenId = token.Id,
+            TokenSignature = tokenSignature,
+            CreatedAt = token.CreatedAt,
+            ExpirationDate = token.ExpirationDate,
+            User = new IdentifyUserDto
+            {
+                Id = token.User.Id,
+                FullName = token.User.FullName,
+                Role = token.User.Role,
+                ForcePasswordChange = token.User.ForcePasswordChange,
+                Username = token.User.Username
+            }
+        };
+
+        return response;
     }
 
-    public async Task UpdateTokenExpirationAsync(Token token, IConfiguration configuration, PostgresContext dbContext)
+    public async Task UpdateTokenExpirationAsync(IdentifyTokenDto token, IConfiguration configuration,
+        PostgresContext dbContext,
+        HttpContext httpContext)
     {
         var expirationMinutesInt = 15;
-        if (Int32.TryParse(configuration["Security:TokenExpirationMinutes"], out int expirationMinutes))
+        if (int.TryParse(configuration["Security:TokenExpirationMinutes"], out var expirationMinutes))
         {
             expirationMinutesInt = expirationMinutes;
         }
 
         var maxExpirationMinutesInt = 360;
-        if (Int32.TryParse(configuration["Security:TokenMaxExpirationMinutes"], out int maxExpirationMinutes))
+        if (int.TryParse(configuration["Security:TokenMaxExpirationMinutes"], out var maxExpirationMinutes))
         {
             maxExpirationMinutesInt = maxExpirationMinutes;
         }
@@ -114,5 +139,33 @@ public class TokenService : ITokenService
         }
 
         await dbContext.SaveChangesAsync();
+        var cookies = new Dictionary<string, string>
+        {
+            { "Token", token.TokenSignature },
+            { "UserId", PandaBaseConverter.Base10ToBase36(token.User.Id)! },
+            { "Role", ((int)token.User.Role).ToString() },
+            { "FullName", token.User.FullName },
+            { "Username", token.User.Username },
+            { "ForcePasswordChange", token.User.ForcePasswordChange.ToString() }
+        };
+        AppendCookies(cookies, httpContext, _domain, token.ExpirationDate);
+    }
+
+    private static void AppendCookies(Dictionary<string, string> cookies, HttpContext httpContext, string domain,
+        DateTime expirationDate)
+    {
+        foreach (var cookie in cookies)
+        {
+            httpContext.Response.Cookies.Append(
+                cookie.Key, cookie.Value,
+                new CookieOptions
+                {
+                    Expires = expirationDate,
+                    HttpOnly = true,
+                    Secure = true,
+                    Domain = domain
+                }
+            );
+        }
     }
 }

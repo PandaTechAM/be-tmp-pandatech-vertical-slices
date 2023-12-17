@@ -13,10 +13,9 @@ namespace PandaWebApi.Controllers;
 [ApiController]
 [Route("api/v1")]
 [Produces("application/json")]
-[Authorize(Roles.User)]
+[Authorize]
 public class UserController(IUserService service) : Controller
 {
-    [Authorize(Roles.Admin)]
     [HttpPost("user")]
     public async Task<IActionResult> CreateUser(CreateUserDto createUserDto)
     {
@@ -25,7 +24,6 @@ public class UserController(IUserService service) : Controller
     }
 
 
-    [Authorize(Roles.Admin)]
     [HttpPatch("user")]
     public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDto updateUserDto)
     {
@@ -33,7 +31,6 @@ public class UserController(IUserService service) : Controller
         return Ok();
     }
 
-    [Authorize(Roles.Admin)]
     [HttpPatch("change-password")]
     public async Task<IActionResult> ChangePassword([FromBody] UpdatePasswordDto updatePasswordDto)
     {
@@ -41,15 +38,13 @@ public class UserController(IUserService service) : Controller
         return Ok();
     }
 
-    [Authorize(Roles.Admin)]
     [HttpPatch("user-status")]
     public async Task<IActionResult> UpdateUserStatus([FromBody] UpdateUserStatusDto updateUserStatusDto)
     {
         await service.UpdateUserStatusAsync(updateUserStatusDto);
         return Ok();
     }
-    
-    [Authorize(Roles.Admin)]
+
     [HttpDelete("users")]
     public async Task<IActionResult> DeleteUsers(List<long> ids)
     {
@@ -57,7 +52,6 @@ public class UserController(IUserService service) : Controller
         return Ok();
     }
 
-    [Authorize(Roles.Admin)]
     [HttpGet("users")]
     public async Task<IActionResult> GetUsers(int page, int pageSize, [FromQuery] string dataRequest)
     {
@@ -70,7 +64,6 @@ public class UserController(IUserService service) : Controller
 
 
     [HttpGet("user-filters")]
-    [Authorize(Roles.Admin)]
     public async Task<IActionResult> GetUserFilters()
     {
         var result = await service.GetUserFiltersAsync();
@@ -79,7 +72,6 @@ public class UserController(IUserService service) : Controller
     }
 
     [HttpGet("user-column-values")]
-    [Authorize(Roles.Admin)]
     public async Task<IActionResult> ColumnValues(string columnName, string filterString,
         int page, int pageSize)
     {
@@ -102,7 +94,6 @@ public class UserController(IUserService service) : Controller
         return Ok(output);
     }
 
-    [Authorize(Roles.Admin)]
     [HttpGet("users-export")]
     public async Task<IActionResult> ExportUsers([FromQuery] string dataRequest,
         [FromQuery] ExportType exportType)
@@ -135,8 +126,9 @@ public class UserController(IUserService service) : Controller
                 exportData = HelperMethods.Export(users, ExportType.XLSX);
                 break;
         }
+        var now = DateTime.UtcNow;
 
-        var result = File(exportData, mimeType, "Users." + fileExtenstion);
+        var result = File(exportData, mimeType, $"Users.{now}" + fileExtenstion);
 
         return result;
     }

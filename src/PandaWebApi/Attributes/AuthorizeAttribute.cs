@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Mvc.Filters;
 using PandaWebApi.Contexts;
 using PandaWebApi.DTOs;
+using PandaWebApi.DTOs.Token;
 using PandaWebApi.Enums;
 using PandaWebApi.Services.Interfaces;
 using ResponseCrafter.StandardHttpExceptions;
@@ -37,8 +38,7 @@ public class AuthorizeAttribute : Attribute, IAsyncAuthorizationFilter
         var tokenService = context.HttpContext.RequestServices.GetRequiredService<ITokenService>();
         var userService = context.HttpContext.RequestServices.GetRequiredService<IUserService>();
 
-        var cookie = context.HttpContext.Request.Cookies["Token"];
-        var token = await tokenService.ValidateTokenAsync(cookie, dbContext);
+        var token = await tokenService.ValidateTokenAsync(dbContext, context.HttpContext);
 
         var user = token.User;
         if (user.Role > _minimalRoleLevel)
@@ -52,7 +52,7 @@ public class AuthorizeAttribute : Attribute, IAsyncAuthorizationFilter
             throw new ForbiddenException("change_password_required");
         }
 
-        await tokenService.UpdateTokenExpirationAsync(token, configuration, dbContext);
+        await tokenService.UpdateTokenExpirationAsync(token, configuration, dbContext, context.HttpContext);
 
         userService.SetUserContext(token, contextUser);
     }

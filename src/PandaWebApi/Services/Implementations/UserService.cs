@@ -4,6 +4,7 @@ using PandaTech.IEnumerableFilters;
 using PandaTech.IEnumerableFilters.Dto;
 using PandaWebApi.Contexts;
 using PandaWebApi.DTOs;
+using PandaWebApi.DTOs.Token;
 using PandaWebApi.DTOs.User;
 using PandaWebApi.Enums;
 using PandaWebApi.FilterModels;
@@ -249,13 +250,13 @@ public class UserService : IUserService
         return response;
     }
 
-    public void SetUserContext(Token token, ContextUser contextUser)
+    public void SetUserContext(IdentifyTokenDto token, ContextUser contextUser)
     {
         contextUser.Id = token.User.Id;
         contextUser.Role = token.User.Role;
         contextUser.FullName = token.User.FullName;
         contextUser.Username = token.User.Username;
-        contextUser.TokenId = token.Id;
+        contextUser.TokenId = token.TokenId;
         contextUser.TokenExpirationDate = token.ExpirationDate;
         contextUser.ForcePasswordChange = token.User.ForcePasswordChange;
     }

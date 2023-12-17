@@ -4,6 +4,7 @@ using Pandatech.Crypto;
 using PandaWebApi.Contexts;
 using PandaWebApi.DTOs;
 using PandaWebApi.DTOs.Authentication;
+using PandaWebApi.DTOs.Token;
 using PandaWebApi.Enums;
 using PandaWebApi.Models;
 using PandaWebApi.Services.Interfaces;
@@ -30,12 +31,13 @@ public class AuthenticationService : IAuthenticationService
         _httpContext = httpContextAccessor.HttpContext!;
     }
 
-    public async Task<IdentifyUserDto> LoginAsync(LoginDto loginDto)
+    public async Task LoginAsync(LoginDto loginDto)
     {
         var isValidPassword = Password.Validate(loginDto.Password, 8, true, true, true, false);
 
         if (!isValidPassword)
-            throw new BadRequestException("password_should_contain_at_least_8_characters_one_lowercase_one_uppercase_one_digit");
+            throw new BadRequestException(
+                "password_should_contain_at_least_8_characters_one_lowercase_one_uppercase_one_digit");
 
 
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == loginDto.Username.ToLower());
@@ -80,8 +82,6 @@ public class AuthenticationService : IAuthenticationService
             throw new BadRequestException("invalid_username_or_password");
         }
 
-        var token = await _tokenService.CreateTokenAsync(user.Id, _httpContext);
-
 
         var successHistory = new UserAuthenticationHistory
         {
@@ -93,16 +93,15 @@ public class AuthenticationService : IAuthenticationService
         await _context.SaveChangesAsync();
 
 
-        var loginResponse = new IdentifyUserDto
+        var identifiedUser = new IdentifyUserDto
         {
             Id = user.Id,
             FullName = user.FullName,
-            TokenExpirationDate = token.ExpirationDate,
             Role = user.Role,
             ForcePasswordChange = user.ForcePasswordChange,
             Username = user.Username
         };
-        return loginResponse;
+        await _tokenService.CreateTokenAsync(identifiedUser, _httpContext);
     }
 
     public async Task LogoutAsync()
@@ -112,7 +111,10 @@ public class AuthenticationService : IAuthenticationService
         token!.ExpirationDate = DateTime.UtcNow;
         await _context.SaveChangesAsync();
 
-        _httpContext.Response.Cookies.Delete("Token");
+        foreach (var cookie in _httpContext.Request.Cookies)
+        {
+            _httpContext.Response.Cookies.Delete(cookie.Key);
+        }
     }
 
     public IdentifyUserDto IdentifyUser()
@@ -123,7 +125,6 @@ public class AuthenticationService : IAuthenticationService
             Username = _contextUser.Username,
             FullName = _contextUser.FullName,
             ForcePasswordChange = _contextUser.ForcePasswordChange,
-            TokenExpirationDate = _contextUser.TokenExpirationDate,
             Role = _contextUser.Role
         };
     }
@@ -158,7 +159,8 @@ public class AuthenticationService : IAuthenticationService
         var isValidPassword = Password.Validate(updateOwnPasswordDto.NewPassword, 8, true, true, true, false);
 
         if (!isValidPassword)
-            throw new BadRequestException("password_should_contain_at_least_8_characters_one_lowercase_one_uppercase_one_digit");
+            throw new BadRequestException(
+                "password_should_contain_at_least_8_characters_one_lowercase_one_uppercase_one_digit");
 
         var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == _contextUser.TokenId);
 

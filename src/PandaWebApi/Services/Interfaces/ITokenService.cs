@@ -1,13 +1,15 @@
 ﻿using PandaWebApi.Contexts;
+using PandaWebApi.DTOs.Authentication;
+using PandaWebApi.DTOs.Token;
 using PandaWebApi.Models;
 
 namespace PandaWebApi.Services.Interfaces;
 
 public interface ITokenService
 {
-    public Task<Token> CreateTokenAsync(long userId, HttpContext httpContext);
-    public Task<Token> ValidateTokenAsync(string? cookie, PostgresContext dbContext);
+    public Task<Token> CreateTokenAsync(IdentifyUserDto user, HttpContext httpContext);
+    public Task<IdentifyTokenDto> ValidateTokenAsync(PostgresContext dbContext, HttpContext httpContext);
     
-    public Task UpdateTokenExpirationAsync(Token token, IConfiguration configuration, PostgresContext dbContext);
+    public Task UpdateTokenExpirationAsync(IdentifyTokenDto token, IConfiguration configuration, PostgresContext dbContext, HttpContext httpContext);
     
 }
