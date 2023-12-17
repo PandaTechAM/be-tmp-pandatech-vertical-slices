@@ -2,6 +2,7 @@
 using Pandatech.Crypto;
 using PandaTech.IEnumerableFilters.Extensions;
 using PandaWebApi.DTOs;
+using PandaWebApi.DTOs.User;
 using PandaWebApi.Helpers;
 using PandaWebApi.Services.Implementations;
 using PandaWebApi.Services.Interfaces;

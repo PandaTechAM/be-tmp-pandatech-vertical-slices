@@ -1,6 +1,6 @@
 using PandaWebApi.Enums;
 
-namespace PandaWebApi.DTOs;
+namespace PandaWebApi.DTOs.User;
 
 public class ContextUser
 {

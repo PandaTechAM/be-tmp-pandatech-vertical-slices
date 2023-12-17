@@ -5,6 +5,7 @@ using PandaWebApi.Contexts;
 using PandaWebApi.DTOs;
 using PandaWebApi.DTOs.Authentication;
 using PandaWebApi.DTOs.Token;
+using PandaWebApi.DTOs.User;
 using PandaWebApi.Enums;
 using PandaWebApi.Models;
 using PandaWebApi.Services.Interfaces;

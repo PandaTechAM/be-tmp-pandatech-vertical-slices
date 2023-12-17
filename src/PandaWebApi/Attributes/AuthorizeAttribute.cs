@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using PandaWebApi.Contexts;
 using PandaWebApi.DTOs;
 using PandaWebApi.DTOs.Token;
+using PandaWebApi.DTOs.User;
 using PandaWebApi.Enums;
 using PandaWebApi.Services.Interfaces;
 using ResponseCrafter.StandardHttpExceptions;
