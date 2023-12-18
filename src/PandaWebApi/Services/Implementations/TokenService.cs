@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using BaseConverter;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Pandatech.Crypto;
 using PandaWebApi.Contexts;
 using PandaWebApi.DTOs.Authentication;
@@ -61,7 +62,7 @@ public class TokenService : ITokenService
 
         await _context.Tokens.AddAsync(token);
         await _context.SaveChangesAsync();
-
+        
         var cookies = new Dictionary<string, string>
         {
             { "Token", tokenSignature },
@@ -79,12 +80,11 @@ public class TokenService : ITokenService
 
     public async Task<IdentifyTokenDto> ValidateTokenAsync(PostgresContext dbContext, HttpContext httpContext)
     {
-        var cookie = httpContext.Request.Cookies["Token"];
+        var tokenSignature = httpContext.Request.Cookies["Token"];
 
-        if (string.IsNullOrEmpty(cookie))
+        if (string.IsNullOrEmpty(tokenSignature))
             throw new UnauthorizedException();
 
-        var tokenSignature = new Guid(cookie).ToString();
         var tokenSignatureHash = Sha3.Hash(tokenSignature);
         var token = await dbContext.Tokens.Include(z => z.User)
             .FirstOrDefaultAsync(x => x.SignatureHash == tokenSignatureHash);
@@ -107,7 +107,7 @@ public class TokenService : ITokenService
                 Username = token.User.Username
             }
         };
-
+        
         return response;
     }
 

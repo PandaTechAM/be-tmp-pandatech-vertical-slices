@@ -28,14 +28,6 @@ public class AuthenticationController(IAuthenticationService service) : Controll
         return Ok();
     }
 
-    [HttpGet("user-identify")]
-    public IActionResult IdentifyUser()
-    {
-        var data = service.IdentifyUser();
-
-        return Ok(data);
-    }
-
     [HttpPatch("change-own-password")]
     public async Task<IActionResult> ChangeOwnPassword([FromBody] UpdateOwnPasswordDto updatePasswordDto)
     {

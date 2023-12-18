@@ -118,18 +118,6 @@ public class AuthenticationService : IAuthenticationService
         }
     }
 
-    public IdentifyUserDto IdentifyUser()
-    {
-        return new IdentifyUserDto
-        {
-            Id = _contextUser.Id,
-            Username = _contextUser.Username,
-            FullName = _contextUser.FullName,
-            ForcePasswordChange = _contextUser.ForcePasswordChange,
-            Role = _contextUser.Role
-        };
-    }
-
     public async Task UpdatePasswordForced(string password)
     {
         var tokenId = _contextUser.TokenId;
