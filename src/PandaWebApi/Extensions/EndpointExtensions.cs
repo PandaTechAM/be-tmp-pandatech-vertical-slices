@@ -23,13 +23,13 @@ public static class EndpointExtensions
 
     private static WebApplication MapPingApi(this WebApplication app)
     {
-        app.MapGet("/ping", () => "pong").WithTags("Above Board");
+        app.MapGet("/above-board/ping", () => "pong").WithTags("Above Board");
         return app;
     }
 
     private static WebApplication MapDatabaseResetApi(this WebApplication app)
     {
-        app.MapGet("/reset-database", ([FromServices] DatabaseHelper helper) => helper.ResetDatabase<PostgresContext>())
+        app.MapGet("/above-board/reset-database", ([FromServices] DatabaseHelper helper) => helper.ResetDatabase<PostgresContext>())
             .WithTags("Above Board");
 
 
@@ -38,7 +38,7 @@ public static class EndpointExtensions
 
     private static WebApplication MapHealthApi(this WebApplication app)
     {
-        app.MapHealthChecks("/panda-wellness", new HealthCheckOptions
+        app.MapHealthChecks("/above-board/panda-wellness", new HealthCheckOptions
         {
             ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
         }).WithTags("Above Board");

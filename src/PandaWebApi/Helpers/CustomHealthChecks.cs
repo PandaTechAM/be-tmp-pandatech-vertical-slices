@@ -7,7 +7,7 @@ namespace PandaWebApi.Helpers;
 public class CustomHealthChecks : IHealthCheck
 {
     private readonly string _baseUrl;
-    private const string Endpoint = "/ping";
+    private const string Endpoint = "/above-board/ping";
     private const string ExpectedResponse = "pong";
 
     public CustomHealthChecks(string baseUrl)

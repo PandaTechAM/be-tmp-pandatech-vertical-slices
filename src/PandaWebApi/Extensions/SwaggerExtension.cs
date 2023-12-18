@@ -11,8 +11,10 @@ public static class SwaggerExtension
     {
         builder.Services.AddSwaggerGen(options =>
         {
-            options.SwaggerDoc("v1", new OpenApiInfo
+            var version = "v1";
+            options.SwaggerDoc(version, new OpenApiInfo
             {
+                Version = version,
                 Title = $"{AppDomain.CurrentDomain.FriendlyName}",
                 Description =
                     "Powered by PandaTech LLC: Where precision meets innovation. Let's build the future, one endpoint at a time.",

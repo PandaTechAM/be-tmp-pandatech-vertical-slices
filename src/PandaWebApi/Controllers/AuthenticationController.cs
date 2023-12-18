@@ -7,7 +7,7 @@ using PandaWebApi.Services.Interfaces;
 namespace PandaWebApi.Controllers;
 
 [ApiController]
-[Route("api/v1")]
+[Route("api/v1/authentication")]
 [Produces("application/json")]
 [Authorize(Roles.User)]
 public class AuthenticationController(IAuthenticationService service) : Controller

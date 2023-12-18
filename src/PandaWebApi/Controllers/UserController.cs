@@ -4,19 +4,18 @@ using PandaTech.IEnumerableFilters.Dto;
 using PandaTech.ServiceResponse;
 using PandaWebApi.Attributes;
 using PandaWebApi.DTOs.User;
-using PandaWebApi.Enums;
 using PandaWebApi.Filters;
 using PandaWebApi.Services.Interfaces;
 
 namespace PandaWebApi.Controllers;
 
 [ApiController]
-[Route("api/v1")]
+[Route("api/v1/user")]
 [Produces("application/json")]
 [Authorize]
 public class UserController(IUserService service) : Controller
 {
-    [HttpPost("user")]
+    [HttpPost]
     public async Task<IActionResult> CreateUser(CreateUserDto createUserDto)
     {
         await service.CreateUserAsync(createUserDto);
@@ -24,7 +23,7 @@ public class UserController(IUserService service) : Controller
     }
 
 
-    [HttpPatch("user")]
+    [HttpPatch]
     public async Task<IActionResult> UpdateUser([FromBody] UpdateUserDto updateUserDto)
     {
         await service.UpdateUserAsync(updateUserDto);
@@ -38,21 +37,21 @@ public class UserController(IUserService service) : Controller
         return Ok();
     }
 
-    [HttpPatch("user-status")]
+    [HttpPatch("status")]
     public async Task<IActionResult> UpdateUserStatus([FromBody] UpdateUserStatusDto updateUserStatusDto)
     {
         await service.UpdateUserStatusAsync(updateUserStatusDto);
         return Ok();
     }
 
-    [HttpDelete("users")]
+    [HttpDelete]
     public async Task<IActionResult> DeleteUsers(List<long> ids)
     {
         await service.DeleteUsersAsync(ids);
         return Ok();
     }
 
-    [HttpGet("users")]
+    [HttpGet]
     public async Task<IActionResult> GetUsers(int page, int pageSize, [FromQuery] string dataRequest)
     {
         var request = GetDataRequest.FromString(dataRequest);
@@ -63,7 +62,7 @@ public class UserController(IUserService service) : Controller
     }
 
 
-    [HttpGet("user-filters")]
+    [HttpGet("filters")]
     public async Task<IActionResult> GetUserFilters()
     {
         var result = await service.GetUserFiltersAsync();
@@ -71,7 +70,7 @@ public class UserController(IUserService service) : Controller
         return Ok(serviceResponse);
     }
 
-    [HttpGet("user-column-values")]
+    [HttpGet("column-values")]
     public async Task<IActionResult> ColumnValues(string columnName, string filterString,
         int page, int pageSize)
     {
@@ -87,14 +86,14 @@ public class UserController(IUserService service) : Controller
         return Ok(responseData);
     }
 
-    [HttpGet("user-aggregate")]
+    [HttpGet("aggregate")]
     public async Task<IActionResult> Aggregate(string columnName, string filterString, AggregateType aggregate)
     {
         var output = await service.UserAggregateAsync(columnName, filterString, aggregate);
         return Ok(output);
     }
 
-    [HttpGet("users-export")]
+    [HttpGet("export")]
     public async Task<IActionResult> ExportUsers([FromQuery] string dataRequest,
         [FromQuery] ExportType exportType)
     {
