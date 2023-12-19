@@ -17,6 +17,11 @@
         <PackageReference Include="FluentValidation" Version="11.8.1" />
         <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.1" />
+        <PackageReference Include="Hangfire.AspNetCore" Version="1.8.6" />
+        <PackageReference Include="Hangfire.Core" Version="1.8.6" />
+        <PackageReference Include="Hangfire.Dashboard.Basic.Authentication" Version="7.0.1" />
+        <PackageReference Include="Hangfire.EntityFrameworkCore" Version="0.5.0" />
+        <PackageReference Include="Hangfire.PostgreSql" Version="1.20.4" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0">

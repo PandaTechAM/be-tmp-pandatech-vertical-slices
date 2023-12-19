@@ -16,6 +16,8 @@ public static class RegisterServicesExtension
         builder.AddServices()
             .AddPandaStandardServices();
 
+        builder.Services.AddScoped<ITestJob, TestJob>(); //todo this is for illustration and testing purposes only.
+
         builder.Services.AddHttpContextAccessor();
         return builder;
     }
