@@ -68,7 +68,6 @@ public class TokenService : ITokenService
             { "Token", tokenSignature },
             { "UserId", PandaBaseConverter.Base10ToBase36(user.Id)! },
             { "Role", ((int)user.Role).ToString() },
-            { "FullName", user.FullName },
             { "Username", user.Username },
             { "ForcePasswordChange", user.ForcePasswordChange.ToString() }
         };
@@ -101,7 +100,6 @@ public class TokenService : ITokenService
             User = new IdentifyUserDto
             {
                 Id = token.User.Id,
-                FullName = token.User.FullName,
                 Role = token.User.Role,
                 ForcePasswordChange = token.User.ForcePasswordChange,
                 Username = token.User.Username
@@ -144,7 +142,6 @@ public class TokenService : ITokenService
             { "Token", token.TokenSignature },
             { "UserId", PandaBaseConverter.Base10ToBase36(token.User.Id)! },
             { "Role", ((int)token.User.Role).ToString() },
-            { "FullName", token.User.FullName },
             { "Username", token.User.Username },
             { "ForcePasswordChange", token.User.ForcePasswordChange.ToString() }
         };

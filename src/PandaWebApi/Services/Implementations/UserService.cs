@@ -254,7 +254,6 @@ public class UserService : IUserService
     {
         contextUser.Id = token.User.Id;
         contextUser.Role = token.User.Role;
-        contextUser.FullName = token.User.FullName;
         contextUser.Username = token.User.Username;
         contextUser.TokenId = token.TokenId;
         contextUser.TokenExpirationDate = token.ExpirationDate;

@@ -1,4 +1,6 @@
 ﻿using Serilog;
+using Serilog.Core;
+using Serilog.Events;
 
 namespace PandaWebApi.Extensions;
 
@@ -13,6 +15,7 @@ public static class SerilogExtension
         var loggerConfig = new LoggerConfiguration()
             .Enrich.FromLogContext()
             .Enrich.WithMachineName()
+            .Filter.ByExcluding(logEvent => logEvent.ShouldExcludeHangfireDashboardLogs())
             .ReadFrom.Configuration(configuration);
 
         ConfigureEnvironmentSpecificSettings(builder.Environment, loggerConfig, elasticSearchUrl, indexName);
@@ -55,5 +58,11 @@ public static class SerilogExtension
             numberOfReplicas: 1,
             bufferBaseFilename: "./logs/elastic-buffer",
             bufferFileSizeLimitBytes: 1024 * 1024 * 16); // 16 MB each buffer file
+    }
+    private static bool ShouldExcludeHangfireDashboardLogs(this LogEvent logEvent)
+    {
+        return logEvent.Properties.TryGetValue("RequestPath", out var requestPathValue) 
+               && requestPathValue is ScalarValue requestPath 
+               && requestPath.Value?.ToString()?.Contains("/hangfire") == true;
     }
 }

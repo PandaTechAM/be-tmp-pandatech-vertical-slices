@@ -15,7 +15,9 @@ builder.AddSerilog()
     .RegisterAllServices()
     .AddPandaSwagger()
     .AddResponseCrafter()
+    .AddHangfireServer()
     .RegisterPandaVaultEndpoint(); //optional
+
 
 builder.Services.AddHttpClient();
 
@@ -33,6 +35,7 @@ app.UseResponseCrafter()
     .MigrateDatabase()
     .EnsureHealthy()
     .UseCors()
+    .UseHangfireServer()
     .UsePandaSwagger();
 
 //ASP.NET Core default app.Use

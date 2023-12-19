@@ -97,7 +97,6 @@ public class AuthenticationService : IAuthenticationService
         var identifiedUser = new IdentifyUserDto
         {
             Id = user.Id,
-            FullName = user.FullName,
             Role = user.Role,
             ForcePasswordChange = user.ForcePasswordChange,
             Username = user.Username
