@@ -83,3 +83,11 @@ jobs:
 
       - name: Cleanup
         run: rm -rf ./publish
+
+      - name: Remove the built image from the GitHub runners  keeping last one
+        run: |
+          # Get the ID of the latest Docker image
+          LATEST_IMAGE=$(docker images --format '{{.ID}}' --filter=reference=${{ env.DOCKER_REPO_BASE }}/${{ env.DOCKER_REPO_PATH }}/${{ github.event.repository.name }} | head -n 1)
+      
+          # Remove all Docker images except the latest one
+          docker rmi -f $(docker images --format '{{.ID}}' --filter=reference=${{ env.DOCKER_REPO_BASE }}/${{ env.DOCKER_REPO_PATH }}/${{ github.event.repository.name }} | grep -v ${LATEST_IMAGE}) || true
