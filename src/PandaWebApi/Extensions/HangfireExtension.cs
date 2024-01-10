@@ -7,12 +7,12 @@ namespace PandaWebApi.Extensions;
 
 public static class HangfireExtension
 {
-    private static void RunJobs()
-    {
-        RecurringJob.AddOrUpdate<ITestJob>("Server User Check Job", test => test.ServerUserCheckAsync(), Cron.Daily(23, 33));
-        RecurringJob.AddOrUpdate<ITestJob>("Archive Database Job", test => test.ArchiveDatabaseAsync(), Cron.Minutely);
-        RecurringJob.AddOrUpdate<ITestJob>("Try Close Accounts Job", test => test.TryCloseAccountsAsync(), Cron.Minutely);
-    }
+    // private static void RunJobs()
+    // {
+    //     RecurringJob.AddOrUpdate<ITestJob>("Server User Check Job", test => test.ServerUserCheckAsync(), Cron.Daily(23, 33));
+    //     RecurringJob.AddOrUpdate<ITestJob>("Archive Database Job", test => test.ArchiveDatabaseAsync(), Cron.Minutely);
+    //     RecurringJob.AddOrUpdate<ITestJob>("Try Close Accounts Job", test => test.TryCloseAccountsAsync(), Cron.Minutely);
+    // }
 
     public static WebApplicationBuilder AddHangfireServer(this WebApplicationBuilder builder)
     {
@@ -47,7 +47,7 @@ public static class HangfireExtension
         });
         app.MapHangfireDashboard();
 
-        RunJobs();
+        //RunJobs();
 
         return app;
     }

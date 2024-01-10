@@ -18,6 +18,6 @@ public class User
     public bool ForcePasswordChange { get; set; }
     public string? Comment { get; set; }
     
-    public List<UserAuthenticationHistory>? UserAuthenticationHistories { get; set; }
+    public ICollection<UserAuthenticationHistory>? UserAuthenticationHistories { get; set; }
 
 }

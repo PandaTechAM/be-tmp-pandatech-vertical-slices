@@ -35,7 +35,7 @@ public class AuthenticationService : IAuthenticationService
     public async Task LoginAsync(LoginDto loginDto)
     {
         var isValidPassword = Password.Validate(loginDto.Password, 8, true, true, true, false);
-
+        
         if (!isValidPassword)
             throw new BadRequestException(
                 "password_should_contain_at_least_8_characters_one_lowercase_one_uppercase_one_digit");
