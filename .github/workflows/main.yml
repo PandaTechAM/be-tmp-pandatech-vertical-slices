@@ -91,3 +91,6 @@ jobs:
       
           # Remove all Docker images except the latest one
           docker rmi -f $(docker images --format '{{.ID}}' --filter=reference=${{ env.DOCKER_REPO_BASE }}/${{ env.DOCKER_REPO_PATH }}/${{ github.event.repository.name }} | grep -v ${LATEST_IMAGE}) || true
+      
+      - name: Cleanup Docker Build Cache
+        run: docker builder prune -af
