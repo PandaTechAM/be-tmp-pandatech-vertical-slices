@@ -36,6 +36,7 @@ app.UseResponseCrafter()
     .EnsureHealthy()
     .UseCors()
     .UseHangfireServer()
+    .SeedSystemUser()
     .UsePandaSwagger();
 
 //Adding custom endpoints
@@ -43,19 +44,7 @@ app.MapPandaStandardEndpoints();
 
 app.MapControllers();
 
-
 app.Run();
-
-
-
-
-
-
-
-
-
-
-
 
 //todo Set appropriate name in github repo (ex. be-pt-pandatech-website).
 //todo Make sure that this repo exists in "Github repositories.xlsx" excel file and inform the devops if not.

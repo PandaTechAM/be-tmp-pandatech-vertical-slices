@@ -6,9 +6,10 @@ using PandaWebApi.Models;
 
 namespace PandaWebApi.Contexts;
 
+//hint for migration: dotnet ef migrations add v1
 public class PostgresContext(DbContextOptions<PostgresContext> options) : PostgresDbContext(options)
 {
-    public DbSet<Token> Tokens { get; set; } = null!;
+    public DbSet<UserToken> UserTokens { get; set; } = null!;
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<UserAuthenticationHistory> UserAuthenticationHistory { get; set; } = null!;
 
@@ -26,11 +27,11 @@ public class PostgresContext(DbContextOptions<PostgresContext> options) : Postgr
         modelBuilder.Entity<HangfireServer>(entity => entity.ToTable("hangfire_server", "hangfire"));
         modelBuilder.Entity<HangfireSet>(entity => entity.ToTable("hangfire_set", "hangfire"));
         modelBuilder.Entity<HangfireState>(entity => entity.ToTable("hangfire_state", "hangfire"));
+        modelBuilder.Entity<HangfireLock>(entity => entity.ToTable("hangfire_lock", "hangfire"));
 
         modelBuilder.OnHangfireModelCreating();
     }
 }
-
 public class PostgresContextFactory : IDesignTimeDbContextFactory<PostgresContext>
 {
     public PostgresContext CreateDbContext(string[] args)

@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using PandaFileExporter;
 using PandaTech.IEnumerableFilters.Dto;
+using PandaTech.IEnumerableFilters.Enums;
 using PandaTech.ServiceResponse;
 using PandaWebApi.Attributes;
 using PandaWebApi.DTOs.User;
-using PandaWebApi.Filters;
 using PandaWebApi.Services.Interfaces;
 
 namespace PandaWebApi.Controllers;
@@ -93,42 +93,42 @@ public class UserController(IUserService service) : Controller
         return Ok(output);
     }
 
-    [HttpGet("export")]
-    public async Task<IActionResult> ExportUsers([FromQuery] string dataRequest,
-        [FromQuery] ExportType exportType)
-    {
-        string fileExtenstion;
-        byte[] exportData;
-        string mimeType;
-
-        var request = GetDataRequest.FromString(dataRequest);
-
-        var users = await service.ExportUsersAsync(request);
-
-        switch (exportType)
-        {
-            case ExportType.CSV:
-                fileExtenstion = "csv";
-                mimeType = MimeTypes.CSV;
-                exportData = HelperMethods.Export(users, ExportType.CSV);
-                break;
-
-            case ExportType.PDF:
-                fileExtenstion = "pdf";
-                mimeType = MimeTypes.PDF;
-                exportData = HelperMethods.Export(users, ExportType.PDF);
-                break;
-
-            default:
-                fileExtenstion = "xlsx";
-                mimeType = MimeTypes.XLSX;
-                exportData = HelperMethods.Export(users, ExportType.XLSX);
-                break;
-        }
-        var now = DateTime.UtcNow;
-
-        var result = File(exportData, mimeType, $"Users.{now}" + fileExtenstion);
-
-        return result;
-    }
+    // [HttpGet("export")]
+    // public async Task<IActionResult> ExportUsers([FromQuery] string dataRequest,
+    //     [FromQuery] ExportType exportType)
+    // {
+    //     string fileExtenstion;
+    //     byte[] exportData;
+    //     string mimeType;
+    //
+    //     var request = GetDataRequest.FromString(dataRequest);
+    //
+    //     var users = await service.ExportUsersAsync(request);
+    //
+    //     switch (exportType)
+    //     {
+    //         case ExportType.CSV:
+    //             fileExtenstion = "csv";
+    //             mimeType = MimeTypes.CSV;
+    //             exportData = HelperMethods.Export(users, ExportType.CSV);
+    //             break;
+    //
+    //         case ExportType.PDF:
+    //             fileExtenstion = "pdf";
+    //             mimeType = MimeTypes.PDF;
+    //             exportData = HelperMethods.Export(users, ExportType.PDF);
+    //             break;
+    //
+    //         default:
+    //             fileExtenstion = "xlsx";
+    //             mimeType = MimeTypes.XLSX;
+    //             exportData = HelperMethods.Export(users, ExportType.XLSX);
+    //             break;
+    //     }
+    //     var now = DateTime.UtcNow;
+    //
+    //     var result = File(exportData, mimeType, $"Users.{now}" + fileExtenstion);
+    //
+    //     return result;
+    // }
 }

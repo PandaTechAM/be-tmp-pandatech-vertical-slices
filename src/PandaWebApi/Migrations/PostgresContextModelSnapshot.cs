@@ -17,7 +17,7 @@ namespace PandaWebApi.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "8.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -195,7 +195,7 @@ namespace PandaWebApi.Migrations
                     b.HasKey("Id")
                         .HasName("pk_hangfire_lock");
 
-                    b.ToTable("hangfire_lock", (string)null);
+                    b.ToTable("hangfire_lock", "hangfire");
                 });
 
             modelBuilder.Entity("Hangfire.EntityFrameworkCore.HangfireQueuedJob", b =>
@@ -340,47 +340,6 @@ namespace PandaWebApi.Migrations
                     b.ToTable("hangfire_state", "hangfire");
                 });
 
-            modelBuilder.Entity("PandaWebApi.Models.Token", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasColumnName("id");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created_at");
-
-                    b.Property<DateTime>("ExpirationDate")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("expiration_date");
-
-                    b.Property<byte[]>("SignatureHash")
-                        .IsRequired()
-                        .HasColumnType("bytea")
-                        .HasColumnName("signature_hash");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("user_id");
-
-                    b.HasKey("Id")
-                        .HasName("pk_tokens");
-
-                    b.HasIndex("ExpirationDate")
-                        .HasDatabaseName("ix_tokens_expiration_date");
-
-                    b.HasIndex("SignatureHash")
-                        .HasDatabaseName("ix_tokens_signature_hash");
-
-                    b.HasIndex("UserId")
-                        .HasDatabaseName("ix_tokens_user_id");
-
-                    b.ToTable("tokens", (string)null);
-                });
-
             modelBuilder.Entity("PandaWebApi.Models.User", b =>
                 {
                     b.Property<long>("Id")
@@ -419,6 +378,10 @@ namespace PandaWebApi.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("integer")
                         .HasColumnName("status");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
 
                     b.Property<string>("Username")
                         .IsRequired()
@@ -471,12 +434,73 @@ namespace PandaWebApi.Migrations
                     b.ToTable("user_authentication_history", (string)null);
                 });
 
+            modelBuilder.Entity("PandaWebApi.Models.UserToken", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("AccessTokenExpiresAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("access_token_expires_at");
+
+                    b.Property<byte[]>("AccessTokenHash")
+                        .IsRequired()
+                        .HasColumnType("bytea")
+                        .HasColumnName("access_token_hash");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<DateTime>("OriginalRefreshTokenCreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("original_refresh_token_created_at");
+
+                    b.Property<long?>("PreviousUserTokenId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("previous_user_token_id");
+
+                    b.Property<DateTime>("RefreshTokenExpiresAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("refresh_token_expires_at");
+
+                    b.Property<byte[]>("RefreshTokenHash")
+                        .IsRequired()
+                        .HasColumnType("bytea")
+                        .HasColumnName("refresh_token_hash");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("user_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_user_tokens");
+
+                    b.HasIndex("AccessTokenHash")
+                        .HasDatabaseName("ix_user_tokens_access_token_hash");
+
+                    b.HasIndex("PreviousUserTokenId")
+                        .HasDatabaseName("ix_user_tokens_previous_user_token_id");
+
+                    b.HasIndex("RefreshTokenHash")
+                        .HasDatabaseName("ix_user_tokens_refresh_token_hash");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("ix_user_tokens_user_id");
+
+                    b.ToTable("user_tokens", (string)null);
+                });
+
             modelBuilder.Entity("Hangfire.EntityFrameworkCore.HangfireJob", b =>
                 {
                     b.HasOne("Hangfire.EntityFrameworkCore.HangfireState", "State")
                         .WithMany()
                         .HasForeignKey("StateId")
-                        .HasConstraintName("fk_hangfire_job_hangfire_state_hangfire_state_id");
+                        .HasConstraintName("fk_hangfire_job_hangfire_state_state_id");
 
                     b.Navigation("State");
                 });
@@ -517,24 +541,31 @@ namespace PandaWebApi.Migrations
                     b.Navigation("Job");
                 });
 
-            modelBuilder.Entity("PandaWebApi.Models.Token", b =>
-                {
-                    b.HasOne("PandaWebApi.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("fk_tokens_users_user_id");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("PandaWebApi.Models.UserAuthenticationHistory", b =>
                 {
                     b.HasOne("PandaWebApi.Models.User", "User")
                         .WithMany("UserAuthenticationHistories")
                         .HasForeignKey("UserId")
                         .HasConstraintName("fk_user_authentication_history_users_user_id");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("PandaWebApi.Models.UserToken", b =>
+                {
+                    b.HasOne("PandaWebApi.Models.UserToken", "PreviousUserToken")
+                        .WithMany()
+                        .HasForeignKey("PreviousUserTokenId")
+                        .HasConstraintName("fk_user_tokens_user_tokens_previous_user_token_id");
+
+                    b.HasOne("PandaWebApi.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_user_tokens_users_user_id");
+
+                    b.Navigation("PreviousUserToken");
 
                     b.Navigation("User");
                 });

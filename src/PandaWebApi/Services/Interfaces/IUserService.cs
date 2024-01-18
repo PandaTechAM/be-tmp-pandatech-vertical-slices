@@ -1,7 +1,7 @@
 using PandaTech.IEnumerableFilters.Dto;
-using PandaWebApi.DTOs;
-using PandaWebApi.DTOs.Token;
+using PandaTech.IEnumerableFilters.Enums;
 using PandaWebApi.DTOs.User;
+using PandaWebApi.DTOs.UserToken;
 using ResponseCrafter.Dtos;
 
 namespace PandaWebApi.Services.Interfaces;

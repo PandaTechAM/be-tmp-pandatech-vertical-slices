@@ -5,13 +5,13 @@ using PandaWebApi.Enums;
 
 namespace PandaWebApi.FilterModels;
 
-[MappedToClass(typeof(Models.User))]
-public class UserFilter
+public abstract class UserFilter
 {
     [MappedToProperty(nameof(Models.User.Id), ConverterType = typeof(FilterPandaBaseConverter))]
     public long Id { get; set; }
 
     [MappedToProperty(nameof(Models.User.Username))]
+    [Order]
     public string Username { get; set; } = null!;
 
     [MappedToProperty(nameof(Models.User.FullName))]

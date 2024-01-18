@@ -2,10 +2,11 @@ using Microsoft.EntityFrameworkCore;
 using Pandatech.Crypto;
 using PandaTech.IEnumerableFilters;
 using PandaTech.IEnumerableFilters.Dto;
+using PandaTech.IEnumerableFilters.Enums;
+using PandaTech.IEnumerableFilters.Extensions;
 using PandaWebApi.Contexts;
-using PandaWebApi.DTOs;
-using PandaWebApi.DTOs.Token;
 using PandaWebApi.DTOs.User;
+using PandaWebApi.DTOs.UserToken;
 using PandaWebApi.Enums;
 using PandaWebApi.FilterModels;
 using PandaWebApi.Models;
@@ -15,36 +16,27 @@ using ResponseCrafter.StandardHttpExceptions;
 
 namespace PandaWebApi.Services.Implementations;
 
-public class UserService : IUserService
+public class UserService(
+    Argon2Id argon2Id,
+    PostgresContext context,
+    ContextUser contextUser,
+    IUserTokenService userTokenService)
+    : IUserService
 {
-    private readonly PostgresContext _context;
-    private readonly Argon2Id _argon2Id;
-    private readonly ContextUser _contextUser;
-    private readonly IAuthenticationService _authenticationService;
-
-
-    public UserService(Argon2Id argon2Id, PostgresContext context,
-        ContextUser contextUser, IAuthenticationService authenticationService)
-    {
-        _argon2Id = argon2Id;
-        _context = context;
-        _contextUser = contextUser;
-        _authenticationService = authenticationService;
-    }
-
     public async Task CreateUserAsync(CreateUserDto createUserDto)
     {
         var isValidPassword = Password.Validate(createUserDto.Password, 8, true, true, true, false);
 
         if (!isValidPassword)
-            throw new BadRequestException("password_should_contain_at_least_8_characters_one_lowercase_one_uppercase_one_digit");
-      
+            throw new BadRequestException(
+                "password_should_contain_at_least_8_characters_one_lowercase_one_uppercase_one_digit");
+
 
         if (createUserDto.Role == Roles.SuperAdmin)
             throw new ForbiddenException("superadmin_cannot_be_created");
 
         var checkIfUsernameExists =
-            await _context.Users.FirstOrDefaultAsync(x => x.Username == createUserDto.Username.ToLower());
+            await context.Users.FirstOrDefaultAsync(x => x.Username == createUserDto.Username.ToLower());
         if (checkIfUsernameExists != null)
             throw new BadRequestException("username already exists");
 
@@ -57,11 +49,11 @@ public class UserService : IUserService
             Username = createUserDto.Username.ToLower(),
             Status = Statuses.Active,
             Comment = createUserDto.Comment,
-            PasswordHash = _argon2Id.HashPassword(createUserDto.Password)
+            PasswordHash = argon2Id.HashPassword(createUserDto.Password)
         };
 
-        await _context.AddAsync(user);
-        await _context.SaveChangesAsync();
+        await context.AddAsync(user);
+        await context.SaveChangesAsync();
     }
 
     public async Task UpdateUserAsync(UpdateUserDto updateUserDto)
@@ -70,11 +62,11 @@ public class UserService : IUserService
             throw new ForbiddenException("superadmin_cannot_be_updated");
 
         var checkIfUsernameExists =
-            await _context.Users.FirstOrDefaultAsync(x => x.Username == updateUserDto.Username.ToLower());
+            await context.Users.FirstOrDefaultAsync(x => x.Username == updateUserDto.Username.ToLower());
         if (checkIfUsernameExists != null && checkIfUsernameExists.Id != updateUserDto.Id)
             throw new BadRequestException("username_already_exists");
 
-        var user = await _context.Users.FirstOrDefaultAsync(x => x.Id == updateUserDto.Id);
+        var user = await context.Users.FirstOrDefaultAsync(x => x.Id == updateUserDto.Id);
 
         if (user == null)
             throw new NotFoundException("user_not_found");
@@ -84,7 +76,7 @@ public class UserService : IUserService
         user.Username = updateUserDto.Username.ToLower();
         user.Comment = updateUserDto.Comment;
 
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
     public async Task UpdatePasswordAsync(UpdatePasswordDto updatePasswordDto)
@@ -92,24 +84,25 @@ public class UserService : IUserService
         var isValidPassword = Password.Validate(updatePasswordDto.NewPassword, 8, true, true, true, false);
 
         if (!isValidPassword)
-            throw new BadRequestException("password_should_contain_at_least_8_characters_one_lowercase_one_uppercase_one_digit");
+            throw new BadRequestException(
+                "password_should_contain_at_least_8_characters_one_lowercase_one_uppercase_one_digit");
 
-        var userToUpdate = await _context.Users.FirstOrDefaultAsync(x => x.Id == updatePasswordDto.Id);
+        var userToUpdate = await context.Users.FirstOrDefaultAsync(x => x.Id == updatePasswordDto.Id);
         if (userToUpdate == null)
             throw new NotFoundException();
 
-        if (userToUpdate.Role == Roles.SuperAdmin && _contextUser.Role != Roles.SuperAdmin)
+        if (userToUpdate.Role == Roles.SuperAdmin && contextUser.Role != Roles.SuperAdmin)
             throw new ForbiddenException("superadmin_password_cannot_be_changed");
 
-        userToUpdate.PasswordHash = _argon2Id.HashPassword(updatePasswordDto.NewPassword);
-        await _context.SaveChangesAsync();
+        userToUpdate.PasswordHash = argon2Id.HashPassword(updatePasswordDto.NewPassword);
+        await context.SaveChangesAsync();
 
-        await _authenticationService.LogoutAllAsync(userToUpdate.Id);
+        await userTokenService.RevokeAllTokensAsync(userToUpdate.Id);
     }
 
     public async Task UpdateUserStatusAsync(UpdateUserStatusDto updateUserStatusDto)
     {
-        var userToUpdate = await _context.Users.FirstOrDefaultAsync(x => x.Id == updateUserStatusDto.Id);
+        var userToUpdate = await context.Users.FirstOrDefaultAsync(x => x.Id == updateUserStatusDto.Id);
 
         if (userToUpdate is null)
             throw new NotFoundException();
@@ -118,12 +111,12 @@ public class UserService : IUserService
             throw new ForbiddenException("superadmin_cannot_be_updated");
 
         userToUpdate.Status = updateUserStatusDto.Status;
-        await _context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 
     public async Task DeleteUsersAsync(List<long> ids)
     {
-        var users = await _context.Users
+        var users = await context.Users
             .Include(x => x.UserAuthenticationHistories)
             .Where(x => ids.Contains(x.Id)).ToListAsync();
 
@@ -145,8 +138,8 @@ public class UserService : IUserService
             usersToDelete.Add(user);
         }
 
-        _context.RemoveRange(usersToDelete);
-        await _context.SaveChangesAsync();
+        context.RemoveRange(usersToDelete);
+        await context.SaveChangesAsync();
     }
 
     public async Task<PagedResponse<GetUserDto>> GetUsersAsync(int page, int pageSize, GetDataRequest request)
@@ -156,15 +149,15 @@ public class UserService : IUserService
         if (pageSize < 1)
             throw new BadRequestException("pageSize must be positive number");
 
-        var usersQuery = _context.Users
+        var usersQuery = context.Users
             .Where(s => s.Status != Statuses.Deleted && s.Role != Roles.SuperAdmin)
             .AsQueryable();
 
         usersQuery = usersQuery
             .Where(x => x.Status != Statuses.Deleted)
             .OrderByDescending(x => x.FullName)
-            .ApplyFilters<User, UserFilter>(request.Filters)
-            .ApplyOrdering<User, UserFilter>(request.Order);
+            .ApplyFilters(request.Filters)
+            .ApplyOrdering(request.Order);
 
         var users = (await usersQuery.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync())
             .Select(u => new GetUserDto
@@ -172,7 +165,7 @@ public class UserService : IUserService
                 Id = u.Id,
                 Username = u.Username,
                 FullName = u.FullName,
-                Role = new RolesSelect()
+                Role = new RolesSelect
                 {
                     Id = u.Role,
                     Name = u.Role,
@@ -191,43 +184,40 @@ public class UserService : IUserService
 
     public async Task<List<FilterInfo>> GetUserFiltersAsync()
     {
-        return await Task.FromResult(EnumerableExtendersV3.GetFilters(nameof(UserFilter)));
+        return await Task.FromResult(FilterExtenders.GetFilters(nameof(UserFilter)));
     }
 
     public async Task<DistinctColumnValuesResult> UserColumnValuesAsync(string columnName, string filterString,
         int page, int pageSize)
     {
-        var q = _context.Users
+        var q = context.Users
             .Where(x => x.Status != Statuses.Deleted && x.Role != Roles.SuperAdmin)
             .AsQueryable();
 
-        return await q
-            .DistinctColumnValuesAsync<User, UserFilter>(
-                GetDataRequest.FromString(filterString).Filters,
-                columnName,
-                pageSize,
-                page);
+        return await q.DistinctColumnValuesAsync(GetDataRequest.FromString(filterString).Filters, columnName, pageSize,
+            page);
     }
 
     public async Task<object?> UserAggregateAsync(string columnName, string filterString, AggregateType aggregate)
     {
-        var response = await _context.Users
-            .ApplyFilters<User, UserFilter>(GetDataRequest.FromString(filterString).Filters)
-            .AggregateAsync<User, UserFilter>(aggregate, columnName);
-        return response;
+        var request = GetDataRequest.FromString(filterString);
+
+        return await context.Users
+            .ApplyFilters(request.Filters)
+            .AggregateAsync(columnName, aggregate);
     }
 
     public async Task<List<GetUserDto>> ExportUsersAsync(GetDataRequest request)
     {
-        var usersQuery = _context.Users
+        var usersQuery = context.Users
             .Where(s => s.Status != Statuses.Deleted && s.Role != Roles.SuperAdmin)
             .AsQueryable();
 
         usersQuery = usersQuery
             .Where(x => x.Status != Statuses.Deleted)
             .OrderBy(x => x.FullName)
-            .ApplyFilters<User, UserFilter>(request.Filters)
-            .ApplyOrdering<User, UserFilter>(request.Order);
+            .ApplyFilters(request.Filters)
+            .ApplyOrdering(request.Order);
 
         var users = await usersQuery
             .Select(u => new GetUserDto

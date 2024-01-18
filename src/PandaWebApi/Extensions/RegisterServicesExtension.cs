@@ -1,7 +1,6 @@
 ﻿using BaseConverter;
 using Pandatech.Crypto;
 using PandaTech.IEnumerableFilters.Extensions;
-using PandaWebApi.DTOs;
 using PandaWebApi.DTOs.User;
 using PandaWebApi.Helpers;
 using PandaWebApi.Services.Implementations;
@@ -42,7 +41,7 @@ public static class RegisterServicesExtension
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
         builder.Services.AddScoped<ContextUser>();
-        builder.Services.AddScoped<ITokenService, TokenService>();
+        builder.Services.AddScoped<IUserTokenService, UserTokenService>();
 
         return builder;
     }
