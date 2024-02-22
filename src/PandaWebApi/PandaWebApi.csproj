@@ -39,7 +39,7 @@
         <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" Version="3.1.1" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
         <PackageReference Include="PandaTech.BaseConverter" Version="2.0.2" />
-        <PackageReference Include="Pandatech.Crypto" Version="2.2.3" />
+        <PackageReference Include="Pandatech.Crypto" Version="2.2.6" />
         <PackageReference Include="PandaTech.FileExporter" Version="1.0.4" />
         <PackageReference Include="PandaTech.IEnumerableFilters" Version="4.0.17" />
         <PackageReference Include="Pandatech.PandaVaultClient" Version="3.0.5" />
@@ -47,7 +47,7 @@
         <PackageReference Include="Pandatech.ResponseCrafter" Version="1.0.4" />
         <PackageReference Include="PandaTech.ServiceResponse" Version="1.2.12" />
         <PackageReference Include="RabbitMQ.Client" Version="6.8.1" />
-        <PackageReference Include="Serilog.AspNetCore" Version="8.0.0" />
+        <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
         <PackageReference Include="Serilog.Enrichers.Environment" Version="2.3.0" />
         <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
         <PackageReference Include="SonarAnalyzer.CSharp" Version="9.17.0.82934">
@@ -60,5 +60,10 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="be-tmp-web-api-postgres-logs\elastic-buffer-20230824.json" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\css\panda-style.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\images\favicon.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\images\logo-wording.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\images\logo.svg" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\js\docs.js" />
     </ItemGroup>
 </Project>

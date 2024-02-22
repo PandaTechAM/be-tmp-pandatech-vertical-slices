@@ -14,9 +14,9 @@ public class UserToken
     public byte[] RefreshTokenHash { get; set; } = null!;
     public DateTime AccessTokenExpiresAt { get; set; }
     public DateTime RefreshTokenExpiresAt { get; set; }
-    public DateTime OriginalRefreshTokenCreatedAt { get; set; }
+    public DateTime InitialRefreshTokenCreatedAt { get; set; }
     public DateTime CreatedAt { get; set; }
     public User User { get; set; } = null!;
-    
+        
     public UserToken PreviousUserToken { get; set; } = null!;
 }

@@ -28,7 +28,11 @@ public static class HangfireExtension
             configuration.UseRecommendedSerializerSettings();
             configuration.UsePostgreSqlStorage(c => c.UseNpgsqlConnection(postgresConnectionString));
         });
-        builder.Services.AddHangfireServer();
+
+        builder.Services.AddHangfireServer(options =>
+        {
+            options.WorkerCount = 5;
+        });
         return builder;
     }
 

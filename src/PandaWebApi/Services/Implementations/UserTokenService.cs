@@ -66,7 +66,7 @@ public class UserTokenService : IUserTokenService
             RefreshTokenHash = Sha3.Hash(refreshTokenSignature),
             AccessTokenExpiresAt = now.AddMinutes(AccessTokenExpirationMinutes),
             RefreshTokenExpiresAt = now.AddMinutes(_refreshTokenExpirationMinutes),
-            OriginalRefreshTokenCreatedAt = now,
+            InitialRefreshTokenCreatedAt = now,
             CreatedAt = now
         };
         await _context.UserTokens.AddAsync(token);
@@ -203,9 +203,9 @@ public class UserTokenService : IUserTokenService
 
         var newExpirationDate = now.AddMinutes(_refreshTokenExpirationMinutes);
 
-        if (newExpirationDate > userToken.OriginalRefreshTokenCreatedAt.AddMinutes(_refreshTokenMaxExpirationMinutes))
+        if (newExpirationDate > userToken.InitialRefreshTokenCreatedAt.AddMinutes(_refreshTokenMaxExpirationMinutes))
         {
-            newExpirationDate = userToken.OriginalRefreshTokenCreatedAt.AddMinutes(_refreshTokenMaxExpirationMinutes);
+            newExpirationDate = userToken.InitialRefreshTokenCreatedAt.AddMinutes(_refreshTokenMaxExpirationMinutes);
         }
 
         if (newExpirationDate <= now.AddMinutes(60))
@@ -224,7 +224,7 @@ public class UserTokenService : IUserTokenService
             RefreshTokenHash = Sha3.Hash(newRefreshTokenSignature),
             AccessTokenExpiresAt = now.AddMinutes(AccessTokenExpirationMinutes),
             RefreshTokenExpiresAt = newExpirationDate,
-            OriginalRefreshTokenCreatedAt = userToken.OriginalRefreshTokenCreatedAt,
+            InitialRefreshTokenCreatedAt = userToken.InitialRefreshTokenCreatedAt,
             CreatedAt = now
         };
 
