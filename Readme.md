@@ -1,4 +1,4 @@
-﻿# PandaWebApi - A Web API Project Using All-in-one Architecture
+﻿# Pandatech.VerticalSlices - A Web API Project Using Vertical Slices Architecture
 
 ## Introduction
 This project serves as a template for creating .NET Web API applications. It's pre-configured with essential
@@ -17,15 +17,13 @@ allowing easy removal of unnecessary components and addition of new features.
 
 This project integrates various services and configurations:
 
-**Microservices:** [List any microservices and their roles]
-
 **Postgres:** Used as the primary database
 .
 **Redis:** Implemented for caching purposes.
 
 **RabbitMQ (RMQ):** Utilized for messaging and event-driven architecture.
 
-**Elasticsearch:** Employed for advanced search capabilities.
+**Elasticsearch:** Employed for logging advanced search capabilities.
 
 **appsettings{environment}.json:** Configuration settings for the application.
 

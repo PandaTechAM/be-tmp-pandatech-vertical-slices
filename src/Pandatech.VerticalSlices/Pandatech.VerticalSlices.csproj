@@ -1,0 +1,68 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <Sdk Name="Microsoft.Build.CentralPackageVersions" Version="2.1.3"/>
+
+  <ItemGroup>
+    <PackageReference Include="AspNetCore.HealthChecks.Elasticsearch"/>
+    <PackageReference Include="AspNetCore.HealthChecks.NpgSql"/>
+    <PackageReference Include="AspNetCore.HealthChecks.Rabbitmq"/>
+    <PackageReference Include="AspNetCore.HealthChecks.Redis"/>
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client"/>
+    <PackageReference Include="AutoMapper"/>
+    <PackageReference Include="Carter" />
+    <PackageReference Include="CsvHelper"/>
+    <PackageReference Include="EFCore.NamingConventions"/>
+    <PackageReference Include="FluentDateTime"/>
+    <PackageReference Include="FluentValidation.AspNetCore"/>
+    <PackageReference Include="Hangfire.AspNetCore"/>
+    <PackageReference Include="Hangfire.Core"/>
+    <PackageReference Include="Hangfire.Dashboard.Basic.Authentication"/>
+    <PackageReference Include="Hangfire.EntityFrameworkCore"/>
+    <PackageReference Include="Hangfire.PostgreSql"/>
+    <PackageReference Include="MediatR"/>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive"/>
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis"/>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json"/>
+    <PackageReference Include="Microsoft.FeatureManagement.AspNetCore"/>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"/>
+    <PackageReference Include="Pandatech.Communicator"/>
+    <PackageReference Include="PandaTech.BaseConverter"/>
+    <PackageReference Include="Pandatech.Crypto"/>
+    <PackageReference Include="PandaTech.IEnumerableFilters"/>
+    <PackageReference Include="Pandatech.PandaVaultClient"/>
+    <PackageReference Include="Pandatech.RegexBox"/>
+    <PackageReference Include="Pandatech.ResponseCrafter"/>
+    <PackageReference Include="Serilog.AspNetCore"/>
+    <PackageReference Include="Serilog.Enrichers.Environment"/>
+    <PackageReference Include="Serilog.Sinks.Elasticsearch"/>
+    <PackageReference Include="SonarAnalyzer.CSharp" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive"/>
+    <PackageReference Include="StackExchange.Redis"/>
+    <PackageReference Include="StackExchange.Redis.Extensions.AspNetCore"/>
+    <PackageReference Include="StackExchange.Redis.Extensions.Newtonsoft"/>
+    <PackageReference Include="StackExchange.Redis.Extensions.Protobuf"/>
+    <PackageReference Include="Swashbuckle.AspNetCore"/>
+    <PackageReference Include="protobuf-net.Core"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="be-tmp-web-api-postgres-logs\elastic-buffer-20230824.json"/>
+    <_ContentIncludedByDefault Remove="wwwroot\assets\css\panda-style.css"/>
+    <_ContentIncludedByDefault Remove="wwwroot\assets\images\favicon.svg"/>
+    <_ContentIncludedByDefault Remove="wwwroot\assets\images\logo-wording.svg"/>
+    <_ContentIncludedByDefault Remove="wwwroot\assets\images\logo.svg"/>
+    <_ContentIncludedByDefault Remove="wwwroot\assets\js\docs.js"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\User\Application\Delete\" />
+    <Folder Include="Features\User\Application\GetAggregate\" />
+    <Folder Include="Features\User\Application\GetDistinct\" />
+    <Folder Include="Features\User\Application\GetFilters\" />
+    <Folder Include="Features\User\Application\GetPaged\" />
+    <Folder Include="Features\User\Application\UpdatePassword\" />
+    <Folder Include="Features\User\Application\UpdateStatus\" />
+    <Folder Include="Features\User\Application\Update\" />
+  </ItemGroup>
+</Project>
