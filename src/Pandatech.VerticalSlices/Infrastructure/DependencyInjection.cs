@@ -1,6 +1,7 @@
 using Pandatech.VerticalSlices.Infrastructure.Extensions;
 using Pandatech.VerticalSlices.Infrastructure.Repositories;
 using Pandatech.VerticalSlices.Infrastructure.Seed;
+using Pandatech.VerticalSlices.Infrastructure.Seed.User;
 using Pandatech.VerticalSlices.SharedKernel.Extensions;
 
 namespace Pandatech.VerticalSlices.Infrastructure;
