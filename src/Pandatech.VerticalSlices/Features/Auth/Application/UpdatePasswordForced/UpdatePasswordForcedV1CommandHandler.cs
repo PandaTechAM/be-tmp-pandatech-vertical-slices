@@ -1,3 +1,4 @@
+using Hangfire;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Pandatech.Crypto;
@@ -37,7 +38,8 @@ public class UpdatePasswordForcedV1CommandHandler(
       user.UpdatedAt = DateTime.UtcNow;
 
       await dbContext.SaveChangesAsync(cancellationToken);
+      
+      BackgroundJob.Enqueue<ISender>(x => x.Send(new RevokeAllUserTokensExceptCurrentV1Command(), cancellationToken));
 
-      await sender.Send(new RevokeAllUserTokensExceptCurrentV1Command(), cancellationToken);
    }
 }

@@ -1,5 +1,7 @@
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Pandatech.VerticalSlices.Domain.Enums;
+using Pandatech.VerticalSlices.Infrastructure.Contexts;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
 
 namespace Pandatech.VerticalSlices.Features.User.Application.Create;
@@ -10,22 +12,14 @@ public class CreateUserV1CommandValidator : AbstractValidator<CreateUserV1Comman
    {
       RuleFor(x => x.FullName).NotEmpty();
 
-      RuleFor(x => x.Username)
-         .NotEmpty();
+      RuleFor(x => x.Username).NotEmpty();
 
       RuleFor(x => x.UserRole).IsInEnum();
       RuleFor(x => x.UserRole)
          .NotEqual(UserRole.SuperAdmin)
-         .WithMessage("SuperAdmin cannot be created");
+         .WithMessage("not_supported_role");
       RuleFor(x => x.Password)
          .Must(password => password.ValidatePassword())
          .WithMessage(PasswordHelper.WrongPasswordMessage);
    }
-   //
-
-   // private static async Task<bool> IsUniqueUsername(string username, PostgresContext dbContext,
-   //    CancellationToken cancellationToken)
-   // {
-   //    return !await dbContext.Users.AnyAsync(u => u.Username == username, cancellationToken);
-   // }
 }

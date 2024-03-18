@@ -56,13 +56,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\User\Application\Delete\" />
     <Folder Include="Features\User\Application\GetAggregate\" />
     <Folder Include="Features\User\Application\GetDistinct\" />
     <Folder Include="Features\User\Application\GetFilters\" />
     <Folder Include="Features\User\Application\GetPaged\" />
-    <Folder Include="Features\User\Application\UpdatePassword\" />
-    <Folder Include="Features\User\Application\UpdateStatus\" />
-    <Folder Include="Features\User\Application\Update\" />
   </ItemGroup>
 </Project>

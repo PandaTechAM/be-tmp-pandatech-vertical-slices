@@ -1,3 +1,4 @@
+using Hangfire;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Pandatech.Crypto;
@@ -29,6 +30,6 @@ public class UpdateOwnPasswordV1CommandHandler(
 
       await postgresContext.SaveChangesAsync(cancellationToken);
 
-      await sender.Send(new RevokeAllUserTokensExceptCurrentV1Command(), cancellationToken);
+      BackgroundJob.Enqueue<ISender>(x => x.Send(new RevokeAllUserTokensExceptCurrentV1Command(), cancellationToken));
    }
 }
