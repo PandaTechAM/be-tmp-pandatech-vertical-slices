@@ -1,4 +1,4 @@
-﻿namespace Pandatech.VerticalSlices.DTOs.Inner;
+﻿namespace Pandatech.VerticalSlices.Features.Auth.Contracts.Authenticate;
 
 public class IdentityCookies
 {

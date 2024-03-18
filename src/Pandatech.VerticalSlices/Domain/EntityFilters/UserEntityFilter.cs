@@ -2,7 +2,7 @@
 using PandaTech.IEnumerableFilters.Converters;
 using Pandatech.VerticalSlices.Domain.Entities;
 using Pandatech.VerticalSlices.Domain.Enums;
-using Pandatech.VerticalSlices.DTOs.User;
+using Pandatech.VerticalSlices.z._Old_way.DTOs;
 
 namespace Pandatech.VerticalSlices.Domain.EntityFilters;
 

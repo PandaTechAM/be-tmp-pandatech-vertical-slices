@@ -6,7 +6,7 @@ namespace Pandatech.VerticalSlices.SharedKernel.Extensions;
 
 public static class MediatrExtension
 {
-  public static WebApplicationBuilder AddMediatrWithValidatorBehaviors(this WebApplicationBuilder builder)
+  public static WebApplicationBuilder AddMediatrWithBehaviors(this WebApplicationBuilder builder)
   {
     var assembly = typeof(Program).Assembly;
     builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));

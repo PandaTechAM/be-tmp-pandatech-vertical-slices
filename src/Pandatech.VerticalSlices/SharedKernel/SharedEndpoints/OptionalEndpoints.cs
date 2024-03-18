@@ -9,11 +9,12 @@ namespace Pandatech.VerticalSlices.SharedKernel.SharedEndpoints;
 public static class OptionalEndpoints
 {
    private const string TagName = "above-board";
+
    public static void MapPandaOptionalEndpoints(this WebApplication app)
    {
       if (!app.Environment.IsProduction())
       {
-         app.MapPandaVaultApi(TagName);
+         app.MapPandaVaultApi($"/{TagName}/configuration", TagName, ApiHelper.GroupNameMain);
       }
 
       if (app.Environment.IsLocal())
@@ -26,7 +27,8 @@ public static class OptionalEndpoints
    {
       app.MapGet("/above-board/reset-database",
             ([FromServices] DatabaseHelper helper) => helper.ResetDatabase<PostgresContext>())
-         .WithTags("above-board");
+         .WithTags("above-board")
+         .WithGroupName(ApiHelper.GroupNameMain);
 
 
       return app;

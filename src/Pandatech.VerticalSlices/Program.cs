@@ -17,7 +17,7 @@ builder
    .RegisterAllServices()
    .AddSwagger()
    .AddResponseCrafter()
-   .AddMediatrWithValidatorBehaviors()
+   .AddMediatrWithBehaviors()
    .RegisterPandaVaultEndpoint(); //optional
 
 builder.Services.AddCarter();
@@ -48,7 +48,7 @@ app.Run();
 //todo Delete health checks and other configs of unrelated services. For example you might not need RMQ or Redis in this project.
 //todo Update all Nuget packages.
 //todo Include all required configurations in appsettings{environment}.json.
-//todo Update ReadMe.md file.
+//todo Update ReadMm.md file.
 
 //Delete below rows if you have no integration Pandatech.VerticalSlices.Tests in your solution.
 

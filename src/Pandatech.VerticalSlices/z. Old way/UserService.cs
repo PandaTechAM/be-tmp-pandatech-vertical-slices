@@ -6,12 +6,12 @@ using PandaTech.IEnumerableFilters.Enums;
 using PandaTech.IEnumerableFilters.Extensions;
 using Pandatech.VerticalSlices.Domain.EntityFilters;
 using Pandatech.VerticalSlices.Domain.Enums;
-using Pandatech.VerticalSlices.DTOs.User;
 using Pandatech.VerticalSlices.Infrastructure.Contexts;
+using Pandatech.VerticalSlices.z._Old_way.DTOs;
 using ResponseCrafter.Dtos;
 using ResponseCrafter.StandardHttpExceptions;
 
-namespace Pandatech.VerticalSlices.Services.Implementations;
+namespace Pandatech.VerticalSlices.z._Old_way;
 
 public class UserService(
   Argon2Id argon2Id,

@@ -1,6 +1,6 @@
 ﻿using BaseConverter.Attributes;
 
-namespace Pandatech.VerticalSlices.DTOs.User
+namespace Pandatech.VerticalSlices.z._Old_way.DTOs
 {
     public class UpdatePasswordDto
     {

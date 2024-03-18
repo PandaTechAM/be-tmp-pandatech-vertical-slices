@@ -1,7 +1,7 @@
 ﻿using BaseConverter.Attributes;
 using Pandatech.VerticalSlices.Domain.Enums;
 
-namespace Pandatech.VerticalSlices.DTOs.User
+namespace Pandatech.VerticalSlices.z._Old_way.DTOs
 {
     public class GetUserDto
     {
