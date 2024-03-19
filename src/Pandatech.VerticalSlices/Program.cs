@@ -6,7 +6,8 @@ using PandaVaultClient;
 using ResponseCrafter;
 
 var builder = WebApplication.CreateBuilder(args);
-StartupLogger.LogStartAttempt(builder);
+
+builder.LogStartAttempt();
 
 if (!builder.Environment.IsLocal())
    builder.Configuration.AddPandaVault();
@@ -17,8 +18,7 @@ builder
    .RegisterAllServices()
    .AddSwagger()
    .AddResponseCrafter()
-   .AddMediatrWithBehaviors()
-   .RegisterPandaVaultEndpoint(); //optional
+   .AddMediatrWithBehaviors();
 
 builder.Services.AddCarter();
 builder.Services.AddHttpContextAccessor();

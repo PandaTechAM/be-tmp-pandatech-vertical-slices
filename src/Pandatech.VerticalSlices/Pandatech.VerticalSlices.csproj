@@ -6,15 +6,13 @@
     <PackageReference Include="AspNetCore.HealthChecks.NpgSql"/>
     <PackageReference Include="AspNetCore.HealthChecks.Rabbitmq"/>
     <PackageReference Include="AspNetCore.HealthChecks.Redis"/>
-    <PackageReference Include="AspNetCore.HealthChecks.UI.Client"/>
+    <PackageReference Include="AspNetCore.HealthChecks.UI.Client" />
     <PackageReference Include="AutoMapper"/>
     <PackageReference Include="Carter" />
-    <PackageReference Include="CsvHelper"/>
     <PackageReference Include="EFCore.NamingConventions"/>
     <PackageReference Include="FluentDateTime"/>
     <PackageReference Include="FluentValidation.AspNetCore"/>
-    <PackageReference Include="Hangfire.AspNetCore"/>
-    <PackageReference Include="Hangfire.Core"/>
+    <PackageReference Include="Hangfire" />
     <PackageReference Include="Hangfire.Dashboard.Basic.Authentication"/>
     <PackageReference Include="Hangfire.EntityFrameworkCore"/>
     <PackageReference Include="Hangfire.PostgreSql"/>
@@ -24,8 +22,6 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive"/>
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis"/>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json"/>
-    <PackageReference Include="Microsoft.FeatureManagement.AspNetCore"/>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL"/>
     <PackageReference Include="Pandatech.Communicator"/>
     <PackageReference Include="PandaTech.BaseConverter"/>

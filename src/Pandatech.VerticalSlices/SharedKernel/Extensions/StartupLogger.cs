@@ -8,7 +8,7 @@ public static class StartupLogger
 {
    private static readonly Stopwatch _stopwatch = new();
 
-   public static void LogStartAttempt(WebApplicationBuilder builder)
+   public static WebApplicationBuilder LogStartAttempt(this WebApplicationBuilder builder)
    {
       _stopwatch.Start();
       var now = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
@@ -19,6 +19,7 @@ public static class StartupLogger
          Application = builder.Environment.ApplicationName,
          Environment = builder.Environment.EnvironmentName
       }));
+      return builder;
    }
 
    public static void LogStartSuccess()

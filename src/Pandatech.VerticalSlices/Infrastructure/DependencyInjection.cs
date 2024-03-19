@@ -10,11 +10,11 @@ public static class DependencyInjection
 {
    public static WebApplicationBuilder AddInfrastructure(this WebApplicationBuilder builder)
    {
-      builder.AddSerilog();
-      builder.AddHangfireServer();
-      builder.AddPostgresContext();
-      builder.AddPandaCryptoAndFilters();
-      builder.AddHealthChecks();
+      builder.AddSerilog()
+         .AddHangfireServer()
+         .AddPostgresContext()
+         .AddPandaCryptoAndFilters()
+         .AddHealthChecks();
 
       builder.Services.AddScoped<SharedRepository>();
       return builder;
