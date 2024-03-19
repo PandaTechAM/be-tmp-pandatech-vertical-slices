@@ -8,7 +8,6 @@ on:
       - staging
 
 env:
-  DOTNET_VERSION: "8.x.x"
   NEXUS_USERNAME: ${{ secrets.nexus_username }}
   NEXUS_PASSWORD: ${{ secrets.nexus_password }}
   NEXUS_SOURCE: "https://hubrepopanda.pandatech.it/repository/nuget-hosted/index.json"

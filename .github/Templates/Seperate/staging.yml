@@ -6,7 +6,6 @@ on:
       - staging
 
 env:
-  DOTNET_VERSION: "8.x.x"
   NEXUS_USERNAME: ${{ secrets.nexus_username }}
   NEXUS_PASSWORD: ${{ secrets.nexus_password }}
   NUGET_ORG_SOURCE: "https://api.nuget.org/v3/index.json"
@@ -24,7 +23,7 @@ jobs:
       - name: Setup .NET Core SDK
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+           global-json-file: global.json
 
       - name: Configure NuGet
         run: |
