@@ -3,6 +3,7 @@ using Carter;
 using Hangfire;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Pandatech.VerticalSlices.Domain.Enums;
 using Pandatech.VerticalSlices.Features.Auth.Helpers;
 using Pandatech.VerticalSlices.Features.User.Application.Create;
 using Pandatech.VerticalSlices.Features.User.Application.Delete;

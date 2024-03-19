@@ -35,7 +35,7 @@
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
     <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.2" />
     <PackageVersion Include="PandaTech.BaseConverter" Version="3.0.1" />
-    <PackageVersion Include="PandaTech.IEnumerableFilters" Version="4.0.19" />
+    <PackageVersion Include="PandaTech.IEnumerableFilters" Version="4.0.21" />
     <PackageVersion Include="Pandatech.Communicator" Version="1.0.2" />
     <PackageVersion Include="Pandatech.Crypto" Version="2.3.1" />
     <PackageVersion Include="Pandatech.PandaVaultClient" Version="3.1.0" />

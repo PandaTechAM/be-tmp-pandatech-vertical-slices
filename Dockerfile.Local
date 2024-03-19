@@ -1,19 +1,24 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+USER $APP_UID
 WORKDIR /app
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /src
-COPY ["./src/PandaWebApi", "PandaWebApi/"]
-RUN dotnet restore "PandaWebApi/PandaWebApi.csproj"
-COPY ../ .
-WORKDIR "/src/PandaWebApi"
-RUN dotnet build "PandaWebApi.csproj" -c Release -o /app/build
+ARG BUILD_CONFIGURATION=Release
+WORKDIR /build
+COPY ["Directory.Build.props", "."]
+COPY ["Directory.Packages.props", "."]
+COPY ["src/Pandatech.VerticalSlices/Pandatech.VerticalSlices.csproj", "src/Pandatech.VerticalSlices/"] # Copy csproj to its corresponding src folder structure
+RUN dotnet restore "src/Pandatech.VerticalSlices/Pandatech.VerticalSlices.csproj"
+COPY . .
+WORKDIR "/build/src/Pandatech.VerticalSlices"
+RUN dotnet build "Pandatech.VerticalSlices.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "PandaWebApi.csproj" -c Release -o /app/publish /p:UseAppHost=false
+ARG BUILD_CONFIGURATION=Release
+RUN dotnet publish "Pandatech.VerticalSlices.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "PandaWebApi.dll"]
+ENTRYPOINT ["dotnet", "Pandatech.VerticalSlices.dll"]
