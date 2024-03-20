@@ -6,7 +6,7 @@ using Pandatech.VerticalSlices.Domain.Entities;
 
 namespace Pandatech.VerticalSlices.Infrastructure.Contexts;
 
-//hint for migration: dotnet ef migrations add --project src\Pandatech.VerticalSlices\Pandatech.VerticalSlices.csproj --output-dir Infrastructure/Migrations
+//hint for migration: dotnet ef migrations add --project src\Pandatech.VerticalSlices\Pandatech.VerticalSlices.csproj --configuration Debug --output-dir Infrastructure/Migrations
 public class PostgresContext(DbContextOptions<PostgresContext> options) : PostgresDbContext(options)
 {
   public DbSet<UserTokenEntity> UserTokens { get; set; } = null!;
@@ -18,17 +18,5 @@ public class PostgresContext(DbContextOptions<PostgresContext> options) : Postgr
 
     modelBuilder.OnHangfireModelCreating();
     modelBuilder.ApplyConfigurationsFromAssembly(typeof(Program).Assembly);
-  }
-}
-
-public class PostgresContextFactory : IDesignTimeDbContextFactory<PostgresContext>
-{
-  public PostgresContext CreateDbContext(string[] args)
-  {
-    var optionsBuilder = new DbContextOptionsBuilder<PostgresContext>();
-
-    optionsBuilder.UseNpgsql().UseSnakeCaseNamingConvention();
-
-    return new PostgresContext(optionsBuilder.Options);
   }
 }
