@@ -32,6 +32,17 @@ This project integrates various services and configurations:
 
 **appsettings{environment}.json:** Configuration settings for the application.
 
+## Project built-in features
+
+**Integration tests setup:** The project is pre-configured with integration tests.
+**Health checks:** The project has health checks for the database and other services. Also endpoint for prometheus.
+**OpenTelemetry:** The project is pre-configured with OpenTelemetry for logging and tracing.
+**Prometheus:** The project is pre-configured with Prometheus for monitoring.
+**Hangfire** The project is pre-configured with Hangfire for background jobs.
+**ResponseCrafter** The project is pre-configured with ResponseCrafter for consistent exception handling.
+**Serilog** The project is pre-configured with Serilog for logging. It asynchronously logs to Elasticsearch.
+**RegexBox** The project is pre-configured with RegexBox which will provide all essential regex patterns.
+
 ## Getting Started
 
 ### Pre-requisites:
