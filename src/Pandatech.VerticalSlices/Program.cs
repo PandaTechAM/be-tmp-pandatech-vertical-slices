@@ -18,6 +18,7 @@ builder
    .RegisterAllServices()
    .AddSwagger()
    .AddResponseCrafter()
+   .ConfigureOpenTelemetry()
    .AddMediatrWithBehaviors();
 
 builder.Services.AddCarter();
@@ -33,7 +34,7 @@ app.UseResponseCrafter()
    .UseCors()
    .UseSwagger(app.Configuration);
 
-app.MapPandaOptionalEndpoints();
+app.MapPandaEndpoints();
 app.MapCarter();
 
 StartupLogger.LogStartSuccess();
