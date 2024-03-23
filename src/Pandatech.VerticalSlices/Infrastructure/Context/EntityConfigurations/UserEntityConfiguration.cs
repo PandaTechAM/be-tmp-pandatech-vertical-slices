@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Pandatech.VerticalSlices.Domain.Entities;
 
-namespace Pandatech.VerticalSlices.Infrastructure.Contexts.EntityConfigurations;
+namespace Pandatech.VerticalSlices.Infrastructure.Context.EntityConfigurations;
 
 public class UserEntityConfiguration : IEntityTypeConfiguration<UserEntity>
 {

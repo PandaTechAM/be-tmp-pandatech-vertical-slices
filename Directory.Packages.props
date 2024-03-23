@@ -44,7 +44,7 @@
     <PackageVersion Include="Pandatech.Crypto" Version="2.3.1" />
     <PackageVersion Include="Pandatech.PandaVaultClient" Version="3.1.0" />
     <PackageVersion Include="Pandatech.RegexBox" Version="1.2.4" />
-    <PackageVersion Include="Pandatech.ResponseCrafter" Version="1.0.4" />
+    <PackageVersion Include="Pandatech.ResponseCrafter" Version="1.1.0" />
     <PackageVersion Include="Respawn" Version="6.2.1" />
     <PackageVersion Include="Serilog.AspNetCore" Version="8.0.1" />
     <PackageVersion Include="Serilog.Enrichers.Environment" Version="2.3.0" />

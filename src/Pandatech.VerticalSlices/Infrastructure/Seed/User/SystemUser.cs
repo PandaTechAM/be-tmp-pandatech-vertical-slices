@@ -2,7 +2,7 @@
 using Pandatech.Crypto;
 using Pandatech.VerticalSlices.Domain.Entities;
 using Pandatech.VerticalSlices.Domain.Enums;
-using Pandatech.VerticalSlices.Infrastructure.Contexts;
+using Pandatech.VerticalSlices.Infrastructure.Context;
 
 namespace Pandatech.VerticalSlices.Infrastructure.Seed.User;
 

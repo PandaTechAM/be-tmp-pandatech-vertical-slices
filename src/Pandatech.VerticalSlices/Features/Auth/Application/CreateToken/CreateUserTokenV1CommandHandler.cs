@@ -2,7 +2,7 @@ using Pandatech.Crypto;
 using Pandatech.VerticalSlices.Domain.Entities;
 using Pandatech.VerticalSlices.Features.Auth.Contracts.CreateToken;
 using Pandatech.VerticalSlices.Features.Auth.Helpers;
-using Pandatech.VerticalSlices.Infrastructure.Contexts;
+using Pandatech.VerticalSlices.Infrastructure.Context;
 using Pandatech.VerticalSlices.SharedKernel.Interfaces;
 
 namespace Pandatech.VerticalSlices.Features.Auth.Application.CreateToken;

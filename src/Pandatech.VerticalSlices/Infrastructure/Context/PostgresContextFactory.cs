@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace Pandatech.VerticalSlices.Infrastructure.Contexts;
+namespace Pandatech.VerticalSlices.Infrastructure.Context;
 
 public class PostgresContextFactory : IDesignTimeDbContextFactory<PostgresContext>
 {

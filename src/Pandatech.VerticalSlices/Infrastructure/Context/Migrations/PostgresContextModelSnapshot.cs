@@ -2,21 +2,18 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Pandatech.VerticalSlices.Infrastructure.Contexts;
+using Pandatech.VerticalSlices.Infrastructure.Context;
 
 #nullable disable
 
-namespace Pandatech.VerticalSlices.Infrastructure.Migrations
+namespace Pandatech.VerticalSlices.Infrastructure.Context.Migrations
 {
     [DbContext(typeof(PostgresContext))]
-    [Migration("20240317134948_Init")]
-    partial class Init
+    partial class PostgresContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

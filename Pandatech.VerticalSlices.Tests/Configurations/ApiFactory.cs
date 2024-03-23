@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
-using Pandatech.VerticalSlices.Infrastructure.Contexts;
+using Pandatech.VerticalSlices.Infrastructure.Context;
 using Respawn;
 using Testcontainers.PostgreSql;
 

@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore.Storage;
-using Pandatech.VerticalSlices.Infrastructure.Contexts;
+using Pandatech.VerticalSlices.Infrastructure.Context;
 
 namespace Pandatech.VerticalSlices.Infrastructure.Repositories;
 

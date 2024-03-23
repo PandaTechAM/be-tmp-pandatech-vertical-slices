@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using PandaTech.IEnumerableFilters;
 using PandaTech.IEnumerableFilters.Dto;
 using PandaTech.IEnumerableFilters.Extensions;
-using Pandatech.VerticalSlices.Infrastructure.Contexts;
+using Pandatech.VerticalSlices.Infrastructure.Context;
 using ResponseCrafter.StandardHttpExceptions;
 
 namespace Pandatech.VerticalSlices.Infrastructure.Repositories;

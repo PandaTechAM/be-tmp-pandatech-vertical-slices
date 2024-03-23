@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Pandatech.VerticalSlices.Infrastructure.Migrations
+namespace Pandatech.VerticalSlices.Infrastructure.Context.Migrations
 {
     /// <inheritdoc />
     public partial class Init : Migration

@@ -4,7 +4,7 @@ using Pandatech.VerticalSlices.Domain.Entities;
 using Pandatech.VerticalSlices.Domain.Enums;
 using Pandatech.VerticalSlices.Features.Auth.Contracts.RefreshToken;
 using Pandatech.VerticalSlices.Features.Auth.Helpers;
-using Pandatech.VerticalSlices.Infrastructure.Contexts;
+using Pandatech.VerticalSlices.Infrastructure.Context;
 using Pandatech.VerticalSlices.SharedKernel.Interfaces;
 using ResponseCrafter.StandardHttpExceptions;
 

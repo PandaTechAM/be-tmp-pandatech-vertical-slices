@@ -1,7 +1,6 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Pandatech.VerticalSlices.Domain.Enums;
-using Pandatech.VerticalSlices.Infrastructure.Contexts;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
 
 namespace Pandatech.VerticalSlices.Features.User.Application.Create;

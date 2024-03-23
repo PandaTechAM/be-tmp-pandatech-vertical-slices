@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Pandatech.VerticalSlices.Domain.Entities;
-using Pandatech.VerticalSlices.Infrastructure.Contexts;
+using Pandatech.VerticalSlices.Infrastructure.Context;
 
 namespace Pandatech.VerticalSlices.Infrastructure.Repositories;
 

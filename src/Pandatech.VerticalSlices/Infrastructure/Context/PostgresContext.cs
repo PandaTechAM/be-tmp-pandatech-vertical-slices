@@ -1,12 +1,11 @@
 ﻿using Hangfire.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
 using PandaTech.IEnumerableFilters.PostgresContext;
 using Pandatech.VerticalSlices.Domain.Entities;
 
-namespace Pandatech.VerticalSlices.Infrastructure.Contexts;
+namespace Pandatech.VerticalSlices.Infrastructure.Context;
 
-//hint for migration: dotnet ef migrations add --project src\Pandatech.VerticalSlices\Pandatech.VerticalSlices.csproj --configuration Debug --output-dir Infrastructure/Migrations
+//hint for migration: dotnet ef migrations add --project src\Pandatech.VerticalSlices\Pandatech.VerticalSlices.csproj --configuration Debug --output-dir Infrastructure/Context/Migrations
 public class PostgresContext(DbContextOptions<PostgresContext> options) : PostgresDbContext(options)
 {
   public DbSet<UserTokenEntity> UserTokens { get; set; } = null!;

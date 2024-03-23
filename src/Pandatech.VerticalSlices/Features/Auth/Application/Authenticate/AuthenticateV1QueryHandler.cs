@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Pandatech.Crypto;
 using Pandatech.VerticalSlices.Domain.Enums;
 using Pandatech.VerticalSlices.Features.Auth.Contracts.Authenticate;
-using Pandatech.VerticalSlices.Infrastructure.Contexts;
+using Pandatech.VerticalSlices.Infrastructure.Context;
 using Pandatech.VerticalSlices.SharedKernel.Interfaces;
 using ResponseCrafter.StandardHttpExceptions;
 
