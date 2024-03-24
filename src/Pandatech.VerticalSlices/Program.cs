@@ -1,4 +1,4 @@
-using Carter;
+using FluentMinimalApiMapper;
 using Pandatech.VerticalSlices.Infrastructure;
 using Pandatech.VerticalSlices.SharedKernel.Extensions;
 using Pandatech.VerticalSlices.SharedKernel.SharedEndpoints;
@@ -19,9 +19,9 @@ builder
    .AddSwagger()
    .AddResponseCrafter()
    .ConfigureOpenTelemetry()
+   .AddEndpoints()
    .AddMediatrWithBehaviors();
 
-builder.Services.AddCarter();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 builder.Services.AddEndpointsApiExplorer();
@@ -35,7 +35,7 @@ app.UseResponseCrafter()
    .UseSwagger(app.Configuration);
 
 app.MapPandaEndpoints();
-app.MapCarter();
+app.MapEndpoints();
 
 StartupLogger.LogStartSuccess();
 app.Run();

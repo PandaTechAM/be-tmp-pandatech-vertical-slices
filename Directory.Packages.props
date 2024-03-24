@@ -8,7 +8,6 @@
     <PackageVersion Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.0" />
     <PackageVersion Include="AutoMapper" Version="13.0.1" />
     <PackageVersion Include="Bogus" Version="35.5.0" />
-    <PackageVersion Include="Carter" Version="8.0.0" />
     <PackageVersion Include="coverlet.collector" Version="6.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -39,6 +38,7 @@
     <PackageVersion Include="OpenTelemetry.Instrumentation.Http" Version="1.7.1" />
     <PackageVersion Include="OpenTelemetry.Instrumentation.Runtime" Version="1.7.0" />
     <PackageVersion Include="PandaTech.BaseConverter" Version="3.0.3" />
+    <PackageVersion Include="Pandatech.FluentMinimalApiMapper" Version="1.1.0" />
     <PackageVersion Include="PandaTech.IEnumerableFilters" Version="4.0.21" />
     <PackageVersion Include="Pandatech.Communicator" Version="1.0.2" />
     <PackageVersion Include="Pandatech.Crypto" Version="2.3.1" />

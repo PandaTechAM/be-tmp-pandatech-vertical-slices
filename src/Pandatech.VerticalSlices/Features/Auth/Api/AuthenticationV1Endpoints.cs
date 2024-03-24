@@ -1,4 +1,4 @@
-using Carter;
+using FluentMinimalApiMapper;
 using MediatR;
 using Pandatech.VerticalSlices.Domain.Enums;
 using Pandatech.VerticalSlices.Features.Auth.Application.IdentityState;
@@ -16,7 +16,7 @@ using ResponseCrafter.Dtos;
 
 namespace Pandatech.VerticalSlices.Features.Auth.Api;
 
-public class AuthenticationV1Endpoints : ICarterModule
+public class AuthenticationV1Endpoints : IEndpoint
 {
    private static string RoutePrefix => ApiHelper.GetRoutePrefix(1, BaseRoute);
    private const string BaseRoute = "/authentication";

@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using BaseConverter.Attributes;
 using Pandatech.VerticalSlices.Domain.Enums;
 using Pandatech.VerticalSlices.SharedKernel.Interfaces;

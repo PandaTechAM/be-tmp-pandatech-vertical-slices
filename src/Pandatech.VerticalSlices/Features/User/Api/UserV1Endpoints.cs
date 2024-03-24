@@ -1,9 +1,7 @@
 using BaseConverter.Attributes;
-using Carter;
-using Hangfire;
+using FluentMinimalApiMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Pandatech.VerticalSlices.Domain.Enums;
 using Pandatech.VerticalSlices.Features.Auth.Helpers;
 using Pandatech.VerticalSlices.Features.User.Application.Create;
 using Pandatech.VerticalSlices.Features.User.Application.Delete;
@@ -17,7 +15,7 @@ using ResponseCrafter.Dtos;
 
 namespace Pandatech.VerticalSlices.Features.User.Api;
 
-public class UserV1Endpoints : ICarterModule
+public class UserV1Endpoints : IEndpoint
 {
    private static string RoutePrefix => ApiHelper.GetRoutePrefix(1, BaseRoute);
    private const string BaseRoute = "/users";

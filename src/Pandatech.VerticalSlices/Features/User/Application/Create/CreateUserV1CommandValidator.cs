@@ -1,5 +1,4 @@
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using Pandatech.VerticalSlices.Domain.Enums;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
 

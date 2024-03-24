@@ -4,7 +4,6 @@ using PandaTech.IEnumerableFilters;
 using PandaTech.IEnumerableFilters.Dto;
 using PandaTech.IEnumerableFilters.Extensions;
 using Pandatech.VerticalSlices.Infrastructure.Context;
-using ResponseCrafter.StandardHttpExceptions;
 
 namespace Pandatech.VerticalSlices.Infrastructure.Repositories;
 
@@ -89,31 +88,17 @@ public abstract class BaseRepository<TEntity>(PostgresContext context) : Databas
    public async Task<DistinctColumnValuesResult> GetColumnValuesAsync(string columnName, int page,
       int pageSize, string dataRequest)
    {
-      try
-      {
-         return await Context.Set<TEntity>()
-            .DistinctColumnValuesAsync(
-               GetDataRequest.FromString(dataRequest).Filters,
-               columnName,
-               pageSize,
-               page);
-      }
-      catch (Exception ex)
-      {
-         throw new BadRequestException(ex.Message);
-      }
+      return await Context.Set<TEntity>()
+         .DistinctColumnValuesAsync(
+            GetDataRequest.FromString(dataRequest).Filters,
+            columnName,
+            pageSize,
+            page);
    }
 
    public Task<List<FilterInfo>> GetFiltersAsync()
    {
-      try
-      {
-         var tableName = $"{typeof(TEntity).Name}FilterModel";
-         return Task.FromResult(FilterExtenders.GetFilters(typeof(Program).Assembly, tableName));
-      }
-      catch (Exception ex)
-      {
-         throw new BadRequestException(ex.Message);
-      }
+      var tableName = $"{typeof(TEntity).Name}FilterModel";
+      return Task.FromResult(FilterExtenders.GetFilters(typeof(Program).Assembly, tableName));
    }
 }

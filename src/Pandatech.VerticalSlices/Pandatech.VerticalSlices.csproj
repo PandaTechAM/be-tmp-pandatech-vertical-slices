@@ -9,7 +9,6 @@
     <PackageReference Include="AspNetCore.HealthChecks.Redis"/>
     <PackageReference Include="AspNetCore.HealthChecks.UI.Client" />
     <PackageReference Include="AutoMapper"/>
-    <PackageReference Include="Carter" />
     <PackageReference Include="EFCore.NamingConventions"/>
     <PackageReference Include="FluentDateTime"/>
     <PackageReference Include="FluentValidation.AspNetCore"/>
@@ -34,6 +33,7 @@
     <PackageReference Include="Pandatech.Communicator"/>
     <PackageReference Include="PandaTech.BaseConverter"/>
     <PackageReference Include="Pandatech.Crypto"/>
+    <PackageReference Include="Pandatech.FluentMinimalApiMapper" />
     <PackageReference Include="PandaTech.IEnumerableFilters"/>
     <PackageReference Include="Pandatech.PandaVaultClient"/>
     <PackageReference Include="Pandatech.RegexBox"/>
