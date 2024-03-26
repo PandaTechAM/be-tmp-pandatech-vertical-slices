@@ -5,7 +5,7 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pandatech.VerticalSlices", "src\Pandatech.VerticalSlices\Pandatech.VerticalSlices.csproj", "{07201830-8A54-413B-8F39-25D311656378}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pandatech.VerticalSlices.Tests", "Pandatech.VerticalSlices.Tests\Pandatech.VerticalSlices.Tests.csproj", "{9E07A206-2A0D-46B1-AC66-6C81F6C83380}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pandatech.VerticalSlices.Tests", "test\Pandatech.VerticalSlices.Tests\Pandatech.VerticalSlices.Tests.csproj", "{9E07A206-2A0D-46B1-AC66-6C81F6C83380}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3A72AE93-5ABB-41DD-B3B5-1677185FF8FB}"
 	ProjectSection(SolutionItems) = preProject

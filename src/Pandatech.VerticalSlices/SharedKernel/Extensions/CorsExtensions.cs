@@ -2,7 +2,7 @@
 
 namespace Pandatech.VerticalSlices.SharedKernel.Extensions;
 
-public static class CorsExtensions
+public static class CorsExtension
 {
     public static WebApplicationBuilder AddCors(this WebApplicationBuilder builder)
     {
@@ -15,13 +15,15 @@ public static class CorsExtensions
 
             builder.Services.AddCors(options => options.AddPolicy("AllowSpecific", p => p
                 .WithOrigins(allowedOrigins!)
+                .AllowCredentials()
                 .AllowAnyMethod()
                 .AllowAnyHeader()));
         }
         else
         {
             builder.Services.AddCors(options => options.AddPolicy("AllowAll", p => p
-                .AllowAnyOrigin()
+                .SetIsOriginAllowed(_ => true)
+                .AllowCredentials()
                 .AllowAnyMethod()
                 .AllowAnyHeader()));
         }
@@ -42,7 +44,7 @@ public static class CorsExtensions
         if (originsArray.Length == 0)
         {
             throw new InvalidOperationException(
-                "The ORIGINS environment variable is empty or incorrectly formatted.");
+                "The Cors origins are empty or incorrectly formatted.");
         }
 
         foreach (var origin in originsArray)
@@ -50,7 +52,7 @@ public static class CorsExtensions
             if (!PandaValidator.IsUri(origin, true, false))
             {
                 throw new InvalidOperationException(
-                    $"The origin {origin} in the ORIGINS environment variable is not valid.");
+                    $"The origin {origin} is not valid URI.");
             }
         }
     }

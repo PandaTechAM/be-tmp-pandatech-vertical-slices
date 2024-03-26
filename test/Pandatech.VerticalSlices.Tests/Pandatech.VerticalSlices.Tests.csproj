@@ -28,7 +28,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\src\Pandatech.VerticalSlices\Pandatech.VerticalSlices.csproj" />
+      <ProjectReference Include="..\..\src\Pandatech.VerticalSlices\Pandatech.VerticalSlices.csproj" />
     </ItemGroup>
 
 </Project>
