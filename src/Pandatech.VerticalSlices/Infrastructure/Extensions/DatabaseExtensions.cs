@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Pandatech.VerticalSlices.Infrastructure.Context;
+using Pandatech.VerticalSlices.SharedKernel.Helpers;
 
 namespace Pandatech.VerticalSlices.Infrastructure.Extensions;
 
@@ -9,7 +10,7 @@ public static class DatabaseExtensions
     {
         var configuration = builder.Configuration;
 
-        var connectionString = configuration.GetConnectionString("Postgres");
+        var connectionString = configuration.GetConnectionString(ConfigurationPaths.PostgresUrl);
         builder.Services.AddDbContextPool<PostgresContext>(options =>
             options.UseNpgsql(connectionString)
                 .UseSnakeCaseNamingConvention());

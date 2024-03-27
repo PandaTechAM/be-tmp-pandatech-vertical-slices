@@ -1,4 +1,5 @@
 ﻿using Hangfire.EntityFrameworkCore;
+using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using PandaTech.IEnumerableFilters.PostgresContext;
 using Pandatech.VerticalSlices.Domain.Entities;
@@ -16,6 +17,7 @@ public class PostgresContext(DbContextOptions<PostgresContext> options) : Postgr
     base.OnModelCreating(modelBuilder);
 
     modelBuilder.OnHangfireModelCreating();
+    modelBuilder.AddTransactionalOutboxEntities();
     modelBuilder.ApplyConfigurationsFromAssembly(typeof(Program).Assembly);
   }
 }

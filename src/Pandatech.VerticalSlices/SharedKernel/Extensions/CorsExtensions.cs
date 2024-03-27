@@ -1,4 +1,5 @@
-﻿using RegexBox;
+﻿using Pandatech.VerticalSlices.SharedKernel.Helpers;
+using RegexBox;
 
 namespace Pandatech.VerticalSlices.SharedKernel.Extensions;
 
@@ -9,7 +10,7 @@ public static class CorsExtension
         var configuration = builder.Configuration;
         if (builder.Environment.IsProduction())
         {
-            var allowedOrigins = configuration["CorsSettings:AllowedOrigins"];
+            var allowedOrigins = configuration[ConfigurationPaths.CorsOrigins];
 
             ValidateCorsOrigins(allowedOrigins!);
 

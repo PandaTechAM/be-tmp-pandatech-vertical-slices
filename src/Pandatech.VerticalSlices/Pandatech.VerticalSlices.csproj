@@ -16,6 +16,8 @@
     <PackageReference Include="Hangfire.Dashboard.Basic.Authentication"/>
     <PackageReference Include="Hangfire.EntityFrameworkCore"/>
     <PackageReference Include="Hangfire.PostgreSql"/>
+    <PackageReference Include="MassTransit.EntityFrameworkCore" />
+    <PackageReference Include="MassTransit.RabbitMQ" />
     <PackageReference Include="MediatR"/>
     <PackageReference Include="Microsoft.AspNetCore.OpenApi"/>
     <PackageReference Include="Microsoft.EntityFrameworkCore"/>

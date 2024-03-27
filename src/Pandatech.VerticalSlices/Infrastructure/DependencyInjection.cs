@@ -13,6 +13,8 @@ public static class DependencyInjection
          .AddHangfireServer()
          .AddPostgresContext()
          .AddPandaCryptoAndFilters()
+         .AddRedisCache()
+         .AddMassTransit(typeof(Program).Assembly)
          .AddHealthChecks();
 
       builder.Services.AddScoped<SharedRepository>();
