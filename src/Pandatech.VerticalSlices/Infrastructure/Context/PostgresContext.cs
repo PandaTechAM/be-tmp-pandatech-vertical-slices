@@ -1,5 +1,4 @@
 ﻿using EFCore.AuditBase;
-using Hangfire.EntityFrameworkCore;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using PandaTech.IEnumerableFilters.PostgresContext;
@@ -7,7 +6,7 @@ using Pandatech.VerticalSlices.Domain.Entities;
 
 
 namespace Pandatech.VerticalSlices.Infrastructure.Context;
-
+//dotnet ef migrations add --project src\Pandatech.VerticalSlices\Pandatech.VerticalSlices.csproj --configuration Debug --output-dir Infrastructure/Context/Migrations
 public class PostgresContext : PostgresDbContext
 {
    public PostgresContext(DbContextOptions<PostgresContext> options) : base(options)
@@ -22,7 +21,6 @@ public class PostgresContext : PostgresDbContext
    {
       base.OnModelCreating(modelBuilder);
 
-      modelBuilder.OnHangfireModelCreating();
       modelBuilder.AddTransactionalOutboxEntities();
       modelBuilder.FilterOutDeletedMarkedObjects();
       modelBuilder.ApplyConfigurationsFromAssembly(typeof(Program).Assembly);
