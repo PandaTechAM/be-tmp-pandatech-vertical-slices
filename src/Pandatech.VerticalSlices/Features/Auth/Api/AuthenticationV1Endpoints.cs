@@ -29,6 +29,7 @@ public class AuthenticationV1Endpoints : IEndpoint
          .WithTags(TagName)
          .WithGroupName(ApiHelper.GroupNameMain)
          .WithOpenApi();
+      
 
       groupApp.MapPost("/login",
             async (ISender sender, LoginV1Command command, IHttpContextAccessor httpContextAccessor,

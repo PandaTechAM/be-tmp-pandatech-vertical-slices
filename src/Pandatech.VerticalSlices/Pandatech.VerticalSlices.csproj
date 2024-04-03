@@ -35,6 +35,7 @@
     <PackageReference Include="Pandatech.Communicator"/>
     <PackageReference Include="PandaTech.BaseConverter"/>
     <PackageReference Include="Pandatech.Crypto"/>
+    <PackageReference Include="Pandatech.EFCore.AuditBase" />
     <PackageReference Include="Pandatech.FluentMinimalApiMapper" />
     <PackageReference Include="PandaTech.IEnumerableFilters"/>
     <PackageReference Include="Pandatech.PandaVaultClient"/>

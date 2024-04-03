@@ -69,7 +69,8 @@ public static class SystemUser
          Username = username,
          Role = UserRole.SuperAdmin,
          ForcePasswordChange = false,
-         Comment = "Seeded user, please do not delete"
+         Comment = "Seeded user, please do not delete",
+         CreatedByUserId = null
       };
    }
 }

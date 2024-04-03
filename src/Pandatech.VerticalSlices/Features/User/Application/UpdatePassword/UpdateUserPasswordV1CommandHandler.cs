@@ -9,7 +9,7 @@ using ResponseCrafter.StandardHttpExceptions;
 
 namespace Pandatech.VerticalSlices.Features.User.Application.UpdatePassword;
 
-public class UpdateUserPasswordV1CommandHandler(PostgresContext postgresContext, Argon2Id argon2Id)
+public class UpdateUserPasswordV1CommandHandler(PostgresContext postgresContext, Argon2Id argon2Id, IRequestContext requestContext)
    : ICommandHandler<UpdateUserPasswordV1Command>
 {
    public async Task Handle(UpdateUserPasswordV1Command request, CancellationToken cancellationToken)
@@ -23,8 +23,8 @@ public class UpdateUserPasswordV1CommandHandler(PostgresContext postgresContext,
 
       user.PasswordHash = argon2Id.HashPassword(request.NewPassword);
       user.ForcePasswordChange = true;
-      user.UpdatedAt = DateTime.UtcNow;
 
+      user.MarkAsUpdated(requestContext.Identity.UserId);
       await postgresContext.SaveChangesAsync(cancellationToken);
 
       BackgroundJob.Enqueue<ISender>(x => x.Send(new RevokeAllUserTokensV1Command(request.Id), cancellationToken));

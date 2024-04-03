@@ -26,7 +26,8 @@ public class UpdateOwnPasswordV1CommandHandler(
       }
 
       user.PasswordHash = argon2Id.HashPassword(request.NewPassword);
-      user.UpdatedAt = DateTime.UtcNow;
+      
+      user.MarkAsUpdated(requestContext.Identity.UserId);
 
       await postgresContext.SaveChangesAsync(cancellationToken);
 

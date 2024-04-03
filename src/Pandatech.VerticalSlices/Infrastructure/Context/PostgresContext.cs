@@ -1,23 +1,30 @@
-﻿using Hangfire.EntityFrameworkCore;
+﻿using EFCore.AuditBase;
+using Hangfire.EntityFrameworkCore;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
 using PandaTech.IEnumerableFilters.PostgresContext;
 using Pandatech.VerticalSlices.Domain.Entities;
 
+
 namespace Pandatech.VerticalSlices.Infrastructure.Context;
 
-//hint for migration: dotnet ef migrations add --project src\Pandatech.VerticalSlices\Pandatech.VerticalSlices.csproj --configuration Debug --output-dir Infrastructure/Context/Migrations
-public class PostgresContext(DbContextOptions<PostgresContext> options) : PostgresDbContext(options)
+public class PostgresContext : PostgresDbContext
 {
-  public DbSet<UserTokenEntity> UserTokens { get; set; } = null!;
-  public DbSet<UserEntity> Users { get; set; } = null!;
+   public PostgresContext(DbContextOptions<PostgresContext> options) : base(options)
+   {
+      this.UseAuditPropertyValidation();
+   }
 
-  protected override void OnModelCreating(ModelBuilder modelBuilder)
-  {
-    base.OnModelCreating(modelBuilder);
+   public DbSet<UserTokenEntity> UserTokens { get; set; } = null!;
+   public DbSet<UserEntity> Users { get; set; } = null!;
 
-    modelBuilder.OnHangfireModelCreating();
-    modelBuilder.AddTransactionalOutboxEntities();
-    modelBuilder.ApplyConfigurationsFromAssembly(typeof(Program).Assembly);
-  }
+   protected override void OnModelCreating(ModelBuilder modelBuilder)
+   {
+      base.OnModelCreating(modelBuilder);
+
+      modelBuilder.OnHangfireModelCreating();
+      modelBuilder.AddTransactionalOutboxEntities();
+      modelBuilder.FilterOutDeletedMarkedObjects();
+      modelBuilder.ApplyConfigurationsFromAssembly(typeof(Program).Assembly);
+   }
 }

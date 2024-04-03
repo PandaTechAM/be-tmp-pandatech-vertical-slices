@@ -12,7 +12,7 @@ public class GetUserByIdV1QueryResponse
    public UserRole Role { get; set; }
    public UserStatus Status { get; set; }
    public DateTime CreatedAt { get; set; }
-   public DateTime UpdatedAt { get; set; }
+   public DateTime? UpdatedAt { get; set; }
    public string? Comment { get; set; }
 
    public static GetUserByIdV1QueryResponse MapFromEntity(UserEntity entity)

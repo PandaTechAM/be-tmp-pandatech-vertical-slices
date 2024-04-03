@@ -179,9 +179,13 @@ namespace Pandatech.VerticalSlices.Infrastructure.Context.Migrations
                     role = table.Column<int>(type: "integer", nullable: false),
                     status = table.Column<int>(type: "integer", nullable: false),
                     force_password_change = table.Column<bool>(type: "boolean", nullable: false),
+                    comment = table.Column<string>(type: "text", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    comment = table.Column<string>(type: "text", nullable: true)
+                    created_by_user_id = table.Column<long>(type: "bigint", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    updated_by_user_id = table.Column<long>(type: "bigint", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false),
+                    version = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {

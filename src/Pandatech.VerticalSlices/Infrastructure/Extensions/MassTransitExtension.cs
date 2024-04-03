@@ -13,8 +13,8 @@ public static class MassTransitExtension
       {
          x.AddEntityFrameworkOutbox<PostgresContext>(o =>
          {
-            o.DuplicateDetectionWindow = TimeSpan.FromMinutes(5);
-            o.QueryDelay = TimeSpan.FromMilliseconds(10000);
+            o.DuplicateDetectionWindow = TimeSpan.FromMinutes(25);
+            o.QueryDelay = TimeSpan.FromMilliseconds(1500);
             o.UsePostgres().UseBusOutbox();
          });
 
@@ -26,6 +26,8 @@ public static class MassTransitExtension
          {
             cfg.Host(builder.Configuration.GetConnectionString(ConfigurationPaths.RabbitMqUrl));
             cfg.ConfigureEndpoints(context);
+            cfg.UseMessageRetry(r =>
+               r.Exponential(5, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(30), TimeSpan.FromSeconds(2)));
          });
       });
       return builder;

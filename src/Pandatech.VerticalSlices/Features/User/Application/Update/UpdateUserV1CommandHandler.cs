@@ -5,7 +5,7 @@ using ResponseCrafter.StandardHttpExceptions;
 
 namespace Pandatech.VerticalSlices.Features.User.Application.Update;
 
-public class UpdateUserV1CommandHandler(PostgresContext postgresContext) : ICommandHandler<UpdateUserV1Command>
+public class UpdateUserV1CommandHandler(PostgresContext postgresContext, IRequestContext requestContext) : ICommandHandler<UpdateUserV1Command>
 {
    public async Task Handle(UpdateUserV1Command request, CancellationToken cancellationToken)
    {
@@ -31,8 +31,8 @@ public class UpdateUserV1CommandHandler(PostgresContext postgresContext) : IComm
       user.FullName = request.FullName;
       user.Role = request.Role;
       user.Comment = request.Comment;
-      user.UpdatedAt = DateTime.UtcNow;
 
+//      user.MarkAsUpdated(requestContext.Identity.UserId);
       
       await postgresContext.SaveChangesAsync(cancellationToken);
    }

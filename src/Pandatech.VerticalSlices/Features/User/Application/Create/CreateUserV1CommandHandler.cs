@@ -7,13 +7,13 @@ using ResponseCrafter.StandardHttpExceptions;
 
 namespace Pandatech.VerticalSlices.Features.User.Application.Create;
 
-public class CreateUserV1CommandHandler(PostgresContext dbContext, Argon2Id argon)
+public class CreateUserV1CommandHandler(PostgresContext dbContext, Argon2Id argon, IRequestContext requestContext)
    : ICommandHandler<CreateUserV1Command>
 {
    public async Task Handle(CreateUserV1Command request, CancellationToken cancellationToken)
    {
       var isDuplicateUsername = await dbContext.Users
-         .AnyAsync(x => x.Username.Equals(request.Username, StringComparison.CurrentCultureIgnoreCase),
+         .AnyAsync(u => u.Username.ToLower().Equals(request.Username.ToLower()),
             cancellationToken);
 
       if (isDuplicateUsername)
@@ -28,8 +28,10 @@ public class CreateUserV1CommandHandler(PostgresContext dbContext, Argon2Id argo
          FullName = request.FullName,
          PasswordHash = passwordHash,
          Role = request.UserRole,
-         Comment = request.Comment
+         Comment = request.Comment,
+         CreatedByUserId = requestContext.Identity.UserId
       };
+
       await dbContext.Users.AddAsync(user, cancellationToken);
       await dbContext.SaveChangesAsync(cancellationToken);
    }

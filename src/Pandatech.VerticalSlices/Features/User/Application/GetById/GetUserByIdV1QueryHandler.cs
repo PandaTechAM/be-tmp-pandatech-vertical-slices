@@ -14,7 +14,7 @@ public class GetUserByIdV1QueryHandler(PostgresContext postgresContext)
    {
       var user = await postgresContext.Users.FindAsync([request.Id], cancellationToken: cancellationToken);
 
-      if (user is null || user.Status == UserStatus.Deleted || user.Role == UserRole.SuperAdmin)
+      if (user is null || user.Role == UserRole.SuperAdmin)
       {
          throw new NotFoundException("User not found");
       }
