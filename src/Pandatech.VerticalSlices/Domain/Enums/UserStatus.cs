@@ -1,8 +1,7 @@
-﻿namespace Pandatech.VerticalSlices.Domain.Enums
+﻿namespace Pandatech.VerticalSlices.Domain.Enums;
+
+public enum UserStatus
 {
-    public enum UserStatus
-    {
-        Active,
-        Disabled
-    }
+   Active,
+   Disabled
 }

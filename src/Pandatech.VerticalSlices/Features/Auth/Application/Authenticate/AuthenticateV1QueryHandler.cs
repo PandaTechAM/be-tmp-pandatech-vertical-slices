@@ -25,7 +25,7 @@ public class AuthenticateV1QueryHandler(PostgresContext dbContext)
       {
          throw new UnauthorizedException();
       }
-      
+
       if (tokenEntity.AccessTokenExpiresAt <= DateTime.UtcNow)
       {
          throw new UnauthorizedException("access_token_is_expired");
@@ -44,6 +44,5 @@ public class AuthenticateV1QueryHandler(PostgresContext dbContext)
          AccessTokenSignature = request.AccessTokenSignature,
          AccessTokenExpiration = tokenEntity.AccessTokenExpiresAt
       };
-
    }
 }

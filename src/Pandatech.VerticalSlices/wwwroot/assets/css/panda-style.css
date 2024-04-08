@@ -3,149 +3,149 @@
 } */
 
 .swagger-ui .topbar .download-url-wrapper {
-    display: flex;
+   display: flex;
 }
 
 .swagger-ui .topbar .download-url-wrapper .select-label select {
-    border-color: #4E37D3;
+   border-color: #4E37D3;
 }
 
 .swagger-ui .topbar .download-url-wrapper .select-label span {
-    color: transparent;
-    user-select: none;
+   color: transparent;
+   user-select: none;
 }
 
 
 .swagger-ui .topbar-wrapper img {
-    visibility: hidden;
+   visibility: hidden;
 }
 
 element.style {
 }
 
 .swagger-ui .auth-btn-wrapper {
-    gap: 20px;
-    margin-top: 20px;
+   gap: 20px;
+   margin-top: 20px;
 }
 
 .swagger-ui .auth-wrapper .authorize {
-    margin: 0;
+   margin: 0;
 }
 
 .swagger-ui .btn.authorize.locked, .swagger-ui .btn.authorize.unlocked {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 7px
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 7px
 
 }
 
 .swagger-ui .btn.authorize span {
-    clear: both;
-    padding: 0;
-    margin-top: 3px;
+   clear: both;
+   padding: 0;
+   margin-top: 3px;
 }
 
 .swagger-ui .auth-container .btn.modal-btn.auth {
-    min-width: 250px;
-    padding: 10px 0;
+   min-width: 250px;
+   padding: 10px 0;
 }
 
 .swagger-ui .topbar-wrapper .link::before {
-    content: "";
-    background: url("../images/logo.svg") no-repeat center;
-    background-size: contain;
-    width: 36.402px;
-    height: 28.8px;
-    display: inline-block;
-    position: relative;
+   content: "";
+   background: url("../images/logo.svg") no-repeat center;
+   background-size: contain;
+   width: 36.402px;
+   height: 28.8px;
+   display: inline-block;
+   position: relative;
 }
 
 /* Add your second image */
 .swagger-ui .topbar-wrapper .link::after {
-    content: "";
-    background: url("../images/logo-wording.svg") no-repeat center;
-    background-size: contain;
-    width: 90.0276px;
-    height: 20.2044px;
-    display: inline-block;
-    position: relative;
-    left: -132px;
+   content: "";
+   background: url("../images/logo-wording.svg") no-repeat center;
+   background-size: contain;
+   width: 90.0276px;
+   height: 20.2044px;
+   display: inline-block;
+   position: relative;
+   left: -132px;
 }
 
 div.topbar {
-    background: transparent !important;
-    backdrop-filter: blur(3px);
-    position: fixed;
-    width: 100%;
-    top: 0;
-    border-bottom: 1px solid #ffffff;
+   background: transparent !important;
+   backdrop-filter: blur(3px);
+   position: fixed;
+   width: 100%;
+   top: 0;
+   border-bottom: 1px solid #ffffff;
 }
 
 .swagger-ui {
-    margin-top: 128px;
+   margin-top: 128px;
 }
 
 .swagger-ui .btn.authorize.unlocked {
-    background-color: white !important;
-    color: black !important;
-    border: 2px solid #4E37D3 !important;
+   background-color: white !important;
+   color: black !important;
+   border: 2px solid #4E37D3 !important;
 }
 
 .swagger-ui .btn.authorize.unlocked svg {
-    fill: black !important;
+   fill: black !important;
 }
 
 .swagger-ui .btn.authorize.locked {
-    background-color: #4E37D3 !important;
-    color: #ffffff !important;
-    border: 2px solid #4E37D3 !important;
+   background-color: #4E37D3 !important;
+   color: #ffffff !important;
+   border: 2px solid #4E37D3 !important;
 }
 
 .swagger-ui .btn.authorize.locked svg {
-    fill: #ffffff !important;
+   fill: #ffffff !important;
 }
 
 .swagger-ui .auth-container .btn.modal-btn.auth {
-    background-color: #4E37D3 !important;
-    color: #ffffff !important;
-    border: 1px solid #4E37D3 !important;
-    width: 100%;
+   background-color: #4E37D3 !important;
+   color: #ffffff !important;
+   border: 1px solid #4E37D3 !important;
+   width: 100%;
 }
 
 .btn.modal-btn.auth.btn-done.button {
-    display: none;
+   display: none;
 }
 
 .auth-container {
-    padding: 0 !important;
+   padding: 0 !important;
 }
 
 .swagger-ui .dialog-ux .modal-ux {
-    max-width: 600px;
+   max-width: 600px;
 }
 
 .opblock-summary-get:hover {
-    background-color: #b3e0ff !important;
+   background-color: #b3e0ff !important;
 }
 
 .swagger-ui .auth-container input[type=text] {
 
-    width: 100%;
+   width: 100%;
 }
 
 .opblock-summary-post:hover {
-    background-color: #83e697 !important;
+   background-color: #83e697 !important;
 }
 
 .opblock-summary-put:hover {
-    background-color: #f0cc9f !important;
+   background-color: #f0cc9f !important;
 }
 
 .opblock-summary-patch:hover {
-    background-color: #a2eede !important;
+   background-color: #a2eede !important;
 }
 
 .opblock-summary-delete:hover {
-    background-color: #faa3a3 !important;
+   background-color: #faa3a3 !important;
 }

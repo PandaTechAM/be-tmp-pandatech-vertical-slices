@@ -2,6 +2,5 @@
 
 public class SwaggerOptions
 {
-    public Dictionary<string, SwaggerVersionOptions> Versions { get; set; } = null!;
+   public Dictionary<string, SwaggerVersionOptions> Versions { get; set; } = null!;
 }
-

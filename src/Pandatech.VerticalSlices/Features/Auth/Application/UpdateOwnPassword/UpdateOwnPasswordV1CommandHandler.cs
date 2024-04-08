@@ -18,7 +18,7 @@ public class UpdateOwnPasswordV1CommandHandler(
    public async Task Handle(UpdateOwnPasswordV1Command request, CancellationToken cancellationToken)
    {
       var user = await postgresContext.Users
-         .FirstOrDefaultAsync(x => x.Id == requestContext.Identity.UserId, cancellationToken: cancellationToken);
+         .FirstOrDefaultAsync(x => x.Id == requestContext.Identity.UserId, cancellationToken);
 
       if (user is null)
       {
@@ -26,7 +26,7 @@ public class UpdateOwnPasswordV1CommandHandler(
       }
 
       user.PasswordHash = argon2Id.HashPassword(request.NewPassword);
-      
+
       user.MarkAsUpdated(requestContext.Identity.UserId);
 
       await postgresContext.SaveChangesAsync(cancellationToken);

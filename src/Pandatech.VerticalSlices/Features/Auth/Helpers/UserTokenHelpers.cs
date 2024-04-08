@@ -2,22 +2,23 @@ namespace Pandatech.VerticalSlices.Features.Auth.Helpers;
 
 public static class UserTokenHelpers
 {
-  public const int AccessTokenExpirationMinutes = 10;
-  public static int SetRefreshTokenExpirationMinutes(IConfiguration configuration)
-  {
-    var refreshTokenExpirationMinutes = configuration.GetValue<int>("Security:RefreshTokenExpirationMinutes");
+   public const int AccessTokenExpirationMinutes = 10;
 
-    return refreshTokenExpirationMinutes == 0
-      ? 1440
-      : Math.Max(refreshTokenExpirationMinutes, 60);
-  }
+   public static int SetRefreshTokenExpirationMinutes(IConfiguration configuration)
+   {
+      var refreshTokenExpirationMinutes = configuration.GetValue<int>("Security:RefreshTokenExpirationMinutes");
 
-  public static int SetRefreshTokenMaxExpirationMinutes(IConfiguration configuration)
-  {
-    var refreshTokenMaxExpirationMinutes = configuration.GetValue<int>("Security:RefreshTokenMaxExpirationMinutes");
+      return refreshTokenExpirationMinutes == 0
+         ? 1440
+         : Math.Max(refreshTokenExpirationMinutes, 60);
+   }
 
-    return refreshTokenMaxExpirationMinutes == 0
-      ? int.MaxValue
-      : Math.Max(refreshTokenMaxExpirationMinutes, SetRefreshTokenExpirationMinutes(configuration));
-  }
+   public static int SetRefreshTokenMaxExpirationMinutes(IConfiguration configuration)
+   {
+      var refreshTokenMaxExpirationMinutes = configuration.GetValue<int>("Security:RefreshTokenMaxExpirationMinutes");
+
+      return refreshTokenMaxExpirationMinutes == 0
+         ? int.MaxValue
+         : Math.Max(refreshTokenMaxExpirationMinutes, SetRefreshTokenExpirationMinutes(configuration));
+   }
 }

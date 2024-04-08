@@ -7,7 +7,8 @@ using ResponseCrafter.StandardHttpExceptions;
 
 namespace Pandatech.VerticalSlices.Features.User.Application.Delete;
 
-public class DeleteUsersV1CommandHandler(PostgresContext postgresContext, IRequestContext requestContext) : ICommandHandler<DeleteUsersV1Command>
+public class DeleteUsersV1CommandHandler(PostgresContext postgresContext, IRequestContext requestContext)
+   : ICommandHandler<DeleteUsersV1Command>
 {
    public async Task Handle(DeleteUsersV1Command request, CancellationToken cancellationToken)
    {
@@ -18,7 +19,7 @@ public class DeleteUsersV1CommandHandler(PostgresContext postgresContext, IReque
       var notFoundIds = request.Ids
          .Except(users.Select(x => x.Id))
          .ToList();
-      
+
       var superAdminIds = users
          .Where(x => x.Role == UserRole.SuperAdmin)
          .Select(x => x.Id)

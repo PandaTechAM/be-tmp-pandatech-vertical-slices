@@ -9,7 +9,10 @@ using ResponseCrafter.StandardHttpExceptions;
 
 namespace Pandatech.VerticalSlices.Features.User.Application.UpdatePassword;
 
-public class UpdateUserPasswordV1CommandHandler(PostgresContext postgresContext, Argon2Id argon2Id, IRequestContext requestContext)
+public class UpdateUserPasswordV1CommandHandler(
+   PostgresContext postgresContext,
+   Argon2Id argon2Id,
+   IRequestContext requestContext)
    : ICommandHandler<UpdateUserPasswordV1Command>
 {
    public async Task Handle(UpdateUserPasswordV1Command request, CancellationToken cancellationToken)

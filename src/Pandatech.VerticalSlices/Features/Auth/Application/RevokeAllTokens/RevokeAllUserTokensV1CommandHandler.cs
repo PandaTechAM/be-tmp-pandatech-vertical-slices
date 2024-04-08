@@ -15,7 +15,7 @@ public class RevokeAllUserTokensV1CommandHandler(PostgresContext dbContext)
          .Where(x =>
             x.UserId == request.UserId
             && (x.AccessTokenExpiresAt >= now || x.RefreshTokenExpiresAt >= now))
-         .ToListAsync(cancellationToken: cancellationToken);
+         .ToListAsync(cancellationToken);
 
       if (tokens.Count == 0)
       {

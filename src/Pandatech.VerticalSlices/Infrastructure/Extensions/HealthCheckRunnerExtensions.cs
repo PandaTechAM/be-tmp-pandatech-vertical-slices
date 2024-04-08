@@ -19,7 +19,10 @@ public static class HealthCheckRunnerExtensions
          ? HealthStatus.Unhealthy
          : HealthStatus.Healthy;
 
-      if (overallStatus != HealthStatus.Unhealthy) return app;
+      if (overallStatus != HealthStatus.Unhealthy)
+      {
+         return app;
+      }
 
       var unhealthyChecks = relevantEntries
          .Where(e => e.Value.Status != HealthStatus.Healthy)

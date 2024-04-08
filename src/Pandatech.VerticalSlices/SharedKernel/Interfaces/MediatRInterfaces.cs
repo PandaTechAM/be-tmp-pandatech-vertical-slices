@@ -11,13 +11,13 @@ public interface IQuery<out TResponse> : IRequest<TResponse>;
 public interface IQuery : IRequest;
 
 public interface ICommandHandler<in TCommand, TResponse> : IRequestHandler<TCommand, TResponse>
-  where TCommand : ICommand<TResponse>;
+   where TCommand : ICommand<TResponse>;
 
 public interface ICommandHandler<in TCommand> : IRequestHandler<TCommand>
-  where TCommand : ICommand;
+   where TCommand : ICommand;
 
 public interface IQueryHandler<in TQuery, TResponse> : IRequestHandler<TQuery, TResponse>
-  where TQuery : IQuery<TResponse>;
+   where TQuery : IQuery<TResponse>;
 
 public interface IQueryHandler<in TQuery> : IRequestHandler<TQuery>
-  where TQuery : IQuery;
+   where TQuery : IQuery;

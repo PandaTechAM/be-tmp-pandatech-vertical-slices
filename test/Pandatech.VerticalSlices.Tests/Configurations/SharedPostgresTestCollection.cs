@@ -3,5 +3,4 @@
 [CollectionDefinition("Shared Postgres")]
 public class SharedPostgresTestCollection : ICollectionFixture<ApiFactory>
 {
-    
 }

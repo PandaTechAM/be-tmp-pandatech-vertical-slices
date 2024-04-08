@@ -58,7 +58,7 @@ public static class SerilogExtension
          : $"{indexName}-logs-{DateTime.UtcNow:yyyy.MM}";
 
       loggerConfig.WriteTo.Elasticsearch(elasticSearchUrl,
-         indexFormat: formattedIndexName,
+         formattedIndexName,
          autoRegisterTemplate: true,
          detectElasticsearchVersion: true,
          numberOfShards: 5,

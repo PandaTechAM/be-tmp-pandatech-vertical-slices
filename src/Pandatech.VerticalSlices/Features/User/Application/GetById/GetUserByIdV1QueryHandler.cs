@@ -12,7 +12,7 @@ public class GetUserByIdV1QueryHandler(PostgresContext postgresContext)
    public async Task<GetUserByIdV1QueryResponse> Handle(GetUserByIdV1Query request,
       CancellationToken cancellationToken)
    {
-      var user = await postgresContext.Users.FindAsync([request.Id], cancellationToken: cancellationToken);
+      var user = await postgresContext.Users.FindAsync([request.Id], cancellationToken);
 
       if (user is null || user.Role == UserRole.SuperAdmin)
       {

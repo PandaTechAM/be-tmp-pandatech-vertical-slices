@@ -12,24 +12,24 @@ public abstract class BaseRepository<TEntity>(PostgresContext context) : Databas
 {
    public async Task<TEntity?> GetByIdAsync(long id, CancellationToken cancellationToken = default)
    {
-      return await Context.Set<TEntity>().FindAsync([id], cancellationToken: cancellationToken);
+      return await Context.Set<TEntity>().FindAsync([id], cancellationToken);
    }
 
    public async Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
    {
-      return await Context.Set<TEntity>().FindAsync([id], cancellationToken: cancellationToken);
+      return await Context.Set<TEntity>().FindAsync([id], cancellationToken);
    }
 
    public async Task<TEntity?> GetByIdNoTrackingAsync(long id, CancellationToken cancellationToken = default)
    {
       return await Context.Set<TEntity>().AsNoTracking()
-         .FirstOrDefaultAsync(e => EF.Property<object>(e, "Id").Equals(id), cancellationToken: cancellationToken);
+         .FirstOrDefaultAsync(e => EF.Property<object>(e, "Id").Equals(id), cancellationToken);
    }
 
    public async Task<TEntity?> GetByIdNoTrackingAsync(Guid id, CancellationToken cancellationToken = default)
    {
       return await Context.Set<TEntity>().AsNoTracking()
-         .FirstOrDefaultAsync(e => EF.Property<object>(e, "Id").Equals(id), cancellationToken: cancellationToken);
+         .FirstOrDefaultAsync(e => EF.Property<object>(e, "Id").Equals(id), cancellationToken);
    }
 
    public IQueryable<TEntity> GetAll(CancellationToken cancellationToken = default)

@@ -10,7 +10,7 @@ public class UpdateUserStatusV1CommandHandler(PostgresContext postgresContext, I
 {
    public async Task Handle(UpdateUserStatusV1Command request, CancellationToken cancellationToken)
    {
-      var user = await postgresContext.Users.FindAsync([request.Id], cancellationToken: cancellationToken);
+      var user = await postgresContext.Users.FindAsync([request.Id], cancellationToken);
 
       if (user is null || user.Role == UserRole.SuperAdmin)
       {
@@ -23,7 +23,7 @@ public class UpdateUserStatusV1CommandHandler(PostgresContext postgresContext, I
       }
 
       user.Status = request.Status;
-      
+
       user.MarkAsUpdated(requestContext.Identity.UserId);
       await postgresContext.SaveChangesAsync(cancellationToken);
    }

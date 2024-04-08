@@ -22,7 +22,7 @@ public static class RegisterServicesExtensions
       {
          builder.Services.AddSingleton<DatabaseHelper>();
       }
-      
+
 
       builder.Services.AddScoped<IRequestContext, RequestContext>();
       return builder;

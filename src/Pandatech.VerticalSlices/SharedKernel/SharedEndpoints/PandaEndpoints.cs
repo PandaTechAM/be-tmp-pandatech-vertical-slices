@@ -46,7 +46,9 @@ public static class PandaEndpoints
    private static WebApplication MapPrometheusEndpoints(this WebApplication app, bool enabled)
    {
       if (!enabled)
+      {
          return app;
+      }
 
       app.MapPrometheusScrapingEndpoint($"{BasePath}/metrics");
 
@@ -59,7 +61,9 @@ public static class PandaEndpoints
    private static WebApplication MapPingEndpoint(this WebApplication app, bool enabled)
    {
       if (!enabled)
+      {
          return app;
+      }
 
       app.MapGet($"{BasePath}/ping", () => "pong")
          .Produces<string>()
@@ -72,7 +76,9 @@ public static class PandaEndpoints
    private static WebApplication MapHealthEndpoint(this WebApplication app, bool enabled)
    {
       if (!enabled)
+      {
          return app;
+      }
 
       app.MapHealthChecks($"{BasePath}/health",
          new HealthCheckOptions { ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse });

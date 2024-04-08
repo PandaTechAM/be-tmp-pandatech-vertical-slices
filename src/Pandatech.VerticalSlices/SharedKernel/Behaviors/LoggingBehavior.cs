@@ -23,11 +23,11 @@ public class LoggingBehavior<TRequest, TResponse>(ILogger<Mediator> logger, IHos
          // Reflection! Could be a performance concern and also expose sensitive data
          if (!environment.IsProduction())
          {
-            Type myType = request.GetType();
+            var myType = request.GetType();
             IList<PropertyInfo> props = new List<PropertyInfo>(myType.GetProperties());
-            foreach (PropertyInfo prop in props)
+            foreach (var prop in props)
             {
-               object? propValue = prop.GetValue(request, null);
+               var propValue = prop.GetValue(request, null);
                logger.LogInformation("Property {Property} : {@Value}", prop.Name, propValue);
             }
          }

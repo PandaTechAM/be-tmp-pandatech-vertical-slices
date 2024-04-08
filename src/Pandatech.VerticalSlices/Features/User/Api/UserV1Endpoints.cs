@@ -17,9 +17,9 @@ namespace Pandatech.VerticalSlices.Features.User.Api;
 
 public class UserV1Endpoints : IEndpoint
 {
-   private static string RoutePrefix => ApiHelper.GetRoutePrefix(1, BaseRoute);
    private const string BaseRoute = "/users";
    private const string TagName = "users";
+   private static string RoutePrefix => ApiHelper.GetRoutePrefix(1, BaseRoute);
 
    public void AddRoutes(IEndpointRouteBuilder app)
    {

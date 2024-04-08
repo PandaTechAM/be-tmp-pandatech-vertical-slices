@@ -19,7 +19,7 @@ public class UpdatePasswordForcedV1CommandHandler(
    public async Task Handle(UpdatePasswordForcedV1Command request, CancellationToken cancellationToken)
    {
       var user = await dbContext.Users
-         .FirstOrDefaultAsync(x => x.Id == requestContext.Identity.UserId, cancellationToken: cancellationToken);
+         .FirstOrDefaultAsync(x => x.Id == requestContext.Identity.UserId, cancellationToken);
 
       if (user is null)
       {
@@ -35,12 +35,11 @@ public class UpdatePasswordForcedV1CommandHandler(
 
       user.PasswordHash = argon2Id.HashPassword(request.NewPassword);
       user.ForcePasswordChange = false;
-      
+
       user.MarkAsUpdated(requestContext.Identity.UserId);
 
       await dbContext.SaveChangesAsync(cancellationToken);
-      
-      BackgroundJob.Enqueue<ISender>(x => x.Send(new RevokeAllUserTokensExceptCurrentV1Command(), cancellationToken));
 
+      BackgroundJob.Enqueue<ISender>(x => x.Send(new RevokeAllUserTokensExceptCurrentV1Command(), cancellationToken));
    }
 }

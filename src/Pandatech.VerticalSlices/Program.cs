@@ -10,7 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.LogStartAttempt();
 
 if (!builder.Environment.IsLocal())
+{
    builder.Configuration.AddPandaVault();
+}
 
 builder
    .AddInfrastructure()
@@ -55,5 +57,5 @@ app.Run();
 
 namespace Pandatech.VerticalSlices
 {
-   public partial class Program;
+   public class Program;
 }

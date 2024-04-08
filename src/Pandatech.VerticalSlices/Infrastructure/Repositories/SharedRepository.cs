@@ -10,5 +10,4 @@ public class SharedRepository(PostgresContext context) : DatabaseOperationsBase(
    {
       return Context.Users.FirstOrDefaultAsync(u => u.Username == username, cancellationToken);
    }
-   
 }

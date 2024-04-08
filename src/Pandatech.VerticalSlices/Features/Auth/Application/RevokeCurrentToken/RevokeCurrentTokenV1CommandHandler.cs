@@ -13,7 +13,7 @@ public class RevokeCurrentTokenV1CommandHandler(IRequestContext requestContext, 
       var now = DateTime.UtcNow;
 
       var token = await dbContext.UserTokens
-         .FirstOrDefaultAsync(x => x.Id == requestContext.Identity.UserTokenId, cancellationToken: cancellationToken);
+         .FirstOrDefaultAsync(x => x.Id == requestContext.Identity.UserTokenId, cancellationToken);
 
       if (token is null)
       {

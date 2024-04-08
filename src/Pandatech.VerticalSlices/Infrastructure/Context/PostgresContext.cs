@@ -4,8 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using PandaTech.IEnumerableFilters.PostgresContext;
 using Pandatech.VerticalSlices.Domain.Entities;
 
-
 namespace Pandatech.VerticalSlices.Infrastructure.Context;
+
 //dotnet ef migrations add --project src\Pandatech.VerticalSlices\Pandatech.VerticalSlices.csproj --configuration Debug --output-dir Infrastructure/Context/Migrations
 public class PostgresContext : PostgresDbContext
 {

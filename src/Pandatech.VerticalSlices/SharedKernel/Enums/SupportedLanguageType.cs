@@ -2,7 +2,7 @@
 
 public enum SupportedLanguageType
 {
-    EnglishUs,
-    Russian,
-    Armenian
+   EnglishUs,
+   Russian,
+   Armenian
 }

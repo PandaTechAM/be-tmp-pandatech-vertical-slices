@@ -7,7 +7,7 @@ public abstract class DatabaseOperationsBase(PostgresContext context)
 {
    protected PostgresContext Context { get; } = context;
 
-   
+
    public async Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default)
    {
       return await Context.Database.BeginTransactionAsync(cancellationToken);
