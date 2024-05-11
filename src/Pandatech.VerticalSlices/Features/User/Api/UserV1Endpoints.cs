@@ -32,19 +32,17 @@ public class UserV1Endpoints : IEndpoint
       groupApp.MapPost("", async (ISender mediator, [FromBody] CreateUserV1Command command) =>
          {
             await mediator.Send(command);
-            return Results.Ok();
+            return TypedResults.Ok();
          })
          .Authorize()
-         .Produces(200)
          .Produces<ErrorResponse>(400);
 
       groupApp.MapGet("/{id}", async (ISender mediator, [PandaParameterBaseConverter] long id) =>
          {
             var user = await mediator.Send(new GetUserByIdV1Query(id));
-            return Results.Ok(user);
+            return TypedResults.Ok(user);
          })
          .Authorize()
-         .Produces<GetUserByIdV1QueryResponse>()
          .Produces<ErrorResponse>(404);
 
 
@@ -53,10 +51,9 @@ public class UserV1Endpoints : IEndpoint
             {
                command.Id = id;
                await mediator.Send(command);
-               return Results.Ok();
+               return TypedResults.Ok();
             })
          .Authorize()
-         .Produces(200)
          .Produces<ErrorResponse>(400)
          .Produces<ErrorResponse>(409);
 
@@ -67,10 +64,9 @@ public class UserV1Endpoints : IEndpoint
             {
                command.Id = id;
                await mediator.Send(command);
-               return Results.Ok();
+               return TypedResults.Ok();
             })
          .Authorize()
-         .Produces(200)
          .Produces<ErrorResponse>(400)
          .Produces<ErrorResponse>(404);
 
@@ -80,10 +76,9 @@ public class UserV1Endpoints : IEndpoint
             {
                command.Id = id;
                await mediator.Send(command);
-               return Results.Ok();
+               return TypedResults.Ok();
             })
          .Authorize()
-         .Produces(200)
          .Produces<ErrorResponse>(400)
          .Produces<ErrorResponse>(404);
 
@@ -91,10 +86,9 @@ public class UserV1Endpoints : IEndpoint
             async (ISender mediator, [FromBody] DeleteUsersV1Command command) =>
             {
                await mediator.Send(command);
-               return Results.Ok();
+               return TypedResults.Ok();
             })
          .Authorize()
-         .Produces(200)
          .Produces<ErrorResponse>(400);
    }
 }
