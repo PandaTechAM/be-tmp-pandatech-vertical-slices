@@ -57,5 +57,5 @@ app.Run();
 
 namespace Pandatech.VerticalSlices
 {
-   public class Program;
+   public partial class Program;
 }
