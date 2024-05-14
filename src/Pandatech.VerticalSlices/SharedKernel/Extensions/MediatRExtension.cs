@@ -10,9 +10,9 @@ public static class MediatrExtension
    {
       var assembly = typeof(Program).Assembly;
       builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(assembly));
+      builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
       builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviorWithoutResponse<,>));
       builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviorWithResponse<,>));
-      builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
       builder.Services.AddValidatorsFromAssembly(assembly);
       return builder;
    }
