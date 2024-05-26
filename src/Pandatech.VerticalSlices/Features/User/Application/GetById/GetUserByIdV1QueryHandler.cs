@@ -2,7 +2,7 @@ using Pandatech.VerticalSlices.Domain.Enums;
 using Pandatech.VerticalSlices.Features.User.Contracts.GetById;
 using Pandatech.VerticalSlices.Infrastructure.Context;
 using Pandatech.VerticalSlices.SharedKernel.Interfaces;
-using ResponseCrafter.StandardHttpExceptions;
+using ResponseCrafter.HttpExceptions;
 
 namespace Pandatech.VerticalSlices.Features.User.Application.GetById;
 

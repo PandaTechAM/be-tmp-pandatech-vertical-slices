@@ -1,5 +1,5 @@
 ﻿using Pandatech.VerticalSlices.SharedKernel.Enums;
-using ResponseCrafter.StandardHttpExceptions;
+using ResponseCrafter.HttpExceptions;
 
 namespace Pandatech.VerticalSlices.Features.Auth.Helpers;
 

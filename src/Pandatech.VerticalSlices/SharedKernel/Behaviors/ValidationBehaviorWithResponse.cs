@@ -1,6 +1,6 @@
 using FluentValidation;
 using MediatR;
-using ResponseCrafter.StandardHttpExceptions;
+using ResponseCrafter.HttpExceptions;
 
 namespace Pandatech.VerticalSlices.SharedKernel.Behaviors;
 

@@ -6,7 +6,7 @@ using Pandatech.VerticalSlices.Features.Auth.Contracts.RefreshToken;
 using Pandatech.VerticalSlices.Features.Auth.Helpers;
 using Pandatech.VerticalSlices.Infrastructure.Context;
 using Pandatech.VerticalSlices.SharedKernel.Interfaces;
-using ResponseCrafter.StandardHttpExceptions;
+using ResponseCrafter.HttpExceptions;
 
 namespace Pandatech.VerticalSlices.Features.Auth.Application.RefreshToken;
 

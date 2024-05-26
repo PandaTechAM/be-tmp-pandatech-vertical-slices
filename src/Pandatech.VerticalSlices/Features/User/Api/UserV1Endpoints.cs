@@ -9,7 +9,6 @@ using Pandatech.VerticalSlices.Features.User.Application.GetById;
 using Pandatech.VerticalSlices.Features.User.Application.Update;
 using Pandatech.VerticalSlices.Features.User.Application.UpdatePassword;
 using Pandatech.VerticalSlices.Features.User.Application.UpdateStatus;
-using Pandatech.VerticalSlices.Features.User.Contracts.GetById;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
 using ResponseCrafter.Dtos;
 

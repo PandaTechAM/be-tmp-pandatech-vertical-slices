@@ -3,7 +3,7 @@ using Pandatech.VerticalSlices.Infrastructure;
 using Pandatech.VerticalSlices.SharedKernel.Extensions;
 using Pandatech.VerticalSlices.SharedKernel.SharedEndpoints;
 using PandaVaultClient;
-using ResponseCrafter;
+using ResponseCrafter.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

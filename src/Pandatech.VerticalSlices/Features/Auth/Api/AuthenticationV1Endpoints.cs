@@ -7,8 +7,6 @@ using Pandatech.VerticalSlices.Features.Auth.Application.RefreshToken;
 using Pandatech.VerticalSlices.Features.Auth.Application.RevokeCurrentToken;
 using Pandatech.VerticalSlices.Features.Auth.Application.UpdateOwnPassword;
 using Pandatech.VerticalSlices.Features.Auth.Application.UpdatePasswordForced;
-using Pandatech.VerticalSlices.Features.Auth.Contracts.IdentityState;
-using Pandatech.VerticalSlices.Features.Auth.Contracts.Login;
 using Pandatech.VerticalSlices.Features.Auth.Helpers;
 using Pandatech.VerticalSlices.SharedKernel.Enums;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;

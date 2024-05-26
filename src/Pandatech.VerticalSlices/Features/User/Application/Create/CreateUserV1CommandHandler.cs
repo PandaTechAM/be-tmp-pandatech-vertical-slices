@@ -3,7 +3,7 @@ using Pandatech.Crypto;
 using Pandatech.VerticalSlices.Domain.Entities;
 using Pandatech.VerticalSlices.Infrastructure.Context;
 using Pandatech.VerticalSlices.SharedKernel.Interfaces;
-using ResponseCrafter.StandardHttpExceptions;
+using ResponseCrafter.HttpExceptions;
 
 namespace Pandatech.VerticalSlices.Features.User.Application.Create;
 
