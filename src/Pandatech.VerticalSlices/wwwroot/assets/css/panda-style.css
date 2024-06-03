@@ -1,6 +1,6 @@
-/* body {
-  background-image: url("../images/images.png");
-} */
+.swagger-ui svg:not(:root) {
+   visibility: hidden;
+}
 
 .swagger-ui .topbar .download-url-wrapper {
    display: flex;
