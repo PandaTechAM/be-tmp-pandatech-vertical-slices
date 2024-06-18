@@ -111,10 +111,7 @@ public class UserEndpoints : IEndpoint
          .Authorize()
          .ProducesErrorResponse(400);
 
-      groupApp.MapGet("/filters", () =>
-         {
-            Results.Ok(QueryableExtensions.GetMappings<Domain.Entities.User>());
-         })
+      groupApp.MapGet("/filters", () => TypedResults.Ok(QueryableExtensions.GetMappings<Domain.Entities.User>()))
          .Authorize()
          .WithSummary("Get filter technical information")
          .ProducesErrorResponse(400);
