@@ -6,8 +6,8 @@ public class DeleteUsersCommandValidator : AbstractValidator<DeleteUsersCommand>
 {
    public DeleteUsersCommandValidator()
    {
-         RuleFor(x => x.Ids)
-            .NotEmpty()
-            .ForEach(x => x.NotEmpty());
-      }
+      RuleFor(x => x.Ids)
+         .NotEmpty()
+         .ForEach(x => x.NotEmpty());
+   }
 }

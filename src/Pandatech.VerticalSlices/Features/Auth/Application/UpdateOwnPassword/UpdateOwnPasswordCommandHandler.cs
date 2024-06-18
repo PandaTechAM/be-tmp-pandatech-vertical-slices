@@ -13,8 +13,8 @@ namespace Pandatech.VerticalSlices.Features.Auth.Application.UpdateOwnPassword;
 public class UpdateOwnPasswordCommandHandler(
    IRequestContext requestContext,
    PostgresContext postgresContext,
-   Argon2Id argon2Id,
-   ISender sender) : ICommandHandler<UpdateOwnPasswordCommand>
+   Argon2Id argon2Id) 
+   : ICommandHandler<UpdateOwnPasswordCommand>
 {
    public async Task Handle(UpdateOwnPasswordCommand request, CancellationToken cancellationToken)
    {

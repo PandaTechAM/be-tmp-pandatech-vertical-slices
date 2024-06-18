@@ -38,7 +38,7 @@ public class RefreshTokenCommandHandler(IConfiguration configuration, PostgresCo
       var newToken =
          CreateNewToken(now, userToken, out var newRefreshTokenSignature, out var accessTokenSignature);
 
-      await dbContext.Tokens.AddAsync(newToken, cancellationToken);
+      dbContext.Tokens.Add(newToken);
       InvalidateOldToken(userToken, now);
       await dbContext.SaveChangesAsync(cancellationToken);
       return RefreshTokenV1CommandResponse.MapFromUserTokenEntity(newToken, accessTokenSignature,

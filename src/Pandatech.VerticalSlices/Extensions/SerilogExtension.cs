@@ -74,11 +74,12 @@ public static class SerilogExtension
       {
          return false;
       }
+
       return logEvent.RenderMessage().StartsWith("Executed DbCommand") &&
-             (logEvent.RenderMessage().Contains("FROM outbox_messages") || 
+             (logEvent.RenderMessage().Contains("FROM outbox_messages") ||
               logEvent.RenderMessage().Contains("FROM OutboxMessages"));
    }
-   
+
    private static bool ShouldExcludeHangfireDashboardLogs(this LogEvent logEvent)
    {
       return logEvent.Properties.TryGetValue("RequestPath", out var requestPathValue)

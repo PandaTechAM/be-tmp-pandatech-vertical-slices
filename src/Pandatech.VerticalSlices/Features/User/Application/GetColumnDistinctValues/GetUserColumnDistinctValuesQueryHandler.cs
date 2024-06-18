@@ -9,9 +9,10 @@ namespace Pandatech.VerticalSlices.Features.User.Application.GetColumnDistinctVa
 public class GetUserColumnDistinctValuesQueryHandler(PostgresContext dbContext)
    : IQueryHandler<GetUserColumnDistinctValuesQuery, PagedResponse<object>>
 {
-   public  Task<PagedResponse<object>> Handle(GetUserColumnDistinctValuesQuery request, CancellationToken cancellationToken)
+   public Task<PagedResponse<object>> Handle(GetUserColumnDistinctValuesQuery request,
+      CancellationToken cancellationToken)
    {
-      return  dbContext
+      return dbContext
          .Users
          .Where(u => u.Role != UserRole.SuperAdmin)
          .ColumnDistinctValuesAsync(request, cancellationToken: cancellationToken);

@@ -17,15 +17,15 @@ public class RefreshTokenV1CommandResponse
    public static RefreshTokenV1CommandResponse MapFromUserTokenEntity(Token token,
       string accessTokenSignature, string refreshTokenSignature, Token oldToken)
    {
-         return new RefreshTokenV1CommandResponse
-         {
-            UserId = token.UserId,
-            ForcePasswordChange = oldToken.User.ForcePasswordChange,
-            UserRole = oldToken.User.Role,
-            AccessTokenSignature = accessTokenSignature,
-            AccessTokenExpiration = token.AccessTokenExpiresAt,
-            RefreshTokenSignature = refreshTokenSignature,
-            RefreshTokenExpiration = token.RefreshTokenExpiresAt
-         };
-      }
+      return new RefreshTokenV1CommandResponse
+      {
+         UserId = token.UserId,
+         ForcePasswordChange = oldToken.User.ForcePasswordChange,
+         UserRole = oldToken.User.Role,
+         AccessTokenSignature = accessTokenSignature,
+         AccessTokenExpiration = token.AccessTokenExpiresAt,
+         RefreshTokenSignature = refreshTokenSignature,
+         RefreshTokenExpiration = token.RefreshTokenExpiresAt
+      };
+   }
 }

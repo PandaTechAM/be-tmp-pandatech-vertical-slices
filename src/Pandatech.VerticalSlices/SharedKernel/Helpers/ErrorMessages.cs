@@ -11,4 +11,5 @@ public static class ErrorMessages
    public const string NewPasswordMustBeDifferentFromOldPassword = "new_password_must_be_different_from_old_password";
    public const string AccessTokenIsExpired = "access_token_is_expired";
    public const string InvalidUsernameOrPassword = "invalid_username_or_password";
+   public const string InvalidTokenFormat = "invalid_token_format";
 }

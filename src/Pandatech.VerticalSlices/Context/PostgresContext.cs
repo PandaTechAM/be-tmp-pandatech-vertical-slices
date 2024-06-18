@@ -13,20 +13,20 @@ public class PostgresContext : PostgresFunctions, IOutboxDbContext, IInboxDbCont
 {
    public PostgresContext(DbContextOptions<PostgresContext> options) : base(options)
    {
-         this.UseAuditPropertyValidation();
-      }
+      this.UseAuditPropertyValidation();
+   }
 
-   public DbSet<OutboxMessage> OutboxMessages { get; set; }
-   public DbSet<InboxMessage> InboxMessages { get; set; }
    public DbSet<Token> Tokens { get; set; } = null!;
    public DbSet<User> Users { get; set; } = null!;
+   public DbSet<InboxMessage> InboxMessages { get; set; }
+
+   public DbSet<OutboxMessage> OutboxMessages { get; set; }
 
    protected override void OnModelCreating(ModelBuilder modelBuilder)
    {
-         base.OnModelCreating(modelBuilder);
-         modelBuilder.ConfigureInboxOutboxEntities();
-         modelBuilder.FilterOutDeletedMarkedObjects();
-         modelBuilder.ApplyConfigurationsFromAssembly(typeof(Program).Assembly);
-      }
-
+      base.OnModelCreating(modelBuilder);
+      modelBuilder.ConfigureInboxOutboxEntities();
+      modelBuilder.FilterOutDeletedMarkedObjects();
+      modelBuilder.ApplyConfigurationsFromAssembly(typeof(Program).Assembly);
+   }
 }

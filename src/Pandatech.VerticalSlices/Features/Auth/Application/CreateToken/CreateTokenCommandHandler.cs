@@ -35,7 +35,7 @@ public class CreateTokenCommandHandler(IConfiguration configuration, PostgresCon
          UpdatedAt = now
       };
 
-      await dbContext.Tokens.AddAsync(token, cancellationToken);
+      dbContext.Tokens.Add(token);
       await dbContext.SaveChangesAsync(cancellationToken);
 
       return CreateTokenCommandResponse.MapFromEntity(token, accessTokenSignature, refreshTokenSignature);

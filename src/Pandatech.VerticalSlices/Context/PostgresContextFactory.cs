@@ -7,10 +7,10 @@ public class PostgresContextFactory : IDesignTimeDbContextFactory<PostgresContex
 {
    public PostgresContext CreateDbContext(string[] args)
    {
-         var optionsBuilder = new DbContextOptionsBuilder<PostgresContext>();
+      var optionsBuilder = new DbContextOptionsBuilder<PostgresContext>();
 
-         optionsBuilder.UseNpgsql().UseSnakeCaseNamingConvention();
+      optionsBuilder.UseNpgsql().UseSnakeCaseNamingConvention();
 
-         return new PostgresContext(optionsBuilder.Options);
-      }
+      return new PostgresContext(optionsBuilder.Options);
+   }
 }

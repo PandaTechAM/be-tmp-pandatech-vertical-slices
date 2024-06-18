@@ -9,6 +9,6 @@ public class GetIdentityStateQueryHandler(IRequestContext requestContext)
    public Task<IdentityStateCommandResponse> Handle(GetIdentityStateQuery request,
       CancellationToken cancellationToken)
    {
-         return Task.FromResult(IdentityStateCommandResponse.MapFromIdentity(requestContext.Identity));
-      }
+      return Task.FromResult(IdentityStateCommandResponse.MapFromIdentity(requestContext.Identity));
+   }
 }

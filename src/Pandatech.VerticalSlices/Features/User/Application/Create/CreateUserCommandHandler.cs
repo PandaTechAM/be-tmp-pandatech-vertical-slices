@@ -32,7 +32,7 @@ public class CreateUserCommandHandler(PostgresContext dbContext, Argon2Id argon,
          CreatedByUserId = requestContext.Identity.UserId
       };
 
-      await dbContext.Users.AddAsync(user, cancellationToken);
+      dbContext.Users.Add(user);
       await dbContext.SaveChangesAsync(cancellationToken);
    }
 }

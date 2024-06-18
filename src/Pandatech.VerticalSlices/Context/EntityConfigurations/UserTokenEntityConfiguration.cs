@@ -10,7 +10,7 @@ public class UserTokenEntityConfiguration : IEntityTypeConfiguration<Token>
    {
       builder.HasKey(x => x.Id);
 
-      
+
       builder.HasOne(x => x.User)
          .WithMany(u => u.Tokens)
          .HasForeignKey(x => x.UserId)

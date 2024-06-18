@@ -1,7 +1,6 @@
 ﻿using GridifyExtensions.Extensions;
 using GridifyExtensions.Models;
 using Pandatech.VerticalSlices.Context;
-using Pandatech.VerticalSlices.Domain.Enums;
 using Pandatech.VerticalSlices.Features.User.Contracts.GetById;
 using Pandatech.VerticalSlices.SharedKernel.Interfaces;
 
@@ -14,8 +13,6 @@ public class GetUsersQueryHandler(PostgresContext dbContext)
    {
       return dbContext
          .Users
-         .Where(u => u.Role != UserRole.SuperAdmin)
-         .OrderBy(x => x.FullName)
          .FilterOrderAndGetPagedAsync(request,
             x => new GetUserQueryResponse
             {
@@ -25,6 +22,6 @@ public class GetUsersQueryHandler(PostgresContext dbContext)
                Role = x.Role,
                Status = x.Status,
                Comment = x.Comment
-            }, cancellationToken: cancellationToken);
+            }, cancellationToken);
    }
 }

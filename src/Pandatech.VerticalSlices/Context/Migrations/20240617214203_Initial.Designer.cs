@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Pandatech.VerticalSlices.Context;
-using Pandatech.VerticalSlices.Infrastructure.Context;
 
 #nullable disable
 

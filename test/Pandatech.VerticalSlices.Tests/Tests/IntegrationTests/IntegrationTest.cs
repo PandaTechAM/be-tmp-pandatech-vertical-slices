@@ -10,28 +10,28 @@ public class IntegrationTest : IAsyncLifetime
 
    public IntegrationTest(ApiFactory factory)
    {
-         _client = factory.HttpClient;
-         _resetState = factory.ResetStateAsync;
-      }
+      _client = factory.HttpClient;
+      _resetState = factory.ResetStateAsync;
+   }
 
    public Task InitializeAsync()
    {
-         return Task.CompletedTask;
-      }
+      return Task.CompletedTask;
+   }
 
    public Task DisposeAsync()
    {
-         return _resetState();
-      }
+      return _resetState();
+   }
 
    [Fact]
    public void MethodName()
    {
-         // Arrange
+      // Arrange
 
-         // Act
+      // Act
 
-         // Assert
-         Assert.True(true);
-      }
+      // Assert
+      Assert.True(true);
+   }
 }

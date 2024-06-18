@@ -14,5 +14,7 @@ public class UserEntityFilters : FilterMapper<User>
       AddMap("Role", x => x.Role != UserRole.SuperAdmin);
       AddMap("Status", x => x.Status);
       AddMap("Comment", x => x.Comment);
+
+      AddDefaultOrderBy("FullName");
    }
 }

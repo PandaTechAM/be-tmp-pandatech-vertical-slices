@@ -18,15 +18,15 @@ public class LoginCommandResponse
    public static LoginCommandResponse MapFromEntity(CreateTokenCommandResponse token, UserRole userRole,
       bool forcePasswordChange)
    {
-         return new LoginCommandResponse
-         {
-            UserId = token.UserId,
-            ForcePasswordChange = forcePasswordChange,
-            UserRole = userRole,
-            AccessTokenSignature = token.AccessTokenSignature,
-            AccessTokenExpiration = token.AccessTokenExpiresAt,
-            RefreshTokenSignature = token.RefreshTokenSignature,
-            RefreshTokenExpiration = token.RefreshTokenExpiresAt
-         };
-      }
+      return new LoginCommandResponse
+      {
+         UserId = token.UserId,
+         ForcePasswordChange = forcePasswordChange,
+         UserRole = userRole,
+         AccessTokenSignature = token.AccessTokenSignature,
+         AccessTokenExpiration = token.AccessTokenExpiresAt,
+         RefreshTokenSignature = token.RefreshTokenSignature,
+         RefreshTokenExpiration = token.RefreshTokenExpiresAt
+      };
+   }
 }

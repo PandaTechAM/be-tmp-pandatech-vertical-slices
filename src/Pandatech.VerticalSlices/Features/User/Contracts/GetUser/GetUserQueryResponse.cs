@@ -16,16 +16,16 @@ public class GetUserQueryResponse
 
    public static GetUserQueryResponse MapFromEntity(Domain.Entities.User entity)
    {
-         return new GetUserQueryResponse
-         {
-            Id = entity.Id,
-            Username = entity.Username,
-            FullName = entity.FullName,
-            Role = entity.Role,
-            Status = entity.Status,
-            CreatedAt = entity.CreatedAt,
-            UpdatedAt = entity.UpdatedAt,
-            Comment = entity.Comment
-         };
-      }
+      return new GetUserQueryResponse
+      {
+         Id = entity.Id,
+         Username = entity.Username,
+         FullName = entity.FullName,
+         Role = entity.Role,
+         Status = entity.Status,
+         CreatedAt = entity.CreatedAt,
+         UpdatedAt = entity.UpdatedAt,
+         Comment = entity.Comment
+      };
+   }
 }

@@ -1,5 +1,6 @@
 using FluentMinimalApiMapper;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using Pandatech.VerticalSlices.Domain.Enums;
 using Pandatech.VerticalSlices.Features.Auth.Application.IdentityState;
 using Pandatech.VerticalSlices.Features.Auth.Application.Login;
@@ -32,9 +33,9 @@ public class AuthenticationEndpoints : IEndpoint
 
       groupApp.MapPost("/login",
             async (ISender sender, LoginCommand command, IHttpContextAccessor httpContextAccessor,
-               IHostEnvironment environment, IConfiguration configuration) =>
+               IHostEnvironment environment, IConfiguration configuration, CancellationToken token) =>
             {
-               var response = await sender.Send(command);
+               var response = await sender.Send(command, token);
                var clientType = httpContextAccessor.HttpContext!.TryParseClientType().ConvertToEnum();
 
                if (clientType != ClientType.Browser)
@@ -55,10 +56,10 @@ public class AuthenticationEndpoints : IEndpoint
 
       groupApp.MapPost("/refresh-token",
             async (ISender sender, IHttpContextAccessor httpContextAccessor,
-               IHostEnvironment environment, IConfiguration configuration) =>
+               IHostEnvironment environment, IConfiguration configuration, CancellationToken token) =>
             {
                var refreshTokenSignature = httpContextAccessor.HttpContext!.TryParseRefreshTokenSignature(environment);
-               var response = await sender.Send(new RefreshTokenCommand(refreshTokenSignature));
+               var response = await sender.Send(new RefreshTokenCommand(refreshTokenSignature), token);
                var clientType = httpContextAccessor.HttpContext!.TryParseClientType().ConvertToEnum();
 
                if (clientType != ClientType.Browser)
@@ -76,9 +77,9 @@ public class AuthenticationEndpoints : IEndpoint
          .ProducesErrorResponse(400);
 
 
-      groupApp.MapGet("/state", async (ISender sender) =>
+      groupApp.MapGet("/state", async (ISender sender, CancellationToken token) =>
          {
-            var identity = await sender.Send(new GetIdentityStateQuery());
+            var identity = await sender.Send(new GetIdentityStateQuery(), token);
             return TypedResults.Ok(identity);
          })
          .Authorize(UserRole.User)
@@ -87,10 +88,10 @@ public class AuthenticationEndpoints : IEndpoint
 
       groupApp.MapPost("/logout",
             async (ISender sender, IHttpContextAccessor httpContextAccessor, IHostEnvironment environment,
-               IConfiguration configuration) =>
+               IConfiguration configuration, CancellationToken token) =>
             {
                var domain = configuration["Security:CookieDomain"]!;
-               await sender.Send(new RevokeCurrentTokenCommand());
+               await sender.Send(new RevokeCurrentTokenCommand(), token);
                httpContextAccessor.HttpContext!.DeleteAllCookies(environment, domain);
                return TypedResults.Ok();
             })
@@ -99,9 +100,9 @@ public class AuthenticationEndpoints : IEndpoint
          .ProducesErrorResponse(404);
 
       groupApp.MapPatch("/password/force",
-            async (ISender sender, UpdatePasswordForcedCommand command) =>
+            async (ISender sender, UpdatePasswordForcedCommand command, CancellationToken token) =>
             {
-               await sender.Send(command);
+               await sender.Send(command, token);
                return TypedResults.Ok();
             })
          .Authorize(UserRole.User)
@@ -109,11 +110,12 @@ public class AuthenticationEndpoints : IEndpoint
          .WithDescription("This endpoint is used to update the user password when it is forced.")
          .ProducesErrorResponse(400);
 
-      groupApp.MapPatch("/password/own", async (ISender sender, UpdateOwnPasswordCommand command) =>
-         {
-            await sender.Send(command);
-            return TypedResults.Ok();
-         })
+      groupApp.MapPatch("/password/own",
+            async (ISender sender, [FromBody] UpdateOwnPasswordCommand command, CancellationToken token) =>
+            {
+               await sender.Send(command, token);
+               return TypedResults.Ok();
+            })
          .Authorize(UserRole.User)
          .WithDescription("This endpoint is used to update the user password from its own profile.")
          .ProducesErrorResponse(400);

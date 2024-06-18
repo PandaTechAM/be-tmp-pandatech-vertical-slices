@@ -2,5 +2,4 @@ namespace Pandatech.VerticalSlices.Features.Auth.Helpers.ApiAuth.MinimalApiExten
 
 public class AnonymousMetadata
 {
-   
 }

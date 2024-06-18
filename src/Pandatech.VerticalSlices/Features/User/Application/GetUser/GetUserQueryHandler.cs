@@ -16,7 +16,7 @@ public class GetUserQueryHandler(PostgresContext postgresContext)
       var user = await postgresContext
          .Users
          .FirstOrDefaultAsync(x => x.Id == request.Id && x.Role != UserRole.SuperAdmin,
-            cancellationToken: cancellationToken);
+            cancellationToken);
 
       if (user is null)
       {

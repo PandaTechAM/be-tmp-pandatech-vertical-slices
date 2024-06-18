@@ -10,28 +10,28 @@ public class RevokeCurrentTokenCommandHandler(IRequestContext requestContext, Po
 {
    public async Task Handle(RevokeCurrentTokenCommand request, CancellationToken cancellationToken)
    {
-         var now = DateTime.UtcNow;
+      var now = DateTime.UtcNow;
 
-         var token = await dbContext.Tokens
-            .FirstOrDefaultAsync(x => x.Id == requestContext.Identity.UserTokenId, cancellationToken);
+      var token = await dbContext.Tokens
+         .FirstOrDefaultAsync(x => x.Id == requestContext.Identity.UserTokenId, cancellationToken);
 
-         if (token is null)
-         {
-            throw new NotFoundException();
-         }
-
-         if (token.AccessTokenExpiresAt > now)
-         {
-            token.AccessTokenExpiresAt = now;
-            token.UpdatedAt = now;
-         }
-
-         if (token.RefreshTokenExpiresAt > now)
-         {
-            token.RefreshTokenExpiresAt = now;
-            token.UpdatedAt = now;
-         }
-
-         await dbContext.SaveChangesAsync(cancellationToken);
+      if (token is null)
+      {
+         throw new NotFoundException();
       }
+
+      if (token.AccessTokenExpiresAt > now)
+      {
+         token.AccessTokenExpiresAt = now;
+         token.UpdatedAt = now;
+      }
+
+      if (token.RefreshTokenExpiresAt > now)
+      {
+         token.RefreshTokenExpiresAt = now;
+         token.UpdatedAt = now;
+      }
+
+      await dbContext.SaveChangesAsync(cancellationToken);
+   }
 }

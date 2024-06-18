@@ -9,34 +9,34 @@ public class RevokeAllTokensCommandHandler(PostgresContext dbContext)
 {
    public async Task Handle(RevokeAllTokensCommand request, CancellationToken cancellationToken)
    {
-         var now = DateTime.UtcNow;
+      var now = DateTime.UtcNow;
 
-         var tokens = await dbContext.Tokens
-            .Where(x =>
-               x.UserId == request.UserId
-               && (x.AccessTokenExpiresAt >= now || x.RefreshTokenExpiresAt >= now))
-            .ToListAsync(cancellationToken);
+      var tokens = await dbContext.Tokens
+         .Where(x =>
+            x.UserId == request.UserId
+            && (x.AccessTokenExpiresAt >= now || x.RefreshTokenExpiresAt >= now))
+         .ToListAsync(cancellationToken);
 
-         if (tokens.Count == 0)
-         {
-            return;
-         }
-
-         foreach (var token in tokens)
-         {
-            if (token.AccessTokenExpiresAt > now)
-            {
-               token.AccessTokenExpiresAt = now;
-               token.UpdatedAt = now;
-            }
-
-            if (token.RefreshTokenExpiresAt > now)
-            {
-               token.RefreshTokenExpiresAt = now;
-               token.UpdatedAt = now;
-            }
-         }
-
-         await dbContext.SaveChangesAsync(cancellationToken);
+      if (tokens.Count == 0)
+      {
+         return;
       }
+
+      foreach (var token in tokens)
+      {
+         if (token.AccessTokenExpiresAt > now)
+         {
+            token.AccessTokenExpiresAt = now;
+            token.UpdatedAt = now;
+         }
+
+         if (token.RefreshTokenExpiresAt > now)
+         {
+            token.RefreshTokenExpiresAt = now;
+            token.UpdatedAt = now;
+         }
+      }
+
+      await dbContext.SaveChangesAsync(cancellationToken);
+   }
 }

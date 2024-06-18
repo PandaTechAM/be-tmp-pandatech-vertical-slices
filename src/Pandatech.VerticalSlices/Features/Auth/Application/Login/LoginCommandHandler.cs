@@ -16,16 +16,16 @@ public class LoginCommandHandler(PostgresContext dbContext, Argon2Id argon2Id, I
 {
    public async Task<LoginCommandResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
    {
-         var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Username == request.Username, cancellationToken);
+      var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Username == request.Username, cancellationToken);
 
-         if (user is null || user.Status != UserStatus.Active ||
-             !argon2Id.VerifyHash(request.Password, user.PasswordHash))
-         {
-            throw new BadRequestException(ErrorMessages.InvalidUsernameOrPassword);
-         }
-
-         var userToken = await sender.Send(new CreateTokenCommand(user.Id), cancellationToken);
-
-         return LoginCommandResponse.MapFromEntity(userToken, user.Role, user.ForcePasswordChange);
+      if (user is null || user.Status != UserStatus.Active ||
+          !argon2Id.VerifyHash(request.Password, user.PasswordHash))
+      {
+         throw new BadRequestException(ErrorMessages.InvalidUsernameOrPassword);
       }
+
+      var userToken = await sender.Send(new CreateTokenCommand(user.Id), cancellationToken);
+
+      return LoginCommandResponse.MapFromEntity(userToken, user.Role, user.ForcePasswordChange);
+   }
 }
