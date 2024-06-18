@@ -1,8 +1,15 @@
+using DistributedCache.Extensions;
 using FluentMinimalApiMapper;
-using Pandatech.VerticalSlices.Infrastructure;
+using GridifyExtensions.Extensions;
+using MassTransit.PostgresOutbox.Extensions;
+using Pandatech.VerticalSlices.Context;
+using Pandatech.VerticalSlices.Context.SeedDatabase.User;
+using Pandatech.VerticalSlices.Extensions;
 using Pandatech.VerticalSlices.SharedKernel.Extensions;
+using Pandatech.VerticalSlices.SharedKernel.Helpers;
 using Pandatech.VerticalSlices.SharedKernel.SharedEndpoints;
 using PandaVaultClient;
+using ResponseCrafter.Enums;
 using ResponseCrafter.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,15 +22,26 @@ if (!builder.Environment.IsLocal())
 }
 
 builder
-   .AddInfrastructure()
+   .AddSerilog()
+   .AddHangfireServer()
+   .AddPostgresContext()
+   .AddPandaCrypto()
+   .AddMassTransit(typeof(Program).Assembly)
+   .AddHealthChecks()
    .AddCors()
    .RegisterAllServices()
    .AddSwagger()
-   .AddResponseCrafter()
+   .AddResponseCrafter(NamingConvention.ToSnakeCase)
    .ConfigureOpenTelemetry()
    .AddEndpoints()
+   .AddGridify()
+   .AddDistributedCache(options =>
+   {
+      options.RedisConnectionString = builder.Configuration.GetConnectionString(ConfigurationPaths.RedisUrl)!;
+   })
    .AddMediatrWithBehaviors();
 
+builder.Services.AddOutboxInboxServices<PostgresContext>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 builder.Services.AddEndpointsApiExplorer();
@@ -32,7 +50,10 @@ var app = builder.Build();
 
 app.UseStaticFiles();
 app.UseResponseCrafter()
-   .UseInfrastructure()
+   .MigrateDatabase()
+   .EnsureHealthy()
+   .UseHangfireServer()
+   .SeedSystemUser()
    .UseCors()
    .UseSwagger(app.Configuration);
 

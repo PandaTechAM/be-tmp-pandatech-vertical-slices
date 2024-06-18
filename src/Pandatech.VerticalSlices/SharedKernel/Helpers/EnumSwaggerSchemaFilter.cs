@@ -1,7 +1,7 @@
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Pandatech.ModularMonolith.ApiGateway.Helpers;
+namespace Pandatech.VerticalSlices.SharedKernel.Helpers;
 
 public class EnumSwaggerSchemaFilter : ISchemaFilter
 {

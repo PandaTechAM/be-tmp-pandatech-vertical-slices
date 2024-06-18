@@ -69,7 +69,7 @@ public static class CookieHelper
    }
 
    public static void PrepareAndSetCookies(this HttpContext httpContext,
-      RefreshUserTokenV1CommandResponse mediatorResponse, IHostEnvironment environment,
+      RefreshTokenV1CommandResponse mediatorResponse, IHostEnvironment environment,
       string domain)
    {
       var cookies = new IdentityCookies
@@ -83,7 +83,7 @@ public static class CookieHelper
    }
 
    public static void PrepareAndSetCookies(this HttpContext httpContext,
-      LoginV1CommandResponse mediatorResponse, IHostEnvironment environment,
+      LoginCommandResponse mediatorResponse, IHostEnvironment environment,
       string domain)
    {
       var cookies = new IdentityCookies

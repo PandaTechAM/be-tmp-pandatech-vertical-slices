@@ -9,22 +9,22 @@ public static class RegisterServicesExtensions
 {
    public static WebApplicationBuilder RegisterAllServices(this WebApplicationBuilder builder)
    {
-      builder.AddServices();
-      builder.RegisterPandaVaultEndpoint(); //optional
+         builder.AddServices();
+         builder.RegisterPandaVaultEndpoint(); //optional
 
 
-      return builder;
-   }
+         return builder;
+      }
 
    private static WebApplicationBuilder AddServices(this WebApplicationBuilder builder)
    {
-      if (builder.Environment.IsLocal())
-      {
-         builder.Services.AddSingleton<DatabaseHelper>();
+         if (builder.Environment.IsLocal())
+         {
+            builder.Services.AddSingleton<DatabaseHelper>();
+         }
+
+
+         builder.Services.AddScoped<IRequestContext, RequestContext>();
+         return builder;
       }
-
-
-      builder.Services.AddScoped<IRequestContext, RequestContext>();
-      return builder;
-   }
 }

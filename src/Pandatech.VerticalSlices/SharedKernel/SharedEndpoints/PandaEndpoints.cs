@@ -3,7 +3,7 @@ using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using Pandatech.VerticalSlices.Infrastructure.Context;
+using Pandatech.VerticalSlices.Context;
 using Pandatech.VerticalSlices.SharedKernel.Extensions;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
 using PandaVaultClient;
@@ -19,7 +19,7 @@ public static class PandaEndpoints
    {
       if (!app.Environment.IsProduction())
       {
-         app.MapPandaVaultApi($"{BasePath}/configuration", TagName, ApiHelper.GroupNameMain);
+         app.MapPandaVaultApi($"{BasePath}/configuration", TagName, ApiHelper.GroupVertical);
       }
 
       if (app.Environment.IsLocal())
@@ -37,7 +37,7 @@ public static class PandaEndpoints
       app.MapGet($"{BasePath}/reset-database",
             ([FromServices] DatabaseHelper helper) => helper.ResetDatabase<PostgresContext>())
          .WithTags(TagName)
-         .WithGroupName(ApiHelper.GroupNameMain);
+         .WithGroupName(ApiHelper.GroupVertical);
 
 
       return app;
@@ -68,7 +68,7 @@ public static class PandaEndpoints
       app.MapGet($"{BasePath}/ping", () => "pong")
          .Produces<string>()
          .WithTags(TagName)
-         .WithGroupName(ApiHelper.GroupNameMain)
+         .WithGroupName(ApiHelper.GroupVertical)
          .WithOpenApi();
       return app;
    }

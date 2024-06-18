@@ -8,28 +8,28 @@ public static class OpenTelemetryExtension
 {
    public static WebApplicationBuilder ConfigureOpenTelemetry(this WebApplicationBuilder builder)
    {
-      builder.Logging.AddOpenTelemetry(x =>
-      {
-         x.IncludeScopes = true;
-         x.IncludeFormattedMessage = true;
-      });
-
-      builder.Services.AddOpenTelemetry()
-         .ConfigureResource(resource => resource.AddService(builder.Environment.ApplicationName))
-         .WithMetrics(metrics =>
+         builder.Logging.AddOpenTelemetry(x =>
          {
-            metrics.AddRuntimeInstrumentation()
-               .AddAspNetCoreInstrumentation()
-               .AddHttpClientInstrumentation()
-               .AddPrometheusExporter();
-         })
-         .WithTracing(tracing =>
-         {
-            tracing.AddAspNetCoreInstrumentation()
-               .AddHttpClientInstrumentation()
-               .AddGrpcClientInstrumentation();
+            x.IncludeScopes = true;
+            x.IncludeFormattedMessage = true;
          });
 
-      return builder;
-   }
+         builder.Services.AddOpenTelemetry()
+            .ConfigureResource(resource => resource.AddService(builder.Environment.ApplicationName))
+            .WithMetrics(metrics =>
+            {
+               metrics.AddRuntimeInstrumentation()
+                  .AddAspNetCoreInstrumentation()
+                  .AddHttpClientInstrumentation()
+                  .AddPrometheusExporter();
+            })
+            .WithTracing(tracing =>
+            {
+               tracing.AddAspNetCoreInstrumentation()
+                  .AddHttpClientInstrumentation()
+                  .AddGrpcClientInstrumentation();
+            });
+
+         return builder;
+      }
 }
