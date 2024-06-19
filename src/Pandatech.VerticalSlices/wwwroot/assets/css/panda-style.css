@@ -1,10 +1,12 @@
-.swagger-ui .auth-container .btn.modal-btn.auth{
+.swagger-ui .auth-container .btn.modal-btn.auth {
    display: flex;
    justify-content: center;
 }
-.topbar-wrapper > a > svg{
+
+.topbar-wrapper > a > svg {
    opacity: 0;
 }
+
 .swagger-ui .topbar .download-url-wrapper {
    display: flex;
 }
