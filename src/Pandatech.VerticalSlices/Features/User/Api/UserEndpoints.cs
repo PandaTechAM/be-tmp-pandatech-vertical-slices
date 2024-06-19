@@ -1,4 +1,5 @@
 using BaseConverter.Attributes;
+using BaseConverter.Extensions;
 using FluentMinimalApiMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -39,17 +40,18 @@ public class UserEndpoints : IEndpoint
          .Authorize()
          .ProducesErrorResponse(400);
 
-      groupApp.MapGet("/{id}", async (ISender sender, [PandaParameterBaseConverter] long id, CancellationToken token) =>
+      groupApp.MapGet("/{id}", async (ISender sender, long id, CancellationToken token) =>
          {
             var user = await sender.Send(new GetUserQuery(id), token);
             return TypedResults.Ok(user);
          })
          .Authorize()
+         .RouteBaseConverter()
          .ProducesErrorResponse(404);
 
 
       groupApp.MapPut("/{id}",
-            async (ISender sender, [PandaParameterBaseConverter] long id, [FromBody] UpdateUserCommand command,
+            async (ISender sender, long id, [FromBody] UpdateUserCommand command,
                CancellationToken token) =>
             {
                command.Id = id;
@@ -57,12 +59,13 @@ public class UserEndpoints : IEndpoint
                return TypedResults.Ok();
             })
          .Authorize()
+         .RouteBaseConverter()
          .ProducesErrorResponse(400)
          .ProducesErrorResponse(409);
 
 
       groupApp.MapPatch("/{id}/password",
-            async (ISender sender, [PandaParameterBaseConverter] long id,
+            async (ISender sender, long id,
                [FromBody] UpdateUserPasswordCommand command, CancellationToken token) =>
             {
                command.Id = id;
@@ -70,18 +73,19 @@ public class UserEndpoints : IEndpoint
                return TypedResults.Ok();
             })
          .Authorize()
+         .RouteBaseConverter()
          .ProducesErrorResponse(400)
          .ProducesErrorResponse(404);
 
       groupApp.MapPatch("/{id}/status",
-            async (ISender sender, [PandaParameterBaseConverter] long id,
-               [FromBody] UpdateUserStatusCommand command, CancellationToken token) =>
+            async (ISender sender, long id, [FromBody] UpdateUserStatusCommand command, CancellationToken token) =>
             {
                command.Id = id;
                await sender.Send(command, token);
                return TypedResults.Ok();
             })
          .Authorize()
+         .RouteBaseConverter()
          .ProducesErrorResponse(400)
          .ProducesErrorResponse(404);
 

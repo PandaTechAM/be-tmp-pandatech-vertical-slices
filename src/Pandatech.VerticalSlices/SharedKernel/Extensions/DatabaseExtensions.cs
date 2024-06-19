@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Pandatech.VerticalSlices.Context;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
 
-namespace Pandatech.VerticalSlices.Extensions;
+namespace Pandatech.VerticalSlices.SharedKernel.Extensions;
 
 public static class DatabaseExtensions
 {

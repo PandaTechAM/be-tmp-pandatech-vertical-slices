@@ -1,8 +1,9 @@
 using BaseConverter;
+using BaseConverter.Extensions;
 using Pandatech.Crypto;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
 
-namespace Pandatech.VerticalSlices.Extensions;
+namespace Pandatech.VerticalSlices.SharedKernel.Extensions;
 
 public static class CryptoExtensions
 {

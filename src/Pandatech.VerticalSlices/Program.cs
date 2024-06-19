@@ -4,7 +4,6 @@ using GridifyExtensions.Extensions;
 using MassTransit.PostgresOutbox.Extensions;
 using Pandatech.VerticalSlices.Context;
 using Pandatech.VerticalSlices.Context.SeedDatabase.User;
-using Pandatech.VerticalSlices.Extensions;
 using Pandatech.VerticalSlices.SharedKernel.Extensions;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
 using Pandatech.VerticalSlices.SharedKernel.SharedEndpoints;

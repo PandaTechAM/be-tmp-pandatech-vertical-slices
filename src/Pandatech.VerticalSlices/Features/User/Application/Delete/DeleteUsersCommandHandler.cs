@@ -11,12 +11,9 @@ public class DeleteUsersCommandHandler(PostgresContext postgresContext, IRequest
 {
    public async Task Handle(DeleteUsersCommand request, CancellationToken cancellationToken)
    {
-      List<long> ids = [];
-      ids.AddRange(request.Ids.Select(PandaBaseConverter.Base36ToBase10NotNull));
-
 
       var users = await postgresContext.Users
-         .Where(x => ids.Contains(x.Id))
+         .Where(x => request.Ids.Contains(x.Id))
          .Where(x => x.Role != UserRole.SuperAdmin)
          .ToListAsync(cancellationToken);
 

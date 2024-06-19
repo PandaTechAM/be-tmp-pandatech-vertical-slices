@@ -1,11 +1,11 @@
 using BaseConverter.Attributes;
 using Pandatech.VerticalSlices.Domain.Enums;
 
-namespace Pandatech.VerticalSlices.Features.User.Contracts.GetById;
+namespace Pandatech.VerticalSlices.Features.User.Contracts.GetUser;
 
 public class GetUserQueryResponse
 {
-   [PandaPropertyBaseConverter] public long Id { get; set; }
+   [PropertyBaseConverter] public long Id { get; set; }
    public string Username { get; set; } = null!;
    public string FullName { get; set; } = null!;
    public UserRole Role { get; set; }

@@ -1,8 +1,7 @@
-﻿using Pandatech.VerticalSlices.SharedKernel.Extensions;
-using Pandatech.VerticalSlices.SharedKernel.Helpers;
+﻿using Pandatech.VerticalSlices.SharedKernel.Helpers;
 using RabbitMQ.Client;
 
-namespace Pandatech.VerticalSlices.Extensions;
+namespace Pandatech.VerticalSlices.SharedKernel.Extensions;
 
 public static class HealthCheckBuilderExtensions
 {

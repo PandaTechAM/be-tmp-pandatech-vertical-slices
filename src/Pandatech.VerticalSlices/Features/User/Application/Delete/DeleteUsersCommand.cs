@@ -1,8 +1,9 @@
+using BaseConverter.Attributes;
 using Pandatech.VerticalSlices.SharedKernel.Interfaces;
 
 namespace Pandatech.VerticalSlices.Features.User.Application.Delete;
 
 public class DeleteUsersCommand : ICommand
 {
-   public List<string> Ids { get; set; } = null!;
+   [PropertyBaseConverter] public List<long> Ids { get; set; } = null!;
 }

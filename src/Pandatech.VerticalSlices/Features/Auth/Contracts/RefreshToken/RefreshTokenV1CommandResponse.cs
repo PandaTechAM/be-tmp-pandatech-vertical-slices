@@ -6,7 +6,7 @@ namespace Pandatech.VerticalSlices.Features.Auth.Contracts.RefreshToken;
 
 public class RefreshTokenV1CommandResponse
 {
-   [PandaPropertyBaseConverter] public long UserId { get; set; }
+   [PropertyBaseConverter] public long UserId { get; set; }
    public bool ForcePasswordChange { get; set; }
    public UserRole UserRole { get; set; }
    public string AccessTokenSignature { get; set; } = null!;

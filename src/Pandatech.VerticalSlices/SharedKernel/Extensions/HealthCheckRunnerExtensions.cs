@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 using ResponseCrafter.HttpExceptions;
 
-namespace Pandatech.VerticalSlices.Extensions;
+namespace Pandatech.VerticalSlices.SharedKernel.Extensions;
 
 public static class HealthCheckRunnerExtensions
 {

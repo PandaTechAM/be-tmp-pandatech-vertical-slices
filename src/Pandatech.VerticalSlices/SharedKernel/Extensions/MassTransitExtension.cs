@@ -2,7 +2,7 @@ using System.Reflection;
 using MassTransit;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
 
-namespace Pandatech.VerticalSlices.Extensions;
+namespace Pandatech.VerticalSlices.SharedKernel.Extensions;
 
 public static class MassTransitExtension
 {

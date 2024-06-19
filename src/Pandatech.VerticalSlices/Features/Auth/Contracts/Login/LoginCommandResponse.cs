@@ -6,7 +6,7 @@ namespace Pandatech.VerticalSlices.Features.Auth.Contracts.Login;
 
 public class LoginCommandResponse
 {
-   [PandaPropertyBaseConverter] public long UserId { get; set; }
+   [PropertyBaseConverter] public long UserId { get; set; }
 
    public bool ForcePasswordChange { get; set; }
    public UserRole UserRole { get; set; }

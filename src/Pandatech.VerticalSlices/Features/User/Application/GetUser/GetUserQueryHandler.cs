@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Pandatech.VerticalSlices.Context;
 using Pandatech.VerticalSlices.Domain.Enums;
-using Pandatech.VerticalSlices.Features.User.Contracts.GetById;
+using Pandatech.VerticalSlices.Features.User.Contracts.GetUser;
 using Pandatech.VerticalSlices.SharedKernel.Interfaces;
 using ResponseCrafter.HttpExceptions;
 

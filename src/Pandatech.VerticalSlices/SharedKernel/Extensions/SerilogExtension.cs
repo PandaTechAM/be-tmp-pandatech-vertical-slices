@@ -1,9 +1,8 @@
-﻿using Pandatech.VerticalSlices.SharedKernel.Extensions;
-using Pandatech.VerticalSlices.SharedKernel.Helpers;
+﻿using Pandatech.VerticalSlices.SharedKernel.Helpers;
 using Serilog;
 using Serilog.Events;
 
-namespace Pandatech.VerticalSlices.Extensions;
+namespace Pandatech.VerticalSlices.SharedKernel.Extensions;
 
 public static class SerilogExtension
 {

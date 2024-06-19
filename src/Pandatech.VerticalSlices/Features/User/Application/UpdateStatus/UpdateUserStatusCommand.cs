@@ -7,7 +7,7 @@ namespace Pandatech.VerticalSlices.Features.User.Application.UpdateStatus;
 
 public class UpdateUserStatusCommand : ICommand
 {
-   [PandaPropertyBaseConverter]
+   [PropertyBaseConverter]
    [JsonIgnore]
    public long Id { get; set; }
 

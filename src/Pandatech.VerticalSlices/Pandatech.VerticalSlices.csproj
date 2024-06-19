@@ -29,7 +29,7 @@
       <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.9.0"/>
       <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.9.0"/>
       <PackageReference Include="Pandatech.Communicator" Version="1.0.5"/>
-      <PackageReference Include="PandaTech.BaseConverter" Version="3.0.6"/>
+      <PackageReference Include="PandaTech.BaseConverter" Version="4.0.1" />
       <PackageReference Include="Pandatech.Crypto" Version="2.4.1"/>
       <PackageReference Include="Pandatech.DistributedCache" Version="1.1.0"/>
       <PackageReference Include="Pandatech.EFCore.AuditBase" Version="1.0.3"/>

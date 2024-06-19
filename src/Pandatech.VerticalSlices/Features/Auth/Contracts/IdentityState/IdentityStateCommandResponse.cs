@@ -10,7 +10,7 @@ public class IdentityStateCommandResponse(
    string fullName,
    UserRole userRole)
 {
-   [PandaPropertyBaseConverter] public long UserId { get; set; } = userId;
+   [PropertyBaseConverter] public long UserId { get; set; } = userId;
    public UserStatus Status { get; set; } = status;
    public string FullName { get; set; } = fullName;
    public UserRole UserRole { get; set; } = userRole;

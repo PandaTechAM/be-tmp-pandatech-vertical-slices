@@ -1,7 +1,7 @@
 using Hangfire;
 using Hangfire.PostgreSql;
 
-namespace Pandatech.VerticalSlices.Extensions;
+namespace Pandatech.VerticalSlices.SharedKernel.Extensions;
 
 public static class HangfireServerExtensions
 {
