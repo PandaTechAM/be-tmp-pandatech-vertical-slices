@@ -7,9 +7,9 @@ using Pandatech.VerticalSlices.SharedKernel.Interfaces;
 namespace Pandatech.VerticalSlices.Features.User.Application.GetColumnDistinctValues;
 
 public class GetUserColumnDistinctValuesQueryHandler(PostgresContext dbContext)
-   : IQueryHandler<GetUserColumnDistinctValuesQuery, PagedResponse<object>>
+   : IQueryHandler<GetUserColumnDistinctValuesQuery, CursoredResponse<object>>
 {
-   public Task<PagedResponse<object>> Handle(GetUserColumnDistinctValuesQuery request,
+   public Task<CursoredResponse<object>> Handle(GetUserColumnDistinctValuesQuery request,
       CancellationToken cancellationToken)
    {
       return dbContext
