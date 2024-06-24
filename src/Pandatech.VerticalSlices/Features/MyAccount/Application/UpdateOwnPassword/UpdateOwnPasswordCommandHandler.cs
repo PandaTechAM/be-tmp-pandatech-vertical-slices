@@ -8,7 +8,7 @@ using Pandatech.VerticalSlices.Features.Auth.Application.RevokeAllTokensExceptCu
 using Pandatech.VerticalSlices.SharedKernel.Interfaces;
 using ResponseCrafter.HttpExceptions;
 
-namespace Pandatech.VerticalSlices.Features.Auth.Application.UpdateOwnPassword;
+namespace Pandatech.VerticalSlices.Features.MyAccount.Application.UpdateOwnPassword;
 
 public class UpdateOwnPasswordCommandHandler(
    IRequestContext requestContext,

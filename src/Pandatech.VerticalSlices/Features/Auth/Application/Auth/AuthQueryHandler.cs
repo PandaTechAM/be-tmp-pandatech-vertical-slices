@@ -56,6 +56,7 @@ public class AuthQueryHandler(PostgresContext dbContext, IHostEnvironment enviro
       var identity = new Identity
       {
          UserId = tokenEntity.UserId,
+         Username = tokenEntity.User.Username,
          Status = tokenEntity.User.Status,
          ForcePasswordChange = tokenEntity.User.ForcePasswordChange,
          FullName = tokenEntity.User.FullName,

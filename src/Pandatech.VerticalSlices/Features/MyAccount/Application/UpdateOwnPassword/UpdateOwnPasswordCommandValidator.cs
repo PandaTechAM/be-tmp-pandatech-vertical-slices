@@ -1,7 +1,7 @@
 using FluentValidation;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
 
-namespace Pandatech.VerticalSlices.Features.Auth.Application.UpdateOwnPassword;
+namespace Pandatech.VerticalSlices.Features.MyAccount.Application.UpdateOwnPassword;
 
 public class UpdateOwnPasswordCommandValidator : AbstractValidator<UpdateOwnPasswordCommand>
 {

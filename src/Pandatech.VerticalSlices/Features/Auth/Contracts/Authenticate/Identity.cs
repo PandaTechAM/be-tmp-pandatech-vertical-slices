@@ -5,6 +5,7 @@ namespace Pandatech.VerticalSlices.Features.Auth.Contracts.Authenticate;
 public class Identity
 {
    public long UserId { get; set; }
+   public string Username { get; set; } = null!;
    public UserStatus Status { get; set; }
    public bool ForcePasswordChange { get; set; }
    public string FullName { get; set; } = null!;

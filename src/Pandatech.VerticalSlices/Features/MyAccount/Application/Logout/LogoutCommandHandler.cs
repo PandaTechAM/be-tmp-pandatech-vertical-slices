@@ -3,12 +3,12 @@ using Pandatech.VerticalSlices.Context;
 using Pandatech.VerticalSlices.SharedKernel.Interfaces;
 using ResponseCrafter.HttpExceptions;
 
-namespace Pandatech.VerticalSlices.Features.Auth.Application.RevokeCurrentToken;
+namespace Pandatech.VerticalSlices.Features.MyAccount.Application.RevokeCurrentToken;
 
-public class RevokeCurrentTokenCommandHandler(IRequestContext requestContext, PostgresContext dbContext)
-   : ICommandHandler<RevokeCurrentTokenCommand>
+public class LogoutCommandHandler(IRequestContext requestContext, PostgresContext dbContext)
+   : ICommandHandler<LogoutCommand>
 {
-   public async Task Handle(RevokeCurrentTokenCommand request, CancellationToken cancellationToken)
+   public async Task Handle(LogoutCommand request, CancellationToken cancellationToken)
    {
       var now = DateTime.UtcNow;
 
