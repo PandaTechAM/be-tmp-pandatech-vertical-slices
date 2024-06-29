@@ -1,4 +1,5 @@
 using BaseConverter;
+using Communicator.Extensions;
 using DistributedCache.Extensions;
 using FluentMinimalApiMapper;
 using GridifyExtensions.Extensions;
@@ -35,6 +36,7 @@ builder
    .ConfigureOpenTelemetry()
    .AddEndpoints()
    .AddGridify(PandaBaseConverter.Base36Chars)
+   .AddCommunicator()
    .AddDistributedCache(options =>
    {
       options.RedisConnectionString = builder.Configuration.GetConnectionString(ConfigurationPaths.RedisUrl)!;

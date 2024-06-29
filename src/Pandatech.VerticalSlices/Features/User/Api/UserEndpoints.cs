@@ -30,15 +30,16 @@ public class UserEndpoints : IEndpoint
          .MapGroup(RoutePrefix)
          .WithTags(TagName)
          .WithGroupName(ApiHelper.GroupVertical)
+         .DisableAntiforgery()
          .WithOpenApi();
 
-      groupApp.MapPost("", async (ISender sender, [FromForm] CreateUserCommand command, CancellationToken token) =>
+      groupApp.MapPost("", async (ISender sender, [FromBody] CreateUserCommand command, CancellationToken token) =>
          {
             await sender.Send(command, token);
             return TypedResults.Ok();
          })
          .Authorize()
-         .ProducesErrorResponse(400);
+         .ProducesBadRequest();
 
       groupApp.MapGet("/{id}", async (ISender sender, long id, CancellationToken token) =>
          {
@@ -47,11 +48,11 @@ public class UserEndpoints : IEndpoint
          })
          .Authorize()
          .RouteBaseConverter()
-         .ProducesErrorResponse(404);
+         .ProducesNotFound();
 
 
       groupApp.MapPut("/{id}",
-            async (ISender sender, long id, [FromForm] UpdateUserCommand command,
+            async (ISender sender, long id, [FromBody] UpdateUserCommand command,
                CancellationToken token) =>
             {
                command.Id = id;
@@ -60,12 +61,12 @@ public class UserEndpoints : IEndpoint
             })
          .Authorize()
          .RouteBaseConverter()
-         .ProducesErrorResponse(400)
-         .ProducesErrorResponse(409);
+         .ProducesBadRequest()
+         .ProducesConflict();
 
 
       groupApp.MapPatch("/{id}/password",
-            async (ISender sender, long id, [FromForm] UpdateUserPasswordCommand command, CancellationToken token) =>
+            async (ISender sender, long id, [FromBody] UpdateUserPasswordCommand command, CancellationToken token) =>
             {
                command.Id = id;
                await sender.Send(command, token);
@@ -73,11 +74,11 @@ public class UserEndpoints : IEndpoint
             })
          .Authorize()
          .RouteBaseConverter()
-         .ProducesErrorResponse(400)
-         .ProducesErrorResponse(404);
+         .ProducesBadRequest()
+         .ProducesNotFound();
 
       groupApp.MapPatch("/{id}/status",
-            async (ISender sender, long id, [FromForm] UpdateUserStatusCommand command, CancellationToken token) =>
+            async (ISender sender, long id, [FromBody] UpdateUserStatusCommand command, CancellationToken token) =>
             {
                command.Id = id;
                await sender.Send(command, token);
@@ -85,8 +86,8 @@ public class UserEndpoints : IEndpoint
             })
          .Authorize()
          .RouteBaseConverter()
-         .ProducesErrorResponse(400)
-         .ProducesErrorResponse(404);
+         .ProducesBadRequest()
+         .ProducesNotFound();
 
       groupApp.MapDelete("",
             async (ISender sender, [FromBody] DeleteUsersCommand command, CancellationToken token) =>
@@ -95,7 +96,7 @@ public class UserEndpoints : IEndpoint
                return TypedResults.Ok();
             })
          .Authorize()
-         .ProducesErrorResponse(400);
+         .ProducesBadRequest();
 
       groupApp.MapGet("", async ([AsParameters] GetUsersQuery request, ISender sender, CancellationToken token) =>
          {
@@ -103,7 +104,7 @@ public class UserEndpoints : IEndpoint
             return TypedResults.Ok(users);
          })
          .Authorize()
-         .ProducesErrorResponse(400);
+         .ProducesBadRequest();
 
       groupApp.MapGet("/column/distinct",
             async ([AsParameters] GetUserColumnDistinctValuesQuery query, ISender sender, CancellationToken token) =>
@@ -112,11 +113,11 @@ public class UserEndpoints : IEndpoint
                return TypedResults.Ok(distinctValues);
             })
          .Authorize()
-         .ProducesErrorResponse(400);
+         .ProducesBadRequest();
 
       groupApp.MapGet("/filters", () => TypedResults.Ok(QueryableExtensions.GetMappings<Domain.Entities.User>()))
          .Authorize()
          .WithSummary("Get filter technical information")
-         .ProducesErrorResponse(400);
+         .ProducesBadRequest();
    }
 }

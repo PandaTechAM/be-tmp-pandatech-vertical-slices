@@ -12,7 +12,7 @@ using Pandatech.VerticalSlices.Context;
 namespace Pandatech.VerticalSlices.Context.Migrations
 {
     [DbContext(typeof(PostgresContext))]
-    [Migration("20240617214203_Initial")]
+    [Migration("20240629161832_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -113,9 +113,9 @@ namespace Pandatech.VerticalSlices.Context.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("initial_refresh_token_created_at");
 
-                    b.Property<long?>("PreviousUserTokenId")
+                    b.Property<long?>("PreviousTokenId")
                         .HasColumnType("bigint")
-                        .HasColumnName("previous_user_token_id");
+                        .HasColumnName("previous_token_id");
 
                     b.Property<DateTime>("RefreshTokenExpiresAt")
                         .HasColumnType("timestamp with time zone")
@@ -141,9 +141,9 @@ namespace Pandatech.VerticalSlices.Context.Migrations
                         .IsUnique()
                         .HasDatabaseName("ix_tokens_access_token_hash");
 
-                    b.HasIndex("PreviousUserTokenId")
+                    b.HasIndex("PreviousTokenId")
                         .IsUnique()
-                        .HasDatabaseName("ix_tokens_previous_user_token_id");
+                        .HasDatabaseName("ix_tokens_previous_token_id");
 
                     b.HasIndex("RefreshTokenHash")
                         .IsUnique()
@@ -233,12 +233,70 @@ namespace Pandatech.VerticalSlices.Context.Migrations
                     b.ToTable("users", (string)null);
                 });
 
+            modelBuilder.Entity("Pandatech.VerticalSlices.Domain.Entities.UserConfig", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("created_at");
+
+                    b.Property<long?>("CreatedByUserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("created_by_user_id");
+
+                    b.Property<bool>("Deleted")
+                        .HasColumnType("boolean")
+                        .HasColumnName("deleted");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("key");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("updated_at");
+
+                    b.Property<long?>("UpdatedByUserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("updated_by_user_id");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint")
+                        .HasColumnName("user_id");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("value");
+
+                    b.Property<int>("Version")
+                        .IsConcurrencyToken()
+                        .HasColumnType("integer")
+                        .HasColumnName("version");
+
+                    b.HasKey("Id")
+                        .HasName("pk_user_configs");
+
+                    b.HasIndex("UserId", "Key")
+                        .IsUnique()
+                        .HasDatabaseName("ix_user_configs_user_id_key");
+
+                    b.ToTable("user_configs", (string)null);
+                });
+
             modelBuilder.Entity("Pandatech.VerticalSlices.Domain.Entities.Token", b =>
                 {
                     b.HasOne("Pandatech.VerticalSlices.Domain.Entities.Token", "PreviousToken")
                         .WithOne()
-                        .HasForeignKey("Pandatech.VerticalSlices.Domain.Entities.Token", "PreviousUserTokenId")
-                        .HasConstraintName("fk_tokens_tokens_previous_user_token_id");
+                        .HasForeignKey("Pandatech.VerticalSlices.Domain.Entities.Token", "PreviousTokenId")
+                        .HasConstraintName("fk_tokens_tokens_previous_token_id");
 
                     b.HasOne("Pandatech.VerticalSlices.Domain.Entities.User", "User")
                         .WithMany("Tokens")
@@ -248,6 +306,18 @@ namespace Pandatech.VerticalSlices.Context.Migrations
                         .HasConstraintName("fk_tokens_users_user_id");
 
                     b.Navigation("PreviousToken");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Pandatech.VerticalSlices.Domain.Entities.UserConfig", b =>
+                {
+                    b.HasOne("Pandatech.VerticalSlices.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_user_configs_users_user_id");
 
                     b.Navigation("User");
                 });

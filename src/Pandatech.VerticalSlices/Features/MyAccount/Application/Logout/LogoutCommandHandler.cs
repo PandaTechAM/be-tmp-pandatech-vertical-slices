@@ -3,7 +3,7 @@ using Pandatech.VerticalSlices.Context;
 using Pandatech.VerticalSlices.SharedKernel.Interfaces;
 using ResponseCrafter.HttpExceptions;
 
-namespace Pandatech.VerticalSlices.Features.MyAccount.Application.RevokeCurrentToken;
+namespace Pandatech.VerticalSlices.Features.MyAccount.Application.Logout;
 
 public class LogoutCommandHandler(IRequestContext requestContext, PostgresContext dbContext)
    : ICommandHandler<LogoutCommand>
@@ -13,12 +13,9 @@ public class LogoutCommandHandler(IRequestContext requestContext, PostgresContex
       var now = DateTime.UtcNow;
 
       var token = await dbContext.Tokens
-         .FirstOrDefaultAsync(x => x.Id == requestContext.Identity.UserTokenId, cancellationToken);
+         .FirstOrDefaultAsync(x => x.Id == requestContext.Identity.TokenId, cancellationToken);
 
-      if (token is null)
-      {
-         throw new NotFoundException();
-      }
+      InternalServerErrorException.ThrowIfNull(token, "Token not found");
 
       if (token.AccessTokenExpiresAt > now)
       {

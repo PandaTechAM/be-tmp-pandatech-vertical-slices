@@ -14,7 +14,7 @@ public class RefreshTokenV1CommandResponse
    public string RefreshTokenSignature { get; set; } = null!;
    public DateTime RefreshTokenExpiration { get; set; }
 
-   public static RefreshTokenV1CommandResponse MapFromUserTokenEntity(Token token,
+   public static RefreshTokenV1CommandResponse MapFromTokenEntity(Token token,
       string accessTokenSignature, string refreshTokenSignature, Token oldToken)
    {
       return new RefreshTokenV1CommandResponse

@@ -21,17 +21,11 @@ public class UpdatePasswordForcedCommandHandler(
       var user = await dbContext.Users
          .FirstOrDefaultAsync(x => x.Id == requestContext.Identity.UserId, cancellationToken);
 
-      if (user is null)
-      {
-         throw new InternalServerErrorException("User not found");
-      }
+      InternalServerErrorException.ThrowIfNull(user, "User not found");
 
       var sameWithOldPassword = argon2Id.VerifyHash(request.NewPassword, user.PasswordHash);
 
-      if (sameWithOldPassword)
-      {
-         throw new BadRequestException(ErrorMessages.NewPasswordMustBeDifferentFromOldPassword);
-      }
+      BadRequestException.ThrowIf(sameWithOldPassword, ErrorMessages.NewPasswordMustBeDifferentFromOldPassword);
 
       user.PasswordHash = argon2Id.HashPassword(request.NewPassword);
       user.ForcePasswordChange = false;

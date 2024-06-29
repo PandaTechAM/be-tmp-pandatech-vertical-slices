@@ -29,48 +29,40 @@ public class RefreshTokenCommandHandler(IConfiguration configuration, PostgresCo
 
       var refreshTokenHash = Sha3.Hash(request.RefreshTokenSignature);
 
-      var userToken = await dbContext.Tokens
+      var token = await dbContext.Tokens
          .Include(ut => ut.User)
          .FirstOrDefaultAsync(x => x.RefreshTokenHash == refreshTokenHash, cancellationToken);
 
-      ValidateUserToken(userToken, now);
+      ValidateToken(token, now);
 
       var newToken =
-         CreateNewToken(now, userToken, out var newRefreshTokenSignature, out var accessTokenSignature);
+         CreateNewToken(now, token, out var newRefreshTokenSignature, out var accessTokenSignature);
 
       dbContext.Tokens.Add(newToken);
-      InvalidateOldToken(userToken, now);
+      InvalidateOldToken(token, now);
       await dbContext.SaveChangesAsync(cancellationToken);
-      return RefreshTokenV1CommandResponse.MapFromUserTokenEntity(newToken, accessTokenSignature,
-         newRefreshTokenSignature, userToken!);
+      return RefreshTokenV1CommandResponse.MapFromTokenEntity(newToken, accessTokenSignature,
+         newRefreshTokenSignature, token!);
    }
 
-   private static void ValidateUserToken(Token? userToken, DateTime now)
+   private static void ValidateToken(Token? token, DateTime now)
    {
-      if (userToken == null)
-      {
-         throw new NotFoundException();
-      }
+      NotFoundException.ThrowIfNull(token);
 
-      if (userToken.User.Status != UserStatus.Active)
-      {
-         throw new UnauthorizedException(ErrorMessages.ThisUserIsNotAllowedToPerformThisAction);
-      }
+      UnauthorizedException.ThrowIf(token.User.Status != UserStatus.Active,
+         ErrorMessages.ThisUserIsNotAllowedToPerformThisAction);
 
-      if (userToken.RefreshTokenExpiresAt < now)
-      {
-         throw new UnauthorizedException(ErrorMessages.RefreshTokenExpired);
-      }
+      UnauthorizedException.ThrowIf(token.RefreshTokenExpiresAt < now, ErrorMessages.RefreshTokenExpired);
    }
 
-   private Token CreateNewToken(DateTime now, Token? userToken, out string refreshTokenSignature,
+   private Token CreateNewToken(DateTime now, Token? token, out string refreshTokenSignature,
       out string accessTokenSignature)
    {
       var newExpirationDate = now.AddMinutes(_refreshTokenExpirationMinutes);
 
-      if (newExpirationDate > userToken!.InitialRefreshTokenCreatedAt.AddMinutes(_refreshTokenMaxExpirationMinutes))
+      if (newExpirationDate > token!.InitialRefreshTokenCreatedAt.AddMinutes(_refreshTokenMaxExpirationMinutes))
       {
-         newExpirationDate = userToken.InitialRefreshTokenCreatedAt.AddMinutes(_refreshTokenMaxExpirationMinutes);
+         newExpirationDate = token.InitialRefreshTokenCreatedAt.AddMinutes(_refreshTokenMaxExpirationMinutes);
       }
 
       if (newExpirationDate <= now.AddMinutes(60))
@@ -83,25 +75,25 @@ public class RefreshTokenCommandHandler(IConfiguration configuration, PostgresCo
 
       return new Token
       {
-         UserId = userToken.UserId,
-         PreviousUserTokenId = userToken.Id,
+         UserId = token.UserId,
+         PreviousTokenId = token.Id,
          AccessTokenHash = Sha3.Hash(accessTokenSignature),
          RefreshTokenHash = Sha3.Hash(refreshTokenSignature),
          AccessTokenExpiresAt = now.AddMinutes(AccessTokenExpirationMinutes),
          RefreshTokenExpiresAt = newExpirationDate,
-         InitialRefreshTokenCreatedAt = userToken.InitialRefreshTokenCreatedAt,
+         InitialRefreshTokenCreatedAt = token.InitialRefreshTokenCreatedAt,
          CreatedAt = now,
          UpdatedAt = now
       };
    }
 
-   private static void InvalidateOldToken(Token? userToken, DateTime now)
+   private static void InvalidateOldToken(Token? token, DateTime now)
    {
-      userToken!.RefreshTokenExpiresAt = now;
-      userToken.UpdatedAt = now;
-      if (userToken.AccessTokenExpiresAt > now)
+      token!.RefreshTokenExpiresAt = now;
+      token.UpdatedAt = now;
+      if (token.AccessTokenExpiresAt > now)
       {
-         userToken.AccessTokenExpiresAt = now;
+         token.AccessTokenExpiresAt = now;
       }
    }
 }

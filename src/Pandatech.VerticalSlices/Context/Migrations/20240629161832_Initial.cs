@@ -75,7 +75,7 @@ namespace Pandatech.VerticalSlices.Context.Migrations
                     id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     user_id = table.Column<long>(type: "bigint", nullable: false),
-                    previous_user_token_id = table.Column<long>(type: "bigint", nullable: true),
+                    previous_token_id = table.Column<long>(type: "bigint", nullable: true),
                     access_token_hash = table.Column<byte[]>(type: "bytea", nullable: false),
                     refresh_token_hash = table.Column<byte[]>(type: "bytea", nullable: false),
                     access_token_expires_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -88,12 +88,39 @@ namespace Pandatech.VerticalSlices.Context.Migrations
                 {
                     table.PrimaryKey("pk_tokens", x => x.id);
                     table.ForeignKey(
-                        name: "fk_tokens_tokens_previous_user_token_id",
-                        column: x => x.previous_user_token_id,
+                        name: "fk_tokens_tokens_previous_token_id",
+                        column: x => x.previous_token_id,
                         principalTable: "tokens",
                         principalColumn: "id");
                     table.ForeignKey(
                         name: "fk_tokens_users_user_id",
+                        column: x => x.user_id,
+                        principalTable: "users",
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "user_configs",
+                columns: table => new
+                {
+                    id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    user_id = table.Column<long>(type: "bigint", nullable: false),
+                    key = table.Column<string>(type: "text", nullable: false),
+                    value = table.Column<string>(type: "text", nullable: false),
+                    created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    created_by_user_id = table.Column<long>(type: "bigint", nullable: true),
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    updated_by_user_id = table.Column<long>(type: "bigint", nullable: true),
+                    deleted = table.Column<bool>(type: "boolean", nullable: false),
+                    version = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("pk_user_configs", x => x.id);
+                    table.ForeignKey(
+                        name: "fk_user_configs_users_user_id",
                         column: x => x.user_id,
                         principalTable: "users",
                         principalColumn: "id",
@@ -107,9 +134,9 @@ namespace Pandatech.VerticalSlices.Context.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "ix_tokens_previous_user_token_id",
+                name: "ix_tokens_previous_token_id",
                 table: "tokens",
-                column: "previous_user_token_id",
+                column: "previous_token_id",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -122,6 +149,12 @@ namespace Pandatech.VerticalSlices.Context.Migrations
                 name: "ix_tokens_user_id",
                 table: "tokens",
                 column: "user_id");
+
+            migrationBuilder.CreateIndex(
+                name: "ix_user_configs_user_id_key",
+                table: "user_configs",
+                columns: new[] { "user_id", "key" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "ix_users_full_name",
@@ -146,6 +179,9 @@ namespace Pandatech.VerticalSlices.Context.Migrations
 
             migrationBuilder.DropTable(
                 name: "tokens");
+
+            migrationBuilder.DropTable(
+                name: "user_configs");
 
             migrationBuilder.DropTable(
                 name: "users");

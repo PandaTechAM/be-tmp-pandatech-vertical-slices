@@ -22,10 +22,7 @@ public class UpdateUserPasswordCommandHandler(
          .Users
          .FirstOrDefaultAsync(u => u.Id == request.Id && u.Role != UserRole.SuperAdmin, cancellationToken);
 
-      if (user is null)
-      {
-         throw new NotFoundException();
-      }
+      NotFoundException.ThrowIfNull(user);
 
       user.PasswordHash = argon2Id.HashPassword(request.NewPassword);
       user.ForcePasswordChange = true;

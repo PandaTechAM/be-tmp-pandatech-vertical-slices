@@ -23,10 +23,8 @@ public class UpdateOwnPasswordCommandHandler(
          .FirstOrDefaultAsync(x => x.Id == requestContext.Identity.UserId && x.Role != UserRole.SuperAdmin,
             cancellationToken);
 
-      if (user is null)
-      {
-         throw new InternalServerErrorException("User not found");
-      }
+      InternalServerErrorException.ThrowIfNull(user, "User not found");
+
 
       user.PasswordHash = argon2Id.HashPassword(request.NewPassword);
 

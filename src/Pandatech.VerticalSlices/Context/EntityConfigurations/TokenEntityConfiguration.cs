@@ -4,7 +4,7 @@ using Pandatech.VerticalSlices.Domain.Entities;
 
 namespace Pandatech.VerticalSlices.Context.EntityConfigurations;
 
-public class UserTokenEntityConfiguration : IEntityTypeConfiguration<Token>
+public class TokenEntityConfiguration : IEntityTypeConfiguration<Token>
 {
    public void Configure(EntityTypeBuilder<Token> builder)
    {
@@ -18,7 +18,7 @@ public class UserTokenEntityConfiguration : IEntityTypeConfiguration<Token>
 
       builder.HasOne(x => x.PreviousToken)
          .WithOne()
-         .HasForeignKey<Token>(x => x.PreviousUserTokenId)
+         .HasForeignKey<Token>(x => x.PreviousTokenId)
          .IsRequired(false);
 
       builder.HasIndex(x => x.AccessTokenHash).IsUnique();

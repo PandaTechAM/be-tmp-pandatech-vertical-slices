@@ -15,10 +15,7 @@ public class UpdateUserStatusCommandHandler(PostgresContext postgresContext, IRe
          .Users
          .FirstOrDefaultAsync(u => u.Id == request.Id && u.Role != UserRole.SuperAdmin, cancellationToken);
 
-      if (user is null)
-      {
-         throw new NotFoundException();
-      }
+      NotFoundException.ThrowIfNull(user);
 
       if (user.Status == request.Status)
       {

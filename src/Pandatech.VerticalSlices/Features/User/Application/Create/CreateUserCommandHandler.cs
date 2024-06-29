@@ -16,10 +16,7 @@ public class CreateUserCommandHandler(PostgresContext dbContext, Argon2Id argon,
          .AnyAsync(u => u.Username.ToLower().Equals(request.Username.ToLower()),
             cancellationToken);
 
-      if (isDuplicateUsername)
-      {
-         throw new BadRequestException(ErrorMessages.DuplicateUsername);
-      }
+      BadRequestException.ThrowIf(isDuplicateUsername, ErrorMessages.DuplicateUsername);
 
       var passwordHash = argon.HashPassword(request.Password);
       var user = new Domain.Entities.User

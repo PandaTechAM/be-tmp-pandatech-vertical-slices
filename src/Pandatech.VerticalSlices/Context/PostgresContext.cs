@@ -18,6 +18,8 @@ public class PostgresContext : PostgresFunctions, IOutboxDbContext, IInboxDbCont
 
    public DbSet<Token> Tokens { get; set; } = null!;
    public DbSet<User> Users { get; set; } = null!;
+   public DbSet<UserConfig> UserConfigs { get; set; } = null!;
+
    public DbSet<InboxMessage> InboxMessages { get; set; }
 
    public DbSet<OutboxMessage> OutboxMessages { get; set; }

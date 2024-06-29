@@ -8,7 +8,6 @@ using Pandatech.VerticalSlices.Features.Auth.Application.RefreshToken;
 using Pandatech.VerticalSlices.Features.Auth.Application.UpdatePasswordForced;
 using Pandatech.VerticalSlices.Features.Auth.Helpers;
 using Pandatech.VerticalSlices.Features.Auth.Helpers.ApiAuth.MinimalApiExtensions;
-using Pandatech.VerticalSlices.Features.MyAccount.Application.RevokeCurrentToken;
 using Pandatech.VerticalSlices.Features.MyAccount.Application.UpdateOwnPassword;
 using Pandatech.VerticalSlices.SharedKernel.Enums;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
@@ -28,6 +27,7 @@ public class AuthenticationEndpoints : IEndpoint
          .MapGroup(RoutePrefix)
          .WithTags(TagName)
          .WithGroupName(ApiHelper.GroupVertical)
+         .DisableAntiforgery()
          .WithOpenApi();
 
 
@@ -51,7 +51,7 @@ public class AuthenticationEndpoints : IEndpoint
          .WithSummary(" \ud83c\udf6a Cookies for the browser and token for the rest of the clients. \ud83c\udf6a")
          .WithDescription(
             "This endpoint is used to authenticate a user. Be aware that the response will be different depending on the client type.")
-         .ProducesErrorResponse(400);
+         .ProducesBadRequest();
 
 
       groupApp.MapPost("/refresh-token",
@@ -74,7 +74,7 @@ public class AuthenticationEndpoints : IEndpoint
             })
          .WithSummary(" \ud83c\udf6a Cookies for the browser and token for the rest of the clients. \ud83c\udf6a")
          .WithDescription("This endpoint is used to refresh the user token.")
-         .ProducesErrorResponse(400);
+         .ProducesBadRequest();
 
 
       groupApp.MapGet("/state", async (ISender sender, CancellationToken token) =>
@@ -96,6 +96,6 @@ public class AuthenticationEndpoints : IEndpoint
          .Authorize(UserRole.User)
          .ForcedPasswordChange()
          .WithDescription("This endpoint is used to update the user password when it is forced.")
-         .ProducesErrorResponse(400);
+         .ProducesBadRequest();
    }
 }

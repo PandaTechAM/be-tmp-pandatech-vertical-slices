@@ -16,10 +16,8 @@ public class UpdateUserCommandHandler(PostgresContext postgresContext, IRequestC
          .Users
          .FirstOrDefaultAsync(u => u.Id == request.Id && u.Role != UserRole.SuperAdmin, cancellationToken);
 
-      if (user is null)
-      {
-         throw new NotFoundException();
-      }
+      NotFoundException.ThrowIfNull(user);
+
 
       var username = request.Username.ToLower();
 
@@ -30,10 +28,8 @@ public class UpdateUserCommandHandler(PostgresContext postgresContext, IRequestC
                .Users
                .AnyAsync(x => x.Username == request.Username, cancellationToken);
 
-         if (duplicateUser)
-         {
-            throw new ConflictException(ErrorMessages.DuplicateUsername);
-         }
+         ConflictException.ThrowIf(duplicateUser, ErrorMessages.DuplicateUsername);
+
       }
 
       user.Username = username;

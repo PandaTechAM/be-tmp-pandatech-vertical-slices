@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Pandatech.VerticalSlices.Domain.Enums;
 using Pandatech.VerticalSlices.Features.Auth.Helpers;
 using Pandatech.VerticalSlices.Features.Auth.Helpers.ApiAuth.MinimalApiExtensions;
+using Pandatech.VerticalSlices.Features.MyAccount.Application.Logout;
 using Pandatech.VerticalSlices.Features.MyAccount.Application.PersonalInformation;
-using Pandatech.VerticalSlices.Features.MyAccount.Application.RevokeCurrentToken;
 using Pandatech.VerticalSlices.Features.MyAccount.Application.UpdateOwnPassword;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
 using ResponseCrafter.Extensions;
@@ -24,6 +24,7 @@ public class MyAccountEndpoints : IEndpoint
          .MapGroup(RoutePrefix)
          .WithTags(TagName)
          .WithGroupName(ApiHelper.GroupVertical)
+         .DisableAntiforgery()
          .WithOpenApi();
 
       groupApp.MapGet("/personal-information", async (ISender sender, CancellationToken token) =>
@@ -42,7 +43,7 @@ public class MyAccountEndpoints : IEndpoint
             })
          .Authorize(UserRole.User)
          .WithDescription("This endpoint is used to update the user password from its own profile.")
-         .ProducesErrorResponse(400);
+         .ProducesBadRequest();
 
 
       groupApp.MapPost("/logout",
@@ -56,6 +57,6 @@ public class MyAccountEndpoints : IEndpoint
             })
          .Authorize(UserRole.User)
          .WithDescription("This endpoint is used to logout the user and delete cookies. \ud83c\udf6a")
-         .ProducesErrorResponse(404);
+         .ProducesNotFound();
    }
 }

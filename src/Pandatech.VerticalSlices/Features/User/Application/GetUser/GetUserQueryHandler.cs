@@ -18,10 +18,7 @@ public class GetUserQueryHandler(PostgresContext postgresContext)
          .FirstOrDefaultAsync(x => x.Id == request.Id && x.Role != UserRole.SuperAdmin,
             cancellationToken);
 
-      if (user is null)
-      {
-         throw new NotFoundException();
-      }
+      NotFoundException.ThrowIfNull(user);
 
       return GetUserQueryResponse.MapFromEntity(user);
    }

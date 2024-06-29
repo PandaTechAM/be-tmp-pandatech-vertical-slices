@@ -4,7 +4,7 @@ public class Token
 {
    public long Id { get; set; }
    public long UserId { get; set; }
-   public long? PreviousUserTokenId { get; set; }
+   public long? PreviousTokenId { get; set; }
    public byte[] AccessTokenHash { get; set; } = null!;
    public byte[] RefreshTokenHash { get; set; } = null!;
    public DateTime AccessTokenExpiresAt { get; set; }
