@@ -27,7 +27,7 @@ public static class CookieHelper
 
          if (!environment.IsLocalOrDevelopment())
          {
-            cookieOptions.SameSite = SameSiteMode.Lax; //todo check in qa env what should be here
+            cookieOptions.SameSite = SameSiteMode.Strict;
          }
 
 
@@ -61,7 +61,7 @@ public static class CookieHelper
 
          if (!environment.IsLocalOrDevelopment())
          {
-            cookieOptions.SameSite = SameSiteMode.Lax;
+            cookieOptions.SameSite = SameSiteMode.Strict;
          }
 
          httpContext.Response.Cookies.Delete(cookie.Key, cookieOptions);
