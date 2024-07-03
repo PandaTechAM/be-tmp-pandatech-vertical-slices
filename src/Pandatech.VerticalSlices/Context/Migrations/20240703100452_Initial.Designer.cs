@@ -12,7 +12,7 @@ using Pandatech.VerticalSlices.Context;
 namespace Pandatech.VerticalSlices.Context.Migrations
 {
     [DbContext(typeof(PostgresContext))]
-    [Migration("20240629161832_Initial")]
+    [Migration("20240703100452_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -165,6 +165,7 @@ namespace Pandatech.VerticalSlices.Context.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Comment")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("comment");
 

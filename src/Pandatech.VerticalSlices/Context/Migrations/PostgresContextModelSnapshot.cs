@@ -162,6 +162,7 @@ namespace Pandatech.VerticalSlices.Context.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
                     b.Property<string>("Comment")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("comment");
 

@@ -25,7 +25,7 @@ public class CreateUserCommandHandler(PostgresContext dbContext, Argon2Id argon,
          FullName = request.FullName,
          PasswordHash = passwordHash,
          Role = request.UserRole,
-         Comment = request.Comment,
+         Comment = request.Comment ?? "",
          CreatedByUserId = requestContext.Identity.UserId
       };
 
