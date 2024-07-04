@@ -8,8 +8,8 @@ public class UpdateUserCommand : ICommand
 {
    [JsonIgnore] public long Id { get; set; }
 
-   public string Username { get; set; } = null!;
-   public string FullName { get; set; } = null!;
+   public required string Username { get; set; } 
+   public required string FullName { get; set; } 
    public UserRole Role { get; set; }
    public string? Comment { get; set; }
 }

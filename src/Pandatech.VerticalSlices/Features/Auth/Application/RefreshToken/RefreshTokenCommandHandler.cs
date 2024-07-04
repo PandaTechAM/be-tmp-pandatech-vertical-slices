@@ -49,7 +49,7 @@ public class RefreshTokenCommandHandler(IConfiguration configuration, PostgresCo
    {
       NotFoundException.ThrowIfNull(token);
 
-      UnauthorizedException.ThrowIf(token.User.Status != UserStatus.Active,
+      UnauthorizedException.ThrowIf(token.User!.Status != UserStatus.Active,
          ErrorMessages.ThisUserIsNotAllowedToPerformThisAction);
 
       UnauthorizedException.ThrowIf(token.RefreshTokenExpiresAt < now, ErrorMessages.RefreshTokenExpired);

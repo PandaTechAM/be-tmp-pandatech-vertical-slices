@@ -2,8 +2,8 @@
 
 public class IdentityCookies
 {
-   public string AccessTokenSignature { get; set; } = null!;
-   public string RefreshTokenSignature { get; set; } = null!;
+   public required string AccessTokenSignature { get; set; } 
+   public required string RefreshTokenSignature { get; set; } 
    public DateTime AccessTokenExpiresAt { get; set; }
    public DateTime RefreshTokenExpiresAt { get; set; }
 }

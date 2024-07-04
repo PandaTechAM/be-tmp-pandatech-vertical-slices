@@ -42,7 +42,7 @@ public class AuthQueryHandler(PostgresContext dbContext, IHostEnvironment enviro
          .FirstOrDefaultAsync(cancellationToken);
 
       UnauthorizedException.ThrowIfNull(tokenEntity);
-      UnauthorizedException.ThrowIf(tokenEntity.User.Status is not UserStatus.Active);
+      UnauthorizedException.ThrowIf(tokenEntity.User!.Status is not UserStatus.Active);
       UnauthorizedException.ThrowIf(tokenEntity.AccessTokenExpiresAt <= DateTime.UtcNow,
          ErrorMessages.AccessTokenIsExpired);
 

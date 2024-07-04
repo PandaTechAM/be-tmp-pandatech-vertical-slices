@@ -16,9 +16,9 @@ public class PostgresContext : PostgresFunctions, IOutboxDbContext, IInboxDbCont
       this.UseAuditPropertyValidation();
    }
 
-   public DbSet<Token> Tokens { get; set; } = null!;
-   public DbSet<User> Users { get; set; } = null!;
-   public DbSet<UserConfig> UserConfigs { get; set; } = null!;
+   public DbSet<Token> Tokens { get; set; }
+   public DbSet<User> Users { get; set; }
+   public DbSet<UserConfig> UserConfigs { get; set; }
 
    public DbSet<InboxMessage> InboxMessages { get; set; }
 

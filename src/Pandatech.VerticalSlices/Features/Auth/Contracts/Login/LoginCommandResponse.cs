@@ -10,9 +10,9 @@ public class LoginCommandResponse
 
    public bool ForcePasswordChange { get; set; }
    public UserRole UserRole { get; set; }
-   public string AccessTokenSignature { get; set; } = null!;
+   public required string AccessTokenSignature { get; set; }
    public DateTime AccessTokenExpiration { get; set; }
-   public string RefreshTokenSignature { get; set; } = null!;
+   public required string RefreshTokenSignature { get; set; }
    public DateTime RefreshTokenExpiration { get; set; }
 
    public static LoginCommandResponse MapFromEntity(CreateTokenCommandResponse token, UserRole userRole,

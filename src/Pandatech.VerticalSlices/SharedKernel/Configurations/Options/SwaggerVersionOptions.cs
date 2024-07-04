@@ -2,8 +2,8 @@
 
 public class SwaggerVersionOptions
 {
-   public string Title { get; set; } = null!;
-   public string Description { get; set; } = null!;
+   public required string Title { get; set; }
+   public required string Description { get; set; }
 
    public bool Separate { get; set; }
    public string? RoutePrefix { get; set; }

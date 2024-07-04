@@ -7,5 +7,5 @@ public class UpdateUserPasswordCommand : ICommand
 {
    [JsonIgnore] public long Id { get; set; }
 
-   public string NewPassword { get; set; } = null!;
+   public required string NewPassword { get; set; } 
 }
