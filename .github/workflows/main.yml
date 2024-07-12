@@ -12,7 +12,7 @@ env:
   NEXUS_PASSWORD: ${{ secrets.nexus_password }}
   NEXUS_SOURCE: "https://hubrepopanda.pandatech.it/repository/nuget-hosted/index.json"
   NUGET_ORG_SOURCE: "https://api.nuget.org/v3/index.json"
-  DOCKER_REPO_BASE: "repopanda.pandatech.it/pandatech/repository/pandatech"
+  DOCKER_REPO_BASE: "repopanda.pandatech.it/pandatech" # Change repo base path depends on your envairment(pandatech, easypay etc.)
 
 jobs:
   build-and-deploy:
