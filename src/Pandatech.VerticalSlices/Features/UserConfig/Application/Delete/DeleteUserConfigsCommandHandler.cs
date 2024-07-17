@@ -10,11 +10,11 @@ public class DeleteUserConfigsCommandHandler(PostgresContext dbContext, IRequest
    public async Task Handle(DeleteUserConfigsCommand request, CancellationToken cancellationToken)
    {
       var userConfigs = await dbContext
-         .UserConfigs
-         .Where(x => x.UserId == requestContext.Identity.UserId
-                     && request.Keys
-                        .Contains(x.Key))
-         .ToListAsync(cancellationToken);
+                              .UserConfigs
+                              .Where(x => x.UserId == requestContext.Identity.UserId
+                                          && request.Keys
+                                                    .Contains(x.Key))
+                              .ToListAsync(cancellationToken);
 
       if (userConfigs.Count != 0)
       {

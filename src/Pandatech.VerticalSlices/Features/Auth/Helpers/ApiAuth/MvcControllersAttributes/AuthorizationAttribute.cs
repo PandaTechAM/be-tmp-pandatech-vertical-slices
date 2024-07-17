@@ -28,8 +28,12 @@ public class AuthorizeAttribute(UserRole minimalUserRole) : Attribute, IAsyncAut
       var sender = context.HttpContext.RequestServices.GetRequiredService<ISender>();
 
 
-      await sender.Send(new AuthQuery(context.HttpContext, minimalUserRole, anonymous, forcedToChangePwd,
-         ignoreClientType), context.HttpContext.RequestAborted);
+      await sender.Send(new AuthQuery(context.HttpContext,
+            minimalUserRole,
+            anonymous,
+            forcedToChangePwd,
+            ignoreClientType),
+         context.HttpContext.RequestAborted);
    }
 
    private bool IsClassLevelAttributeAndMethodOneExistsToo(ActionContext context)
@@ -39,10 +43,13 @@ public class AuthorizeAttribute(UserRole minimalUserRole) : Attribute, IAsyncAut
          return false;
       }
 
-      var classAttributes = descriptor.ControllerTypeInfo.GetCustomAttributes(typeof(AuthorizeAttribute), true)
-         .ToList();
+      var classAttributes = descriptor.ControllerTypeInfo
+                                      .GetCustomAttributes(typeof(AuthorizeAttribute), true)
+                                      .ToList();
 
-      var methodAttributes = descriptor.MethodInfo.GetCustomAttributes(typeof(AuthorizeAttribute), true).ToList();
+      var methodAttributes = descriptor.MethodInfo
+                                       .GetCustomAttributes(typeof(AuthorizeAttribute), true)
+                                       .ToList();
 
       if (classAttributes.Count == 0 || methodAttributes.Count == 0)
       {

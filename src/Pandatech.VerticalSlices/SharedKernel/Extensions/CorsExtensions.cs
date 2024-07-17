@@ -14,19 +14,21 @@ public static class CorsExtension
 
          ValidateCorsOrigins(allowedOrigins!);
 
-         builder.Services.AddCors(options => options.AddPolicy("AllowSpecific", p => p
-            .WithOrigins(allowedOrigins!)
-            .AllowCredentials()
-            .AllowAnyMethod()
-            .AllowAnyHeader()));
+         builder.Services.AddCors(options => options.AddPolicy("AllowSpecific",
+            p => p
+                 .WithOrigins(allowedOrigins!)
+                 .AllowCredentials()
+                 .AllowAnyMethod()
+                 .AllowAnyHeader()));
       }
       else
       {
-         builder.Services.AddCors(options => options.AddPolicy("AllowAll", p => p
-            .SetIsOriginAllowed(_ => true)
-            .AllowCredentials()
-            .AllowAnyMethod()
-            .AllowAnyHeader()));
+         builder.Services.AddCors(options => options.AddPolicy("AllowAll",
+            p => p
+                 .SetIsOriginAllowed(_ => true)
+                 .AllowCredentials()
+                 .AllowAnyMethod()
+                 .AllowAnyHeader()));
       }
 
       return builder;

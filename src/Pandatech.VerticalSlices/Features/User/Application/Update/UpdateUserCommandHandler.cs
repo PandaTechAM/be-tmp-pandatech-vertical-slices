@@ -13,8 +13,9 @@ public class UpdateUserCommandHandler(PostgresContext postgresContext, IRequestC
    public async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
    {
       var user = await postgresContext
-         .Users
-         .FirstOrDefaultAsync(u => u.Id == request.Id && u.Role != UserRole.SuperAdmin, cancellationToken);
+                       .Users
+                       .FirstOrDefaultAsync(u => u.Id == request.Id && u.Role != UserRole.SuperAdmin,
+                          cancellationToken);
 
       NotFoundException.ThrowIfNull(user);
 
@@ -25,11 +26,10 @@ public class UpdateUserCommandHandler(PostgresContext postgresContext, IRequestC
       {
          var duplicateUser =
             await postgresContext
-               .Users
-               .AnyAsync(x => x.Username == request.Username, cancellationToken);
+                  .Users
+                  .AnyAsync(x => x.Username == request.Username, cancellationToken);
 
          ConflictException.ThrowIf(duplicateUser, ErrorMessages.DuplicateUsername);
-
       }
 
       user.Username = username;

@@ -13,15 +13,16 @@ namespace Pandatech.VerticalSlices.Features.MyAccount.Application.UpdateOwnPassw
 public class UpdateOwnPasswordCommandHandler(
    IRequestContext requestContext,
    PostgresContext postgresContext,
-   Argon2Id argon2Id) 
+   Argon2Id argon2Id)
    : ICommandHandler<UpdateOwnPasswordCommand>
 {
    public async Task Handle(UpdateOwnPasswordCommand request, CancellationToken cancellationToken)
    {
       var user = await postgresContext
-         .Users
-         .FirstOrDefaultAsync(x => x.Id == requestContext.Identity.UserId && x.Role != UserRole.SuperAdmin,
-            cancellationToken);
+                       .Users
+                       .FirstOrDefaultAsync(x =>
+                             x.Id == requestContext.Identity.UserId && x.Role != UserRole.SuperAdmin,
+                          cancellationToken);
 
       InternalServerErrorException.ThrowIfNull(user, "User not found");
 

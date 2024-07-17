@@ -19,8 +19,9 @@ public class UpdateUserPasswordCommandHandler(
    public async Task Handle(UpdateUserPasswordCommand request, CancellationToken cancellationToken)
    {
       var user = await postgresContext
-         .Users
-         .FirstOrDefaultAsync(u => u.Id == request.Id && u.Role != UserRole.SuperAdmin, cancellationToken);
+                       .Users
+                       .FirstOrDefaultAsync(u => u.Id == request.Id && u.Role != UserRole.SuperAdmin,
+                          cancellationToken);
 
       NotFoundException.ThrowIfNull(user);
 

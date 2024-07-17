@@ -30,8 +30,8 @@ public class RefreshTokenCommandHandler(IConfiguration configuration, PostgresCo
       var refreshTokenHash = Sha3.Hash(request.RefreshTokenSignature);
 
       var token = await dbContext.Tokens
-         .Include(ut => ut.User)
-         .FirstOrDefaultAsync(x => x.RefreshTokenHash == refreshTokenHash, cancellationToken);
+                                 .Include(ut => ut.User)
+                                 .FirstOrDefaultAsync(x => x.RefreshTokenHash == refreshTokenHash, cancellationToken);
 
       ValidateToken(token, now);
 
@@ -41,8 +41,10 @@ public class RefreshTokenCommandHandler(IConfiguration configuration, PostgresCo
       dbContext.Tokens.Add(newToken);
       InvalidateOldToken(token, now);
       await dbContext.SaveChangesAsync(cancellationToken);
-      return RefreshTokenV1CommandResponse.MapFromTokenEntity(newToken, accessTokenSignature,
-         newRefreshTokenSignature, token!);
+      return RefreshTokenV1CommandResponse.MapFromTokenEntity(newToken,
+         accessTokenSignature,
+         newRefreshTokenSignature,
+         token!);
    }
 
    private static void ValidateToken(Token? token, DateTime now)
@@ -55,7 +57,9 @@ public class RefreshTokenCommandHandler(IConfiguration configuration, PostgresCo
       UnauthorizedException.ThrowIf(token.RefreshTokenExpiresAt < now, ErrorMessages.RefreshTokenExpired);
    }
 
-   private Token CreateNewToken(DateTime now, Token? token, out string refreshTokenSignature,
+   private Token CreateNewToken(DateTime now,
+      Token? token,
+      out string refreshTokenSignature,
       out string accessTokenSignature)
    {
       var newExpirationDate = now.AddMinutes(_refreshTokenExpirationMinutes);
@@ -70,8 +74,10 @@ public class RefreshTokenCommandHandler(IConfiguration configuration, PostgresCo
          newExpirationDate = now.AddMinutes(60);
       }
 
-      accessTokenSignature = Guid.NewGuid().ToString();
-      refreshTokenSignature = Guid.NewGuid().ToString();
+      accessTokenSignature = Guid.NewGuid()
+                                 .ToString();
+      refreshTokenSignature = Guid.NewGuid()
+                                  .ToString();
 
       return new Token
       {

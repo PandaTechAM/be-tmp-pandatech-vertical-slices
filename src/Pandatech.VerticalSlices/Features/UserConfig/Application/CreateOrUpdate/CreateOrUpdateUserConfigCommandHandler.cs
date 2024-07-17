@@ -9,12 +9,14 @@ public class CreateOrUpdateUserConfigCommandHandler(PostgresContext dbContext, I
 {
    public async Task Handle(CreateOrUpdateUserConfigCommand request, CancellationToken cancellationToken)
    {
-      var keys = request.Configs.Select(x => x.Key).ToList();
+      var keys = request.Configs
+                        .Select(x => x.Key)
+                        .ToList();
 
       var userConfigEntities = await dbContext
-         .UserConfigs
-         .Where(x => x.UserId == requestContext.Identity.UserId && keys.Contains(x.Key))
-         .ToListAsync(cancellationToken);
+                                     .UserConfigs
+                                     .Where(x => x.UserId == requestContext.Identity.UserId && keys.Contains(x.Key))
+                                     .ToListAsync(cancellationToken);
 
       foreach (var requestedUserConfig in request.Configs)
       {

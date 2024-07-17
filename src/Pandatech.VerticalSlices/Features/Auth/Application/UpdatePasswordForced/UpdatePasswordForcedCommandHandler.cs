@@ -19,7 +19,7 @@ public class UpdatePasswordForcedCommandHandler(
    public async Task Handle(UpdatePasswordForcedCommand request, CancellationToken cancellationToken)
    {
       var user = await dbContext.Users
-         .FirstOrDefaultAsync(x => x.Id == requestContext.Identity.UserId, cancellationToken);
+                                .FirstOrDefaultAsync(x => x.Id == requestContext.Identity.UserId, cancellationToken);
 
       InternalServerErrorException.ThrowIfNull(user, "User not found");
 

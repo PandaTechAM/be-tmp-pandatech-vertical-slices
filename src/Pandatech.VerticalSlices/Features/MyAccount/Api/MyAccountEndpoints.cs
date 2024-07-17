@@ -21,42 +21,46 @@ public class MyAccountEndpoints : IEndpoint
    public void AddRoutes(IEndpointRouteBuilder app)
    {
       var groupApp = app
-         .MapGroup(RoutePrefix)
-         .WithTags(TagName)
-         .WithGroupName(ApiHelper.GroupVertical)
-         .DisableAntiforgery()
-         .WithOpenApi();
+                     .MapGroup(RoutePrefix)
+                     .WithTags(TagName)
+                     .WithGroupName(ApiHelper.GroupVertical)
+                     .DisableAntiforgery()
+                     .WithOpenApi();
 
-      groupApp.MapGet("/personal-information", async (ISender sender, CancellationToken token) =>
-         {
-            var personalInformation = await sender.Send(new GetPersonalInformationQuery(), token);
-            return TypedResults.Ok(personalInformation);
-         })
-         .WithSummary("Get personal information")
-         .Authorize(UserRole.User);
+      groupApp.MapGet("/personal-information",
+                 async (ISender sender, CancellationToken token) =>
+                 {
+                    var personalInformation = await sender.Send(new GetPersonalInformationQuery(), token);
+                    return TypedResults.Ok(personalInformation);
+                 })
+              .WithSummary("Get personal information")
+              .Authorize(UserRole.User);
 
       groupApp.MapPatch("/password",
-            async (ISender sender, [FromBody] UpdateOwnPasswordCommand command, CancellationToken token) =>
-            {
-               await sender.Send(command, token);
-               return TypedResults.Ok();
-            })
-         .Authorize(UserRole.User)
-         .WithDescription("This endpoint is used to update the user password from its own profile.")
-         .ProducesBadRequest();
+                 async (ISender sender, [FromBody] UpdateOwnPasswordCommand command, CancellationToken token) =>
+                 {
+                    await sender.Send(command, token);
+                    return TypedResults.Ok();
+                 })
+              .Authorize(UserRole.User)
+              .WithDescription("This endpoint is used to update the user password from its own profile.")
+              .ProducesBadRequest();
 
 
       groupApp.MapPost("/logout",
-            async (ISender sender, IHttpContextAccessor httpContextAccessor, IHostEnvironment environment,
-               IConfiguration configuration, CancellationToken token) =>
-            {
-               var domain = configuration["Security:CookieDomain"]!;
-               await sender.Send(new LogoutCommand(), token);
-               httpContextAccessor.HttpContext!.DeleteAllCookies(environment, domain);
-               return TypedResults.Ok();
-            })
-         .Authorize(UserRole.User)
-         .WithDescription("This endpoint is used to logout the user and delete cookies. \ud83c\udf6a")
-         .ProducesNotFound();
+                 async (ISender sender,
+                    IHttpContextAccessor httpContextAccessor,
+                    IHostEnvironment environment,
+                    IConfiguration configuration,
+                    CancellationToken token) =>
+                 {
+                    var domain = configuration["Security:CookieDomain"]!;
+                    await sender.Send(new LogoutCommand(), token);
+                    httpContextAccessor.HttpContext!.DeleteAllCookies(environment, domain);
+                    return TypedResults.Ok();
+                 })
+              .Authorize(UserRole.User)
+              .WithDescription("This endpoint is used to logout the user and delete cookies. \ud83c\udf6a")
+              .ProducesNotFound();
    }
 }

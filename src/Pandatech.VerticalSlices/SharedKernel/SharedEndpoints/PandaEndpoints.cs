@@ -81,7 +81,10 @@ public static class PandaEndpoints
       }
 
       app.MapHealthChecks($"{BasePath}/health",
-         new HealthCheckOptions { ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse });
+         new HealthCheckOptions
+         {
+            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+         });
 
       return app;
    }

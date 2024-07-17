@@ -7,9 +7,11 @@ public class UpdateUserPasswordCommandValidator : AbstractValidator<UpdateUserPa
 {
    public UpdateUserPasswordCommandValidator()
    {
-      RuleFor(x => x.Id).NotEmpty();
+      RuleFor(x => x.Id)
+         .NotEmpty();
 
-      RuleFor(x => x.NewPassword).NotEmpty()
+      RuleFor(x => x.NewPassword)
+         .NotEmpty()
          .Must(PasswordHelper.ValidatePassword)
          .WithMessage(PasswordHelper.WrongPasswordMessage);
    }

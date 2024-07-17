@@ -8,11 +8,13 @@ public static class HealthCheckRunnerExtensions
    public static WebApplication EnsureHealthy(this WebApplication app)
    {
       var healthCheckService = app.Services.GetRequiredService<HealthCheckService>();
-      var report = healthCheckService.CheckHealthAsync().Result;
+      var report = healthCheckService.CheckHealthAsync()
+                                     .Result;
 
       // "masstransit-bus" entry is only becoming healthy after app.run
       var relevantEntries = report.Entries
-         .Where(e => e.Key != "masstransit-bus").ToList();
+                                  .Where(e => e.Key != "masstransit-bus")
+                                  .ToList();
 
       // Determine overall status based on filtered entries
       var overallStatus = relevantEntries.Exists(e => e.Value.Status == HealthStatus.Unhealthy)
@@ -25,9 +27,9 @@ public static class HealthCheckRunnerExtensions
       }
 
       var unhealthyChecks = relevantEntries
-         .Where(e => e.Value.Status != HealthStatus.Healthy)
-         .Select(e => $"{e.Key}: {e.Value.Status}")
-         .ToList();
+                            .Where(e => e.Value.Status != HealthStatus.Healthy)
+                            .Select(e => $"{e.Key}: {e.Value.Status}")
+                            .ToList();
 
       if (unhealthyChecks.Count == 0)
       {

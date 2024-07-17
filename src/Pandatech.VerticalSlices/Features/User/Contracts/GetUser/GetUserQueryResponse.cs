@@ -5,7 +5,9 @@ namespace Pandatech.VerticalSlices.Features.User.Contracts.GetUser;
 
 public class GetUserQueryResponse
 {
-   [PropertyBaseConverter] public long Id { get; set; }
+   [PropertyBaseConverter]
+   public long Id { get; set; }
+
    public required string Username { get; set; }
    public required string FullName { get; set; }
    public UserRole Role { get; set; }

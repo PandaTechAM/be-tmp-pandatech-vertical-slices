@@ -9,6 +9,11 @@ public class UserConfigEntityConfiguration : IEntityTypeConfiguration<UserConfig
    public void Configure(EntityTypeBuilder<UserConfig> builder)
    {
       builder.HasKey(e => e.Id);
-      builder.HasIndex(e => new { e.UserId, e.Key }).IsUnique();
+      builder.HasIndex(e => new
+             {
+                e.UserId,
+                e.Key
+             })
+             .IsUnique();
    }
 }

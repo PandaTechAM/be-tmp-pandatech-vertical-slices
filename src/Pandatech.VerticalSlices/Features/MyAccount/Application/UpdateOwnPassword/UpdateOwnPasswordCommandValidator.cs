@@ -7,10 +7,12 @@ public class UpdateOwnPasswordCommandValidator : AbstractValidator<UpdateOwnPass
 {
    public UpdateOwnPasswordCommandValidator()
    {
-      RuleFor(x => x.OldPassword).NotEmpty()
+      RuleFor(x => x.OldPassword)
+         .NotEmpty()
          .Must(PasswordHelper.ValidatePassword)
          .WithMessage(PasswordHelper.WrongPasswordMessage);
-      RuleFor(x => x.NewPassword).NotEmpty()
+      RuleFor(x => x.NewPassword)
+         .NotEmpty()
          .Must(PasswordHelper.ValidatePassword)
          .WithMessage(PasswordHelper.WrongPasswordMessage)
          .NotEqual(x => x.OldPassword)

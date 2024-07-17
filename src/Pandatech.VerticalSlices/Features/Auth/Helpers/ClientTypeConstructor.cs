@@ -24,7 +24,8 @@ public static class ClientTypeConstructor
          throw new BadRequestException("Client type is not valid");
       }
 
-      var highestEnumNumber = Enum.GetValues(typeof(ClientType)).Length;
+      var highestEnumNumber = Enum.GetValues(typeof(ClientType))
+                                  .Length;
 
       if (clientTypeInt < 1 || clientTypeInt > highestEnumNumber)
       {

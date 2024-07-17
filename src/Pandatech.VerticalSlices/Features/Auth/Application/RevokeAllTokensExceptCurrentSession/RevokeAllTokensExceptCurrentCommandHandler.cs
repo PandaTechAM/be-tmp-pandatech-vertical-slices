@@ -12,8 +12,9 @@ public class RevokeAllTokensExceptCurrentCommandHandler(PostgresContext dbContex
       var now = DateTime.UtcNow;
 
       var tokens = await dbContext.Tokens
-         .Where(x => x.UserId == requestContext.Identity.UserId && x.Id != requestContext.Identity.TokenId)
-         .ToListAsync(cancellationToken);
+                                  .Where(x => x.UserId == requestContext.Identity.UserId &&
+                                              x.Id != requestContext.Identity.TokenId)
+                                  .ToListAsync(cancellationToken);
 
       if (tokens.Count == 0)
       {

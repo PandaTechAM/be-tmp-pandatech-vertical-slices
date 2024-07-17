@@ -7,7 +7,8 @@ public class UpdatePasswordForcedCommandValidator : AbstractValidator<UpdatePass
 {
    public UpdatePasswordForcedCommandValidator()
    {
-      RuleFor(x => x.NewPassword).NotEmpty()
+      RuleFor(x => x.NewPassword)
+         .NotEmpty()
          .Must(PasswordHelper.ValidatePassword)
          .WithMessage(PasswordHelper.WrongPasswordMessage);
    }

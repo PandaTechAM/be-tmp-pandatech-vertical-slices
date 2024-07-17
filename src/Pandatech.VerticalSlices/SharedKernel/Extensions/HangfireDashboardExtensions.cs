@@ -15,7 +15,14 @@ public static class HangfireDashboardExtensions
          new DashboardOptions
          {
             DashboardTitle = "JobMaster Dashboard",
-            Authorization = new[] { new HangfireCustomBasicAuthenticationFilter { User = user, Pass = pass } }
+            Authorization = new[]
+            {
+               new HangfireCustomBasicAuthenticationFilter
+               {
+                  User = user,
+                  Pass = pass
+               }
+            }
          });
       app.MapHangfireDashboard();
 

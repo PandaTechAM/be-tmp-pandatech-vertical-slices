@@ -6,5 +6,6 @@ namespace Pandatech.VerticalSlices.Features.User.Application.GetUser;
 
 public class GetUserQuery(long id) : IQuery<GetUserQueryResponse>
 {
-   [JsonIgnore] public long Id { get; set; } = id;
+   [JsonIgnore]
+   public long Id { get; set; } = id;
 }

@@ -12,16 +12,18 @@ public class TokenEntityConfiguration : IEntityTypeConfiguration<Token>
 
 
       builder.HasOne(x => x.User)
-         .WithMany(u => u.Tokens)
-         .HasForeignKey(x => x.UserId)
-         .IsRequired();
+             .WithMany(u => u.Tokens)
+             .HasForeignKey(x => x.UserId)
+             .IsRequired();
 
       builder.HasOne(x => x.PreviousToken)
-         .WithOne()
-         .HasForeignKey<Token>(x => x.PreviousTokenId)
-         .IsRequired(false);
+             .WithOne()
+             .HasForeignKey<Token>(x => x.PreviousTokenId)
+             .IsRequired(false);
 
-      builder.HasIndex(x => x.AccessTokenHash).IsUnique();
-      builder.HasIndex(x => x.RefreshTokenHash).IsUnique();
+      builder.HasIndex(x => x.AccessTokenHash)
+             .IsUnique();
+      builder.HasIndex(x => x.RefreshTokenHash)
+             .IsUnique();
    }
 }

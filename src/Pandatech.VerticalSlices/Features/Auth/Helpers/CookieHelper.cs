@@ -7,7 +7,9 @@ namespace Pandatech.VerticalSlices.Features.Auth.Helpers;
 
 public static class CookieHelper
 {
-   private static void CreateSecureCookies(this List<Cookie> cookies, HttpContext httpContext, string domain,
+   private static void CreateSecureCookies(this List<Cookie> cookies,
+      HttpContext httpContext,
+      string domain,
       IHostEnvironment environment)
    {
       foreach (var cookie in cookies)
@@ -16,7 +18,10 @@ public static class CookieHelper
 
          var cookieOptions = new CookieOptions
          {
-            Expires = cookie.ExpirationDate, SameSite = SameSiteMode.None, Secure = true, HttpOnly = true
+            Expires = cookie.ExpirationDate,
+            SameSite = SameSiteMode.None,
+            Secure = true,
+            HttpOnly = true
          };
 
          if (!environment.IsLocal())
@@ -52,7 +57,12 @@ public static class CookieHelper
          }
 
 
-         var cookieOptions = new CookieOptions { Secure = true, HttpOnly = true, SameSite = SameSiteMode.None };
+         var cookieOptions = new CookieOptions
+         {
+            Secure = true,
+            HttpOnly = true,
+            SameSite = SameSiteMode.None
+         };
 
          if (!environment.IsLocal())
          {
@@ -69,7 +79,8 @@ public static class CookieHelper
    }
 
    public static void PrepareAndSetCookies(this HttpContext httpContext,
-      RefreshTokenV1CommandResponse mediatorResponse, IHostEnvironment environment,
+      RefreshTokenV1CommandResponse mediatorResponse,
+      IHostEnvironment environment,
       string domain)
    {
       var cookies = new IdentityCookies
@@ -83,7 +94,8 @@ public static class CookieHelper
    }
 
    public static void PrepareAndSetCookies(this HttpContext httpContext,
-      LoginCommandResponse mediatorResponse, IHostEnvironment environment,
+      LoginCommandResponse mediatorResponse,
+      IHostEnvironment environment,
       string domain)
    {
       var cookies = new IdentityCookies
@@ -97,14 +109,18 @@ public static class CookieHelper
    }
 
 
-   private static void RefreshIdentityCookies(IdentityCookies cookies, HttpContext httpContext,
-      IHostEnvironment environment, string domain)
+   private static void RefreshIdentityCookies(IdentityCookies cookies,
+      HttpContext httpContext,
+      IHostEnvironment environment,
+      string domain)
    {
       List<Cookie> newCookies =
       [
-         new Cookie(FormatCookieName("access_token", environment), cookies.AccessTokenSignature,
+         new Cookie(FormatCookieName("access_token", environment),
+            cookies.AccessTokenSignature,
             cookies.AccessTokenExpiresAt),
-         new Cookie(FormatCookieName("refresh_token", environment), cookies.RefreshTokenSignature,
+         new Cookie(FormatCookieName("refresh_token", environment),
+            cookies.RefreshTokenSignature,
             cookies.RefreshTokenExpiresAt)
       ];
 

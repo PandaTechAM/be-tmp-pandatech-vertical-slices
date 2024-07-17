@@ -12,8 +12,9 @@ public class UpdateUserStatusCommandHandler(PostgresContext postgresContext, IRe
    public async Task Handle(UpdateUserStatusCommand request, CancellationToken cancellationToken)
    {
       var user = await postgresContext
-         .Users
-         .FirstOrDefaultAsync(u => u.Id == request.Id && u.Role != UserRole.SuperAdmin, cancellationToken);
+                       .Users
+                       .FirstOrDefaultAsync(u => u.Id == request.Id && u.Role != UserRole.SuperAdmin,
+                          cancellationToken);
 
       NotFoundException.ThrowIfNull(user);
 

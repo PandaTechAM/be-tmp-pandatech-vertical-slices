@@ -14,21 +14,22 @@ public static class OpenTelemetryExtension
          x.IncludeFormattedMessage = true;
       });
 
-      builder.Services.AddOpenTelemetry()
-         .ConfigureResource(resource => resource.AddService(builder.Environment.ApplicationName))
-         .WithMetrics(metrics =>
-         {
-            metrics.AddRuntimeInstrumentation()
-               .AddAspNetCoreInstrumentation()
-               .AddHttpClientInstrumentation()
-               .AddPrometheusExporter();
-         })
-         .WithTracing(tracing =>
-         {
-            tracing.AddAspNetCoreInstrumentation()
-               .AddHttpClientInstrumentation()
-               .AddGrpcClientInstrumentation();
-         });
+      builder.Services
+             .AddOpenTelemetry()
+             .ConfigureResource(resource => resource.AddService(builder.Environment.ApplicationName))
+             .WithMetrics(metrics =>
+             {
+                metrics.AddRuntimeInstrumentation()
+                       .AddAspNetCoreInstrumentation()
+                       .AddHttpClientInstrumentation()
+                       .AddPrometheusExporter();
+             })
+             .WithTracing(tracing =>
+             {
+                tracing.AddAspNetCoreInstrumentation()
+                       .AddHttpClientInstrumentation()
+                       .AddGrpcClientInstrumentation();
+             });
 
       return builder;
    }

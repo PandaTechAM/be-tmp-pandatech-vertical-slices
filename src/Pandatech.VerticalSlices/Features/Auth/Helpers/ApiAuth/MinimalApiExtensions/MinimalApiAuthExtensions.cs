@@ -15,15 +15,25 @@ public static class MinimalApiAuthExtensions
 
          endpointBuilder.RequestDelegate = async context =>
          {
-            var anonymous = context.GetEndpoint()?.Metadata.GetMetadata<AnonymousMetadata>() != null;
+            var anonymous = context.GetEndpoint()
+                                   ?.Metadata
+                                   .GetMetadata<AnonymousMetadata>() != null;
             var forceToChangePassword =
-               context.GetEndpoint()?.Metadata.GetMetadata<ForcedPasswordChangeMetadata>() != null;
-            var ignoreClientType = context.GetEndpoint()?.Metadata.GetMetadata<IgnoreClientTypeMetadata>() != null;
+               context.GetEndpoint()
+                      ?.Metadata
+                      .GetMetadata<ForcedPasswordChangeMetadata>() != null;
+            var ignoreClientType = context.GetEndpoint()
+                                          ?.Metadata
+                                          .GetMetadata<IgnoreClientTypeMetadata>() != null;
             var sender = context.RequestServices.GetRequiredService<ISender>();
 
 
-            await sender.Send(new AuthQuery(context, minimalUserRole, anonymous, forceToChangePassword,
-               ignoreClientType), context.RequestAborted);
+            await sender.Send(new AuthQuery(context,
+                  minimalUserRole,
+                  anonymous,
+                  forceToChangePassword,
+                  ignoreClientType),
+               context.RequestAborted);
 
 
             await original!(context);

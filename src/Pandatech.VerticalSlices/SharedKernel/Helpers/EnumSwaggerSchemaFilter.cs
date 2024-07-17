@@ -12,10 +12,11 @@ public class EnumSwaggerSchemaFilter : ISchemaFilter
          var type = context.Type;
 
          var list = Enum.GetValues(type)
-            .Cast<object>()
-            .ToList();
+                        .Cast<object>()
+                        .ToList();
 
-         var enumDescriptions = list.Select(x => $"{x}: {(int)x}").ToList();
+         var enumDescriptions = list.Select(x => $"{x}: {(int)x}")
+                                    .ToList();
 
          schema.Description = string.Join(", ", enumDescriptions);
       }

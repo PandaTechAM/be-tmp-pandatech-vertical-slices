@@ -10,11 +10,11 @@ public class GetUserConfigsQueryHandler(PostgresContext dbContext, IRequestConte
    public Task<Dictionary<string, string>> Handle(GetUserConfigsQuery request, CancellationToken cancellationToken)
    {
       return dbContext
-         .UserConfigs
-         .Where(x => x.UserId == requestContext.Identity.UserId
-                     && request.Keys
-                        .Contains(x.Key))
-         .AsNoTracking()
-         .ToDictionaryAsync(x => x.Key, x => x.Value, cancellationToken);
+             .UserConfigs
+             .Where(x => x.UserId == requestContext.Identity.UserId
+                         && request.Keys
+                                   .Contains(x.Key))
+             .AsNoTracking()
+             .ToDictionaryAsync(x => x.Key, x => x.Value, cancellationToken);
    }
 }

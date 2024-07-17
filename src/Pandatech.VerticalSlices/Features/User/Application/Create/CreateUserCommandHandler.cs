@@ -13,8 +13,10 @@ public class CreateUserCommandHandler(PostgresContext dbContext, Argon2Id argon,
    public async Task Handle(CreateUserCommand request, CancellationToken cancellationToken)
    {
       var isDuplicateUsername = await dbContext.Users
-         .AnyAsync(u => u.Username.ToLower().Equals(request.Username.ToLower()),
-            cancellationToken);
+                                               .AnyAsync(u => u.Username
+                                                               .ToLower()
+                                                               .Equals(request.Username.ToLower()),
+                                                  cancellationToken);
 
       BadRequestException.ThrowIf(isDuplicateUsername, ErrorMessages.DuplicateUsername);
 

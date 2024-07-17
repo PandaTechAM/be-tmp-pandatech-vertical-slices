@@ -6,7 +6,9 @@ namespace Pandatech.VerticalSlices.Features.Auth.Contracts.RefreshToken;
 
 public class RefreshTokenV1CommandResponse
 {
-   [PropertyBaseConverter] public long UserId { get; set; }
+   [PropertyBaseConverter]
+   public long UserId { get; set; }
+
    public bool ForcePasswordChange { get; set; }
    public UserRole UserRole { get; set; }
    public required string AccessTokenSignature { get; set; }
@@ -15,7 +17,9 @@ public class RefreshTokenV1CommandResponse
    public DateTime RefreshTokenExpiration { get; set; }
 
    public static RefreshTokenV1CommandResponse MapFromTokenEntity(Token token,
-      string accessTokenSignature, string refreshTokenSignature, Token oldToken)
+      string accessTokenSignature,
+      string refreshTokenSignature,
+      Token oldToken)
    {
       return new RefreshTokenV1CommandResponse
       {

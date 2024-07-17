@@ -12,10 +12,10 @@ public record CreateTokenCommandResponse(
    DateTime AccessTokenExpiresAt,
    DateTime RefreshTokenExpiresAt,
    DateTime CreatedAt,
-   DateTime UpdatedAt
-)
+   DateTime UpdatedAt)
 {
-   public static CreateTokenCommandResponse MapFromEntity(Token entity, string accessTokenSignature,
+   public static CreateTokenCommandResponse MapFromEntity(Token entity,
+      string accessTokenSignature,
       string refreshTokenSignature)
    {
       return new CreateTokenCommandResponse(

@@ -18,10 +18,17 @@ public class AuthQueryHandler(PostgresContext dbContext, IHostEnvironment enviro
    {
       var now = DateTime.UtcNow;
       var requestId = request.HttpContext.TryParseRequestId();
-      var clientType = request.HttpContext.TryParseClientType().ConvertToEnum(!request.IgnoreClientType);
+      var clientType = request.HttpContext
+                              .TryParseClientType()
+                              .ConvertToEnum(!request.IgnoreClientType);
       var accessTokenSignature = request.HttpContext.TryParseAccessTokenSignature(environment);
 
-      var metadata = new MetaData { RequestId = requestId, RequestTime = now, ClientType = clientType };
+      var metadata = new MetaData
+      {
+         RequestId = requestId,
+         RequestTime = now,
+         ClientType = clientType
+      };
 
       requestContext.MetaData = metadata;
 
@@ -36,10 +43,10 @@ public class AuthQueryHandler(PostgresContext dbContext, IHostEnvironment enviro
       var accessTokenHash = Sha3.Hash(accessTokenSignature);
 
       var tokenEntity = await dbContext.Tokens
-         .Include(ut => ut.User)
-         .Where(t => t.AccessTokenHash == accessTokenHash)
-         .AsNoTracking()
-         .FirstOrDefaultAsync(cancellationToken);
+                                       .Include(ut => ut.User)
+                                       .Where(t => t.AccessTokenHash == accessTokenHash)
+                                       .AsNoTracking()
+                                       .FirstOrDefaultAsync(cancellationToken);
 
       UnauthorizedException.ThrowIfNull(tokenEntity);
       UnauthorizedException.ThrowIf(tokenEntity.User!.Status is not UserStatus.Active);

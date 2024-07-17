@@ -1,6 +1,4 @@
-﻿using BaseConverter.Attributes;
-using BaseConverter.Extensions;
-using BaseConverter.Filters;
+﻿using BaseConverter.Extensions;
 using Microsoft.OpenApi.Models;
 using Pandatech.VerticalSlices.SharedKernel.Configurations.Options;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
@@ -13,7 +11,8 @@ public static class SwaggerExtension
 {
    private static SwaggerOptions GetSwaggerOptions(IConfiguration configuration)
    {
-      var swaggerOptions = configuration.GetSection("Swagger").Get<SwaggerOptions>();
+      var swaggerOptions = configuration.GetSection("Swagger")
+                                        .Get<SwaggerOptions>();
 
       return swaggerOptions!;
    }
@@ -34,7 +33,9 @@ public static class SwaggerExtension
                   Description = version.Value.Description,
                   Contact = new OpenApiContact
                   {
-                     Name = "PandaTech LLC", Email = "info@pandatech.it", Url = new Uri("https://pandatech.it")
+                     Name = "PandaTech LLC",
+                     Email = "info@pandatech.it",
+                     Url = new Uri("https://pandatech.it")
                   }
                });
          }
@@ -57,7 +58,8 @@ public static class SwaggerExtension
          return;
       }
 
-      var swaggerOptions = configuration.GetSection("Swagger").Get<SwaggerOptions>();
+      var swaggerOptions = configuration.GetSection("Swagger")
+                                        .Get<SwaggerOptions>();
 
       app.UseSwagger();
       app.UseSwaggerUI(options =>
@@ -124,7 +126,11 @@ public static class SwaggerExtension
             {
                new OpenApiSecurityScheme
                {
-                  Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = name },
+                  Reference = new OpenApiReference
+                  {
+                     Type = ReferenceType.SecurityScheme,
+                     Id = name
+                  },
                   In = ParameterLocation.Header
                },
                new List<string>()

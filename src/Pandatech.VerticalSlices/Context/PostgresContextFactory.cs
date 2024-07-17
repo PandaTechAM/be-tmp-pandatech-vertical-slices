@@ -9,7 +9,8 @@ public class PostgresContextFactory : IDesignTimeDbContextFactory<PostgresContex
    {
       var optionsBuilder = new DbContextOptionsBuilder<PostgresContext>();
 
-      optionsBuilder.UseNpgsql().UseSnakeCaseNamingConvention();
+      optionsBuilder.UseNpgsql()
+                    .UseSnakeCaseNamingConvention();
 
       return new PostgresContext(optionsBuilder.Options);
    }

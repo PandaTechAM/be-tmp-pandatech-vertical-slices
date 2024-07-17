@@ -34,14 +34,18 @@ public static class HttpContextParser
          return refreshTokenSignature;
       }
 
-      refreshTokenSignature = httpContext.Request.Headers["refresh-token"].ToString();
+      refreshTokenSignature = httpContext.Request
+                                         .Headers["refresh-token"]
+                                         .ToString();
 
       return refreshTokenSignature;
    }
 
    public static string TryParseClientType(this HttpContext httpContext)
    {
-      var clientType = httpContext.Request.Headers["client-type"].ToString();
+      var clientType = httpContext.Request
+                                  .Headers["client-type"]
+                                  .ToString();
       return clientType;
    }
 
@@ -58,7 +62,9 @@ public static class HttpContextParser
 
       if (string.IsNullOrEmpty(uniqueIdPerDevice))
       {
-         uniqueIdPerDevice = httpContext.Request.Headers["device"].ToString();
+         uniqueIdPerDevice = httpContext.Request
+                                        .Headers["device"]
+                                        .ToString();
       }
 
       return uniqueIdPerDevice;
@@ -66,12 +72,18 @@ public static class HttpContextParser
 
    public static string TryParseDeviceName(this HttpContext httpContext)
    {
-      return httpContext.Request.Headers["device-name"].ToString();
+      return httpContext.Request
+                        .Headers["device-name"]
+                        .ToString();
    }
 
    public static SupportedLanguageType TryParseLanguageId(this HttpContext httpContext)
    {
-      return httpContext.Request.Headers.AcceptLanguage.ToString().GetLanguage();
+      return httpContext.Request
+                        .Headers
+                        .AcceptLanguage
+                        .ToString()
+                        .GetLanguage();
    }
 
    public static string TryParseUserAgent(this HttpContext httpContext)
@@ -199,14 +211,20 @@ public static class HttpContextParser
 
       if (headerName != "Forwarded")
       {
-         return value.ToString().Split(',').FirstOrDefault()?.Trim();
+         return value.ToString()
+                     .Split(',')
+                     .FirstOrDefault()
+                     ?.Trim();
       }
 
-      var forwardedValues = value.ToString().Split(';').Select(p => p.Trim());
+      var forwardedValues = value.ToString()
+                                 .Split(';')
+                                 .Select(p => p.Trim());
       var forValue = forwardedValues.FirstOrDefault(p => p.StartsWith("for="));
       if (!string.IsNullOrWhiteSpace(forValue) && forValue.Length > 4)
       {
-         return forValue.Substring(4).Trim();
+         return forValue.Substring(4)
+                        .Trim();
       }
 
       return null;

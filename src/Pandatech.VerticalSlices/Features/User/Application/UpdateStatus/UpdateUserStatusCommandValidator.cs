@@ -6,7 +6,9 @@ public class UpdateUserStatusCommandValidator : AbstractValidator<UpdateUserStat
 {
    public UpdateUserStatusCommandValidator()
    {
-      RuleFor(x => x.Id).NotEmpty();
-      RuleFor(x => x.Status).IsInEnum();
+      RuleFor(x => x.Id)
+         .NotEmpty();
+      RuleFor(x => x.Status)
+         .IsInEnum();
    }
 }

@@ -6,7 +6,8 @@ namespace Pandatech.VerticalSlices.Features.Auth.Contracts.Login;
 
 public class LoginCommandResponse
 {
-   [PropertyBaseConverter] public long UserId { get; set; }
+   [PropertyBaseConverter]
+   public long UserId { get; set; }
 
    public bool ForcePasswordChange { get; set; }
    public UserRole UserRole { get; set; }
@@ -15,7 +16,8 @@ public class LoginCommandResponse
    public required string RefreshTokenSignature { get; set; }
    public DateTime RefreshTokenExpiration { get; set; }
 
-   public static LoginCommandResponse MapFromEntity(CreateTokenCommandResponse token, UserRole userRole,
+   public static LoginCommandResponse MapFromEntity(CreateTokenCommandResponse token,
+      UserRole userRole,
       bool forcePasswordChange)
    {
       return new LoginCommandResponse

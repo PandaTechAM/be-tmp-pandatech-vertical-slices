@@ -13,8 +13,8 @@ public class GetUserColumnDistinctValuesQueryHandler(PostgresContext dbContext)
       CancellationToken cancellationToken)
    {
       return dbContext
-         .Users
-         .Where(u => u.Role != UserRole.SuperAdmin)
-         .ColumnDistinctValuesAsync(request, cancellationToken: cancellationToken);
+             .Users
+             .Where(u => u.Role != UserRole.SuperAdmin)
+             .ColumnDistinctValuesAsync(request, cancellationToken: cancellationToken);
    }
 }

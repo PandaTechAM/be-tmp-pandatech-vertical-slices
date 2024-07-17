@@ -20,8 +20,8 @@ public static class SystemUser
 
       var normalizedUsername = username!.ToLowerInvariant();
       var existingUsers = context.Users
-         .Where(u => u.Username == normalizedUsername || u.Role == UserRole.SuperAdmin)
-         .ToList();
+                                 .Where(u => u.Username == normalizedUsername || u.Role == UserRole.SuperAdmin)
+                                 .ToList();
 
       ValidateSuperUserUniqueness(existingUsers);
 

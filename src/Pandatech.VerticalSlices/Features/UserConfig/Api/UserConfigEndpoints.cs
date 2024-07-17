@@ -20,42 +20,46 @@ public class UserConfigEndpoints : IEndpoint
    public void AddRoutes(IEndpointRouteBuilder app)
    {
       var groupApp = app
-         .MapGroup(RoutePrefix)
-         .WithTags(TagName)
-         .WithGroupName(ApiHelper.GroupVertical)
-         .DisableAntiforgery()
-         .WithOpenApi();
-      
+                     .MapGroup(RoutePrefix)
+                     .WithTags(TagName)
+                     .WithGroupName(ApiHelper.GroupVertical)
+                     .DisableAntiforgery()
+                     .WithOpenApi();
+
       groupApp.MapPost("/frontend/configs",
-            async ([FromBody] CreateOrUpdateUserConfigCommand request, [FromServices] ISender sender,
-               CancellationToken token) =>
-            {
-               await sender.Send(request, token);
-               return TypedResults.Ok();
-            })
-         .WithSummary("Create or update user frontend configs")
-         .Authorize(UserRole.User)
-         .ProducesBadRequest();
+                 async ([FromBody] CreateOrUpdateUserConfigCommand request,
+                    [FromServices] ISender sender,
+                    CancellationToken token) =>
+                 {
+                    await sender.Send(request, token);
+                    return TypedResults.Ok();
+                 })
+              .WithSummary("Create or update user frontend configs")
+              .Authorize(UserRole.User)
+              .ProducesBadRequest();
 
       groupApp.MapGet("/frontend/configs",
-            async ([AsParameters] GetUserConfigsQuery query, [FromServices] ISender sender, CancellationToken token) =>
-            {
-               var configs = await sender.Send(query, token);
-               return TypedResults.Ok(configs);
-            })
-         .WithSummary("Get user frontend configs")
-         .Authorize(UserRole.User)
-         .ProducesBadRequest();
+                 async ([AsParameters] GetUserConfigsQuery query,
+                    [FromServices] ISender sender,
+                    CancellationToken token) =>
+                 {
+                    var configs = await sender.Send(query, token);
+                    return TypedResults.Ok(configs);
+                 })
+              .WithSummary("Get user frontend configs")
+              .Authorize(UserRole.User)
+              .ProducesBadRequest();
 
       groupApp.MapDelete("/frontend/configs",
-            async ([FromBody] DeleteUserConfigsCommand request, [FromServices] ISender sender,
-               CancellationToken token) =>
-            {
-               await sender.Send(request, token);
-               return TypedResults.Ok();
-            })
-         .WithSummary("Delete user frontend configs")
-         .Authorize(UserRole.User)
-         .ProducesBadRequest();
+                 async ([FromBody] DeleteUserConfigsCommand request,
+                    [FromServices] ISender sender,
+                    CancellationToken token) =>
+                 {
+                    await sender.Send(request, token);
+                    return TypedResults.Ok();
+                 })
+              .WithSummary("Delete user frontend configs")
+              .Authorize(UserRole.User)
+              .ProducesBadRequest();
    }
 }

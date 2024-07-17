@@ -13,7 +13,7 @@ public class LogoutCommandHandler(IRequestContext requestContext, PostgresContex
       var now = DateTime.UtcNow;
 
       var token = await dbContext.Tokens
-         .FirstOrDefaultAsync(x => x.Id == requestContext.Identity.TokenId, cancellationToken);
+                                 .FirstOrDefaultAsync(x => x.Id == requestContext.Identity.TokenId, cancellationToken);
 
       InternalServerErrorException.ThrowIfNull(token, "Token not found");
 

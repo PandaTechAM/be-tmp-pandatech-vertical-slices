@@ -5,8 +5,8 @@ public class Token
    public long Id { get; set; }
    public long UserId { get; set; }
    public long? PreviousTokenId { get; set; }
-   public required byte[] AccessTokenHash { get; set; } 
-   public required byte[] RefreshTokenHash { get; set; } 
+   public required byte[] AccessTokenHash { get; set; }
+   public required byte[] RefreshTokenHash { get; set; }
    public DateTime AccessTokenExpiresAt { get; set; }
    public DateTime RefreshTokenExpiresAt { get; set; }
    public DateTime InitialRefreshTokenCreatedAt { get; set; } = DateTime.UtcNow;

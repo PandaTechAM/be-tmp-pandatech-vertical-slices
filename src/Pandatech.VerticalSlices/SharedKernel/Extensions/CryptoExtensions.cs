@@ -1,4 +1,3 @@
-using BaseConverter;
 using BaseConverter.Extensions;
 using Pandatech.Crypto;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;

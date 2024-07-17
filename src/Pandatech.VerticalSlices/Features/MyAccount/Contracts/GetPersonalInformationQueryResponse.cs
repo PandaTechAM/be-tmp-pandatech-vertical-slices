@@ -9,7 +9,11 @@ public record GetPersonalInformationQueryResponse(
    UserRole UserRole,
    DateTime CreatedAt)
 {
-   public static GetPersonalInformationQueryResponse MapFromRequestContext(IRequestContext requestContext) =>
-      new(requestContext.Identity.Username, requestContext.Identity.FullName, requestContext.Identity.UserRole,
+   public static GetPersonalInformationQueryResponse MapFromRequestContext(IRequestContext requestContext)
+   {
+      return new GetPersonalInformationQueryResponse(requestContext.Identity.Username,
+         requestContext.Identity.FullName,
+         requestContext.Identity.UserRole,
          requestContext.Identity.CreatedAt);
+   }
 }

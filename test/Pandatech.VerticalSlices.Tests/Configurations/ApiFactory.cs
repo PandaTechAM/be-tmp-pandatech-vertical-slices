@@ -44,7 +44,8 @@ public class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
          services.RemoveAll(typeof(DbContextOptions<PostgresContext>));
          services.AddDbContextPool<PostgresContext>(options =>
          {
-            options.UseNpgsql(_dbContainer.GetConnectionString()).UseSnakeCaseNamingConvention();
+            options.UseNpgsql(_dbContainer.GetConnectionString())
+                   .UseSnakeCaseNamingConvention();
          });
       });
    }
@@ -55,7 +56,11 @@ public class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
 
       await _dbConnection.OpenAsync();
       _respawner = await Respawner.CreateAsync(_dbConnection,
-         new RespawnerOptions { DbAdapter = DbAdapter.Postgres, SchemasToInclude = ["public"] });
+         new RespawnerOptions
+         {
+            DbAdapter = DbAdapter.Postgres,
+            SchemasToInclude = ["public"]
+         });
    }
 
    public async Task ResetStateAsync()

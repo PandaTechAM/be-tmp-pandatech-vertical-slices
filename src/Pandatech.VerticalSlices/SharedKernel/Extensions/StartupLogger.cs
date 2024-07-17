@@ -29,7 +29,9 @@ public static class StartupLogger
       var initializationTime = Math.Round(_stopwatch.Elapsed.TotalMilliseconds / 1000, 2);
       Console.WriteLine(JsonConvert.SerializeObject(new
       {
-         Timestamp = now, Event = "ApplicationStartSuccess", InitializationTime = $"{initializationTime} seconds"
+         Timestamp = now,
+         Event = "ApplicationStartSuccess",
+         InitializationTime = $"{initializationTime} seconds"
       }));
    }
 }

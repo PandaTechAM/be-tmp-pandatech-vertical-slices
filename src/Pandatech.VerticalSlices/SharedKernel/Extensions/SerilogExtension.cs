@@ -13,11 +13,16 @@ public static class SerilogExtension
       var elasticSearchUrl = configuration.GetConnectionString(ConfigurationPaths.ElasticSearchUrl)!;
 
       var loggerConfig = new LoggerConfiguration()
-         .Enrich.FromLogContext()
-         .Enrich.WithMachineName()
-         .Filter.ByExcluding(logEvent => logEvent.ShouldExcludeHangfireDashboardLogs())
-         .Filter.ByExcluding(logEvent => logEvent.ShouldExcludeOutboxDbCommandLogs(builder.Environment))
-         .ReadFrom.Configuration(configuration);
+                         .Enrich
+                         .FromLogContext()
+                         .Enrich
+                         .WithMachineName()
+                         .Filter
+                         .ByExcluding(logEvent => logEvent.ShouldExcludeHangfireDashboardLogs())
+                         .Filter
+                         .ByExcluding(logEvent => logEvent.ShouldExcludeOutboxDbCommandLogs(builder.Environment))
+                         .ReadFrom
+                         .Configuration(configuration);
 
       ConfigureEnvironmentSpecificSettings(builder.Environment, loggerConfig, elasticSearchUrl, indexName);
 
@@ -29,7 +34,9 @@ public static class SerilogExtension
    }
 
    private static void ConfigureEnvironmentSpecificSettings(IHostEnvironment environment,
-      LoggerConfiguration loggerConfig, string elasticSearchUrl, string indexName)
+      LoggerConfiguration loggerConfig,
+      string elasticSearchUrl,
+      string indexName)
    {
       if (environment.IsLocal())
       {
@@ -48,8 +55,10 @@ public static class SerilogExtension
       }
    }
 
-   private static void ConfigureElasticsearch(LoggerConfiguration loggerConfig, string elasticSearchUrl,
-      string indexName, IHostEnvironment environment)
+   private static void ConfigureElasticsearch(LoggerConfiguration loggerConfig,
+      string elasticSearchUrl,
+      string indexName,
+      IHostEnvironment environment)
    {
       var envName = environment.GetShortEnvironmentName();
 
@@ -74,15 +83,20 @@ public static class SerilogExtension
          return false;
       }
 
-      return logEvent.RenderMessage().StartsWith("Executed DbCommand") &&
-             (logEvent.RenderMessage().Contains("FROM outbox_messages") ||
-              logEvent.RenderMessage().Contains("FROM OutboxMessages"));
+      return logEvent.RenderMessage()
+                     .StartsWith("Executed DbCommand") &&
+             (logEvent.RenderMessage()
+                      .Contains("FROM outbox_messages") ||
+              logEvent.RenderMessage()
+                      .Contains("FROM OutboxMessages"));
    }
 
    private static bool ShouldExcludeHangfireDashboardLogs(this LogEvent logEvent)
    {
       return logEvent.Properties.TryGetValue("RequestPath", out var requestPathValue)
              && requestPathValue is ScalarValue requestPath
-             && requestPath.Value?.ToString()?.Contains("/hangfire") == true;
+             && requestPath.Value
+                           ?.ToString()
+                           ?.Contains("/hangfire") == true;
    }
 }

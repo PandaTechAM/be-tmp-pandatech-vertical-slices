@@ -14,9 +14,9 @@ public class GetUserQueryHandler(PostgresContext postgresContext)
       CancellationToken cancellationToken)
    {
       var user = await postgresContext
-         .Users
-         .FirstOrDefaultAsync(x => x.Id == request.Id && x.Role != UserRole.SuperAdmin,
-            cancellationToken);
+                       .Users
+                       .FirstOrDefaultAsync(x => x.Id == request.Id && x.Role != UserRole.SuperAdmin,
+                          cancellationToken);
 
       NotFoundException.ThrowIfNull(user);
 
