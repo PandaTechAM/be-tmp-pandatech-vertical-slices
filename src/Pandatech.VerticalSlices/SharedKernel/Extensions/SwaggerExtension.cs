@@ -1,5 +1,4 @@
-﻿using BaseConverter.Extensions;
-using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi.Models;
 using Pandatech.VerticalSlices.SharedKernel.Configurations.Options;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -40,8 +39,6 @@ public static class SwaggerExtension
                });
          }
 
-         // Add string input support into int64 field
-         options.AddBaseConverterFilters();
          options.SchemaFilter<EnumSwaggerSchemaFilter>();
 
          // Add the custom token authentication option

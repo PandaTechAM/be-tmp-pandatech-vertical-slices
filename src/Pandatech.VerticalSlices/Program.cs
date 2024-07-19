@@ -1,4 +1,3 @@
-using BaseConverter;
 using Communicator.Extensions;
 using DistributedCache.Extensions;
 using FluentMinimalApiMapper;
@@ -35,7 +34,7 @@ builder
    .AddResponseCrafter(NamingConvention.ToSnakeCase)
    .ConfigureOpenTelemetry()
    .AddEndpoints()
-   .AddGridify(PandaBaseConverter.Base36Chars)
+   .AddGridify()
    .AddCommunicator()
    .AddDistributedCache(options =>
    {

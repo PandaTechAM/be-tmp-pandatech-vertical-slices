@@ -1,4 +1,3 @@
-using BaseConverter.Attributes;
 using Pandatech.VerticalSlices.Domain.Entities;
 using Pandatech.VerticalSlices.Domain.Enums;
 
@@ -6,7 +5,6 @@ namespace Pandatech.VerticalSlices.Features.Auth.Contracts.RefreshToken;
 
 public class RefreshTokenV1CommandResponse
 {
-   [PropertyBaseConverter]
    public long UserId { get; set; }
 
    public bool ForcePasswordChange { get; set; }

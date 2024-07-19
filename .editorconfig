@@ -131,7 +131,7 @@ tab_width = 4
 #########################
 # Custom added settings #
 #########################
-
+[*.cs]
 dotnet_diagnostic.cs8600.severity = error #Converting null literal or possible null value to non-nullable type.
 dotnet_diagnostic.cs8601.severity = error #Possible null reference assignment.
 dotnet_diagnostic.cs8602.severity = error #possible dereference of a null reference
@@ -145,5 +145,46 @@ dotnet_diagnostic.cs1717.severity = error #variable is assigned to itself
 dotnet_diagnostic.cs1718.severity = error #comparison made to same variable
 dotnet_diagnostic.cs0659.severity = error #overriding object.Equals but not overriding object.GetHashCode
 dotnet_diagnostic.cs0251.severity = error #Indexing an array with a negative index (array indices always start at zero)
+dotnet_diagnostic.s3363.severity = none #Never set DateTime as PrimaryKey. Ignored as we never do it but have warnings for cache entities.
+dotnet_diagnostic.ca2016.severity = error #Forwarding cancellation tokens
 csharp_style_namespace_declarations = file_scoped:error
 resharper_entity_framework_model_validation_unlimited_string_length_highlighting = none
+
+#########################
+# VS added settings #
+#########################
+
+[*.cs]
+csharp_style_namespace_declarations = file_scoped:error
+csharp_indent_labels = one_less_than_current
+csharp_using_directive_placement = outside_namespace:silent
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_prefer_braces = true:silent
+csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_prefer_top_level_statements = true:silent
+csharp_style_prefer_primary_constructors = true:suggestion
+csharp_style_expression_bodied_methods = false:silent
+csharp_style_expression_bodied_constructors = false:silent
+csharp_style_expression_bodied_operators = false:silent
+csharp_style_expression_bodied_properties = true:silent
+csharp_style_expression_bodied_indexers = true:silent
+csharp_style_expression_bodied_accessors = true:silent
+csharp_style_expression_bodied_lambdas = true:silent
+csharp_style_expression_bodied_local_functions = false:silent
+
+[{*.yaml,*.yml}]
+dotnet_style_namespace_match_folder = true:suggestion
+dotnet_style_operator_placement_when_wrapping = beginning_of_line
+tab_width = 3
+dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_null_propagation = true:suggestion
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
+dotnet_style_prefer_auto_properties = true:silent
+dotnet_style_object_initializer = true:suggestion
+dotnet_style_collection_initializer = true:suggestion
+dotnet_style_prefer_simplified_boolean_expressions = true:suggestion
+dotnet_style_prefer_conditional_expression_over_assignment = true:silent
+
+[*.csv]
+indent_style = tab
+tab_width = 4

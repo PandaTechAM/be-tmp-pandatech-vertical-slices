@@ -1,4 +1,3 @@
-using BaseConverter.Extensions;
 using FluentMinimalApiMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -48,7 +47,6 @@ public class UserEndpoints : IEndpoint
                     return TypedResults.Ok(user);
                  })
               .Authorize()
-              .RouteBaseConverter()
               .ProducesNotFound();
 
 
@@ -63,7 +61,6 @@ public class UserEndpoints : IEndpoint
                     return TypedResults.Ok();
                  })
               .Authorize()
-              .RouteBaseConverter()
               .ProducesBadRequest()
               .ProducesConflict();
 
@@ -79,7 +76,6 @@ public class UserEndpoints : IEndpoint
                     return TypedResults.Ok();
                  })
               .Authorize()
-              .RouteBaseConverter()
               .ProducesBadRequest()
               .ProducesNotFound();
 
@@ -91,7 +87,6 @@ public class UserEndpoints : IEndpoint
                     return TypedResults.Ok();
                  })
               .Authorize()
-              .RouteBaseConverter()
               .ProducesBadRequest()
               .ProducesNotFound();
 

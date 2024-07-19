@@ -1,4 +1,3 @@
-using BaseConverter.Attributes;
 using Pandatech.VerticalSlices.Domain.Enums;
 using Pandatech.VerticalSlices.Features.Auth.Contracts.CreateToken;
 
@@ -6,7 +5,6 @@ namespace Pandatech.VerticalSlices.Features.Auth.Contracts.Login;
 
 public class LoginCommandResponse
 {
-   [PropertyBaseConverter]
    public long UserId { get; set; }
 
    public bool ForcePasswordChange { get; set; }

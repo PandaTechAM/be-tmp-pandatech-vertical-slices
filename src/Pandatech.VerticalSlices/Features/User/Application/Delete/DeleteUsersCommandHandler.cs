@@ -1,4 +1,6 @@
-using Microsoft.EntityFrameworkCore;
+using EFCore.AuditBase;
+using GridifyExtensions.Extensions;
+using GridifyExtensions.Models;
 using Pandatech.VerticalSlices.Context;
 using Pandatech.VerticalSlices.Domain.Enums;
 using Pandatech.VerticalSlices.SharedKernel.Interfaces;
@@ -8,24 +10,20 @@ namespace Pandatech.VerticalSlices.Features.User.Application.Delete;
 public class DeleteUsersCommandHandler(PostgresContext postgresContext, IRequestContext requestContext)
    : ICommandHandler<DeleteUsersCommand>
 {
-   public async Task Handle(DeleteUsersCommand request, CancellationToken cancellationToken)
+   public Task Handle(DeleteUsersCommand request, CancellationToken cancellationToken)
    {
-      var users = await postgresContext.Users
-                                       .Where(x => request.Ids.Contains(x.Id))
-                                       .Where(x => x.Role != UserRole.SuperAdmin)
-                                       .ToListAsync(cancellationToken);
-
-
-      if (users.Count == 0)
+      var filterModel = new GridifyQueryModel
       {
-         return;
-      }
+         Page = 1,
+         PageSize = 1,
+         OrderBy = null,
+         Filter = request.Filter
+      };
 
-      foreach (var user in users)
-      {
-         user.MarkAsDeleted(requestContext.Identity.UserId);
-      }
-
-      await postgresContext.SaveChangesAsync(cancellationToken);
+      return postgresContext
+             .Users
+             .Where(x => x.Role != UserRole.SuperAdmin)
+             .ApplyFilter(filterModel)
+             .ExecuteSoftDeleteAsync(requestContext.Identity.UserId, cancellationToken: cancellationToken);
    }
 }
