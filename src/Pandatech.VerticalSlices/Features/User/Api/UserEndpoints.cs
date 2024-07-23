@@ -108,7 +108,7 @@ public class UserEndpoints : IEndpoint
               .Authorize()
               .ProducesBadRequest();
 
-      groupApp.MapGet("/column/distinct",
+      groupApp.MapGet("/column-distinct-values",
                  async ([AsParameters] GetUserColumnDistinctValuesQuery query,
                     ISender sender,
                     CancellationToken token) =>
