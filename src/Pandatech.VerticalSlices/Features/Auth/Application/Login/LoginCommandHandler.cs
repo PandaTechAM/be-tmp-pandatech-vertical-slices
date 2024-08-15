@@ -16,7 +16,7 @@ public class LoginCommandHandler(PostgresContext dbContext, Argon2Id argon2Id, I
 {
    public async Task<LoginCommandResponse> Handle(LoginCommand request, CancellationToken cancellationToken)
    {
-      var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Username == request.Username, cancellationToken);
+      var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Username == request.Username.ToLower(), cancellationToken);
 
       if (user is null || user.Status != UserStatus.Active ||
           !argon2Id.VerifyHash(request.Password, user.PasswordHash))
