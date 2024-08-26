@@ -8,13 +8,14 @@
         <PackageReference Include="AspNetCore.HealthChecks.Redis" Version="8.0.1"/>
         <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1"/>
         <PackageReference Include="EFCore.NamingConventions" Version="8.0.3"/>
+        <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.11.1" />
         <PackageReference Include="FluentDateTime" Version="3.0.0"/>
         <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0"/>
         <PackageReference Include="Hangfire" Version="1.8.14"/>
         <PackageReference Include="Hangfire.Dashboard.Basic.Authentication" Version="7.0.1"/>
         <PackageReference Include="Hangfire.EntityFrameworkCore" Version="0.6.0"/>
         <PackageReference Include="Hangfire.PostgreSql" Version="1.20.9"/>
-        <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.4" />
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.2.5" />
         <PackageReference Include="MediatR" Version="12.4.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.8" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
@@ -28,22 +29,20 @@
         <PackageReference Include="OpenTelemetry.Instrumentation.GrpcNetClient" Version="1.8.0-beta.1"/>
         <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.9.0"/>
         <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.9.0"/>
-        <PackageReference Include="Pandatech.Communicator" Version="1.0.5"/>
+        <PackageReference Include="Pandatech.Communicator" Version="1.0.6" />
         <PackageReference Include="Pandatech.Crypto" Version="2.5.0"/>
-        <PackageReference Include="Pandatech.DistributedCache" Version="1.1.0"/>
+        <PackageReference Include="Pandatech.DistributedCache" Version="1.2.3" />
         <PackageReference Include="Pandatech.EFCore.AuditBase" Version="1.1.0"/>
-        <PackageReference Include="PandaTech.FileExporter" Version="3.2.0"/>
+        <PackageReference Include="PandaTech.FileExporter" Version="3.3.1" />
         <PackageReference Include="Pandatech.FluentMinimalApiMapper" Version="1.1.0"/>
         <PackageReference Include="Pandatech.GridifyExtensions" Version="1.5.4" />
         <PackageReference Include="Pandatech.MassTransit.PostgresOutbox" Version="1.0.7"/>
         <PackageReference Include="Pandatech.PandaVaultClient" Version="3.1.0"/>
-        <PackageReference Include="Pandatech.RegexBox" Version="1.2.4"/>
+        <PackageReference Include="Pandatech.RegexBox" Version="2.0.1" />
         <PackageReference Include="Pandatech.ResponseCrafter" Version="3.0.0"/>
         <PackageReference Include="Serilog.AspNetCore" Version="8.0.2" />
-        <PackageReference Include="Serilog.Enrichers.Environment" Version="3.0.1"/>
-        <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="10.0.0"/>
         <PackageReference Include="SonarAnalyzer.CSharp" Version="9.32.0.97167" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.7.3" />
     </ItemGroup>
 
 </Project>

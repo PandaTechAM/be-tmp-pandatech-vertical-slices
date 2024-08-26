@@ -15,10 +15,10 @@ public static class SystemUser
       var configuration = services.GetRequiredService<IConfiguration>();
       var argon2Id = services.GetRequiredService<Argon2Id>();
 
-      var username = configuration[ConfigurationPaths.SuperUsername];
-      ValidateConfiguration(username, ConfigurationPaths.SuperUserPassword);
+      var username = configuration.GetSuperUsername();
+      ValidateConfiguration(username, configuration.GetSuperuserPassword());
 
-      var normalizedUsername = username!.ToLowerInvariant();
+      var normalizedUsername = username.ToLowerInvariant();
       var existingUsers = context.Users
                                  .Where(u => u.Username == normalizedUsername || u.Role == UserRole.SuperAdmin)
                                  .ToList();
@@ -30,8 +30,8 @@ public static class SystemUser
          return app;
       }
 
-      var userPassword = configuration[ConfigurationPaths.SuperUserPassword];
-      ValidateConfiguration(userPassword, ConfigurationPaths.SuperUserPassword);
+      var userPassword = configuration.GetSuperuserPassword();
+      ValidateConfiguration(userPassword, configuration.GetSuperuserPassword());
 
       var passwordHash = argon2Id.HashPassword(userPassword!);
 

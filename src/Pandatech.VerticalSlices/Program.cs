@@ -38,7 +38,7 @@ builder
    .AddCommunicator()
    .AddDistributedCache(options =>
    {
-      options.RedisConnectionString = builder.Configuration.GetConnectionString(ConfigurationPaths.RedisUrl)!;
+      options.RedisConnectionString = builder.Configuration.GetRedisUrl();
    })
    .AddMediatrWithBehaviors();
 
@@ -51,6 +51,7 @@ var app = builder.Build();
 
 app.UseStaticFiles();
 app.UseResponseCrafter()
+   .UseRequestResponseLogging()
    .MigrateDatabase()
    .EnsureHealthy()
    .UseHangfireServer()

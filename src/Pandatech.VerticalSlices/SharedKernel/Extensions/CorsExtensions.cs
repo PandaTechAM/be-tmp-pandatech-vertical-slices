@@ -7,16 +7,13 @@ public static class CorsExtension
 {
    public static WebApplicationBuilder AddCors(this WebApplicationBuilder builder)
    {
-      var configuration = builder.Configuration;
       if (builder.Environment.IsProduction())
       {
-         var allowedOrigins = configuration[ConfigurationPaths.CorsOrigins];
-
-         ValidateCorsOrigins(allowedOrigins!);
-
          builder.Services.AddCors(options => options.AddPolicy("AllowSpecific",
             p => p
-                 .WithOrigins(allowedOrigins!)
+                 .WithOrigins(builder.Configuration
+                                     .GetAllowedCorsOrigins()
+                                     .SplitOrigins())
                  .AllowCredentials()
                  .AllowAnyMethod()
                  .AllowAnyHeader()));
@@ -40,23 +37,21 @@ public static class CorsExtension
       return app;
    }
 
-   private static void ValidateCorsOrigins(string allowedOrigins)
+   private static string[] SplitOrigins(this string input)
    {
-      var originsArray = allowedOrigins.Split(',', StringSplitOptions.RemoveEmptyEntries);
-
-      if (originsArray.Length == 0)
+      if (string.IsNullOrEmpty(input))
       {
-         throw new InvalidOperationException(
-            "The Cors origins are empty or incorrectly formatted.");
+         throw new ArgumentException("Cors Origins cannot be null or empty.");
       }
 
-      foreach (var origin in originsArray)
+      var result = input.Split([';', ','], StringSplitOptions.RemoveEmptyEntries);
+
+      for (var i = 0; i < result.Length; i++)
       {
-         if (!PandaValidator.IsUri(origin, true, false))
-         {
-            throw new InvalidOperationException(
-               $"The origin {origin} is not valid URI.");
-         }
+         result[i] = result[i]
+            .Trim();
       }
+
+      return result;
    }
 }

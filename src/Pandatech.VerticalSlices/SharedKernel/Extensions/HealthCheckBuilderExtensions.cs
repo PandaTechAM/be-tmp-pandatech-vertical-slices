@@ -9,10 +9,9 @@ public static class HealthCheckBuilderExtensions
    {
       var configuration = builder.Configuration;
       var timeoutSeconds = TimeSpan.FromSeconds(5);
-      var postgresConnectionString = configuration.GetConnectionString(ConfigurationPaths.PostgresUrl)!;
-      var redisConnectionString = configuration.GetConnectionString(ConfigurationPaths.RedisUrl)!;
-      var elasticSearchUrl = configuration.GetConnectionString(ConfigurationPaths.ElasticSearchUrl)!;
-      var rabbitMqUri = configuration.GetConnectionString(ConfigurationPaths.RabbitMqUrl)!;
+      var postgresConnectionString = configuration.GetPostgresUrl();
+      var redisConnectionString = configuration.GetRedisUrl();
+      var rabbitMqUri = configuration.GetRabbitMqUrl();
 
       //This part is only for RMQ health check
       ConnectionFactory factory = new()
@@ -39,7 +38,6 @@ public static class HealthCheckBuilderExtensions
                 .AddHealthChecks()
                 .AddNpgSql(postgresConnectionString, timeout: timeoutSeconds, name: "postgres")
                 .AddRedis(redisConnectionString, timeout: timeoutSeconds)
-                .AddElasticsearch(elasticSearchUrl, timeout: timeoutSeconds)
                 .AddRabbitMQ();
       }
       else
@@ -49,7 +47,6 @@ public static class HealthCheckBuilderExtensions
                 .AddHealthChecks()
                 .AddNpgSql(postgresConnectionString, timeout: timeoutSeconds, name: "postgres")
                 .AddRedis(redisConnectionString, timeout: timeoutSeconds)
-                .AddElasticsearch(elasticSearchUrl, timeout: timeoutSeconds)
                 .AddRabbitMQ();
       }
 

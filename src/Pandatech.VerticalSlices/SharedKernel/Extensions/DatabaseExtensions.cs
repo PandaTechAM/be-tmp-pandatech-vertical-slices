@@ -11,7 +11,7 @@ public static class DatabaseExtensions
    {
       var configuration = builder.Configuration;
 
-      var connectionString = configuration.GetConnectionString(ConfigurationPaths.PostgresUrl);
+      var connectionString = configuration.GetPostgresUrl();
       builder.Services.AddDbContextPool<PostgresContext>(options =>
          options.UseNpgsql(connectionString)
                 .UseQueryLocks()
