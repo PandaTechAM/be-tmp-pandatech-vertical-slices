@@ -83,15 +83,8 @@ public static class SerilogExtension
 
    private static bool ShouldExcludeOutboxDbCommandLogs(this LogEvent logEvent)
    {
-      return logEvent
-             .RenderMessage()
-             .StartsWith("Executed DbCommand") &&
-             (logEvent
-              .RenderMessage()
-              .Contains("FROM outbox_messages") ||
-              logEvent
-                 .RenderMessage()
-                 .Contains("FROM OutboxMessages"));
+      var message = logEvent.RenderMessage();
+      return message.Contains("outbox_messages") || message.Contains("OutboxMessages");
    }
 
    private static bool ShouldExcludeSwaggerLogs(this LogEvent logEvent)
