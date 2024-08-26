@@ -1,5 +1,4 @@
 ﻿using Pandatech.VerticalSlices.SharedKernel.Helpers;
-using RegexBox;
 
 namespace Pandatech.VerticalSlices.SharedKernel.Extensions;
 

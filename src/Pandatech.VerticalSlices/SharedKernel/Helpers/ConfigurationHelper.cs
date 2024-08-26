@@ -1,5 +1,3 @@
-using System.Security.Cryptography;
-
 namespace Pandatech.VerticalSlices.SharedKernel.Helpers;
 
 public static class ConfigurationHelper
