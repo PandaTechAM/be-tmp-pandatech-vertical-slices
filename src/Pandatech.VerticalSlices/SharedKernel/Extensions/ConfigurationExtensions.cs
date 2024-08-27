@@ -1,6 +1,6 @@
-namespace Pandatech.VerticalSlices.SharedKernel.Helpers;
+namespace Pandatech.VerticalSlices.SharedKernel.Extensions;
 
-public static class ConfigurationHelper
+public static class ConfigurationExtensions
 {
    private const string AesKeyConfigurationPath = "Security:AESKey";
    private const string RedisConfigurationPath = "Redis";

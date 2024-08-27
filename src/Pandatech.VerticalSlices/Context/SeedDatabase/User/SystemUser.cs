@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Pandatech.Crypto;
 using Pandatech.VerticalSlices.Domain.Enums;
+using Pandatech.VerticalSlices.SharedKernel.Extensions;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
 
 namespace Pandatech.VerticalSlices.Context.SeedDatabase.User;
