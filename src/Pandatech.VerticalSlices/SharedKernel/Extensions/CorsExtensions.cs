@@ -1,4 +1,5 @@
 ﻿using Pandatech.VerticalSlices.SharedKernel.Helpers;
+using RegexBox;
 
 namespace Pandatech.VerticalSlices.SharedKernel.Extensions;
 
@@ -8,11 +9,14 @@ public static class CorsExtension
    {
       if (builder.Environment.IsProduction())
       {
+         var allowedOrigins = builder.Configuration
+                                     .GetAllowedCorsOrigins()
+                                     .SplitOrigins()
+                                     .EnsureWwwAndNonWwwVersions();
+
          builder.Services.AddCors(options => options.AddPolicy("AllowSpecific",
             p => p
-                 .WithOrigins(builder.Configuration
-                                     .GetAllowedCorsOrigins()
-                                     .SplitOrigins())
+                 .WithOrigins(allowedOrigins)
                  .AllowCredentials()
                  .AllowAnyMethod()
                  .AllowAnyHeader()));
@@ -49,8 +53,59 @@ public static class CorsExtension
       {
          result[i] = result[i]
             .Trim();
+
+         if (PandaValidator.IsUri(result[i], false))
+         {
+            continue;
+         }
+
+         Console.WriteLine($"Removed invalid cors origin: {result[i]}");
+         result[i] = string.Empty;
       }
 
-      return result;
+      return result.Where(x => !string.IsNullOrEmpty(x))
+                   .ToArray();
+   }
+
+   private static string[] EnsureWwwAndNonWwwVersions(this string[] uris)
+   {
+      var result = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
+      foreach (var uri in uris)
+      {
+         if (!Uri.TryCreate(uri, UriKind.Absolute, out var parsedUri))
+         {
+            continue;
+         }
+
+         var uriString = parsedUri.ToString()
+                                  .TrimEnd('/');
+
+         result.Add(uriString);
+
+
+         var hostWithoutWww = parsedUri.Host.StartsWith("www.")
+            ? parsedUri.Host.Substring(4)
+            : parsedUri.Host;
+
+         var uriWithoutWww = new UriBuilder(parsedUri)
+            {
+               Host = hostWithoutWww
+            }.Uri
+             .ToString()
+             .TrimEnd('/');
+
+         var uriWithWww = new UriBuilder(parsedUri)
+            {
+               Host = "www." + hostWithoutWww
+            }.Uri
+             .ToString()
+             .TrimEnd('/');
+
+         result.Add(uriWithoutWww);
+         result.Add(uriWithWww);
+      }
+
+      return new List<string>(result).ToArray();
    }
 }
