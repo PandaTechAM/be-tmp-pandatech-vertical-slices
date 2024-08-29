@@ -32,7 +32,7 @@
         <PackageReference Include="Pandatech.Crypto" Version="2.5.0"/>
         <PackageReference Include="Pandatech.DistributedCache" Version="1.2.3" />
         <PackageReference Include="Pandatech.EFCore.AuditBase" Version="1.1.0"/>
-        <PackageReference Include="PandaTech.FileExporter" Version="3.3.1" />
+        <PackageReference Include="PandaTech.FileExporter" Version="3.3.2" />
         <PackageReference Include="Pandatech.FluentMinimalApiMapper" Version="1.1.0"/>
         <PackageReference Include="Pandatech.GridifyExtensions" Version="1.5.4" />
         <PackageReference Include="Pandatech.MassTransit.PostgresOutbox" Version="1.0.7"/>
