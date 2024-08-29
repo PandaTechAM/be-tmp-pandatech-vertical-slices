@@ -11,7 +11,8 @@ public class RequestResponseLoggingMiddleware(RequestDelegate next, ILogger<Requ
       "pass",
       "secret",
       "token",
-      "cookie"
+      "cookie",
+      "auth"
    };
 
    public async Task InvokeAsync(HttpContext context)
