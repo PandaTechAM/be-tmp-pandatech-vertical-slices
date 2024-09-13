@@ -4,13 +4,13 @@ using Newtonsoft.Json;
 
 namespace Pandatech.VerticalSlices.SharedKernel.Extensions;
 
-public static class StartupLogger
+public static class StartupLoggerExtensions
 {
-   private static readonly Stopwatch _stopwatch = new();
+   private static readonly Stopwatch Stopwatch = new();
 
    public static WebApplicationBuilder LogStartAttempt(this WebApplicationBuilder builder)
    {
-      _stopwatch.Start();
+      Stopwatch.Start();
       var now = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
       Console.WriteLine(JsonConvert.SerializeObject(new
       {
@@ -24,9 +24,9 @@ public static class StartupLogger
 
    public static WebApplication LogStartSuccess(this WebApplication app)
    {
-      _stopwatch.Stop();
+      Stopwatch.Stop();
       var now = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
-      var initializationTime = Math.Round(_stopwatch.Elapsed.TotalMilliseconds / 1000, 2);
+      var initializationTime = Math.Round(Stopwatch.Elapsed.TotalMilliseconds / 1000, 2);
       Console.WriteLine(JsonConvert.SerializeObject(new
       {
          Timestamp = now,
