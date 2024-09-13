@@ -1,4 +1,5 @@
 ﻿using EFCore.PostgresExtensions.Extensions;
+using EntityFramework.Exceptions.PostgreSQL;
 using Microsoft.EntityFrameworkCore;
 using Pandatech.VerticalSlices.Context;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
@@ -15,6 +16,7 @@ public static class DatabaseExtensions
       builder.Services.AddDbContextPool<PostgresContext>(options =>
          options.UseNpgsql(connectionString)
                 .UseQueryLocks()
+                .UseExceptionProcessor()
                 .UseSnakeCaseNamingConvention());
       return builder;
    }

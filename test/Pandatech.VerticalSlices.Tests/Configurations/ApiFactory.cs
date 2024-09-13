@@ -12,7 +12,7 @@ using Testcontainers.PostgreSql;
 
 namespace Pandatech.VerticalSlices.Tests.Configurations;
 
-public class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
+public class ApiFactory : WebApplicationFactory<AssemblyReference>, IAsyncLifetime
 {
    private readonly PostgreSqlContainer _dbContainer = new PostgreSqlBuilder()
       .Build();
@@ -88,8 +88,6 @@ public class ApiFactory : WebApplicationFactory<Program>, IAsyncLifetime
       Environment.SetEnvironmentVariable("RABBITMQ_ROUTING_KEY_DLX", "panda-dlx");
       Environment.SetEnvironmentVariable("RABBITMQ_QUEUE_NAME_DLX", "panda-dlx");
       Environment.SetEnvironmentVariable("RABBITMQ_URI", "amqp://guest:guest@localhost:5672");
-      Environment.SetEnvironmentVariable("ELASTIC_SEARCH_URL", "http://localhost:9200");
-      Environment.SetEnvironmentVariable("ELASTIC_INDEX_NAME", "panda");
       Environment.SetEnvironmentVariable("CORS_ALLOWED_ORIGINS", "http://localhost:3000");
       Environment.SetEnvironmentVariable("USER_MANAGEMENT_ADDRESS", "http://localhost:5000");
    }

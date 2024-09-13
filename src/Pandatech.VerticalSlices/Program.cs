@@ -35,6 +35,7 @@ builder
    .ConfigureOpenTelemetry()
    .AddEndpoints()
    .AddGridify()
+   .AddResilienceDefaultPipeline()
    .AddCommunicator()
    .AddDistributedCache(options =>
    {
@@ -63,7 +64,7 @@ app
 app.MapPandaEndpoints();
 app.MapEndpoints();
 
-StartupLogger.LogStartSuccess();
+app.LogStartSuccess();
 app.Run();
 
 //todo Set appropriate name in github repo (ex. be-pt-pandatech-website).
@@ -76,10 +77,3 @@ app.Run();
 //todo Update all Nuget packages.
 //todo Include all required configurations in appsettings{environment}.json.
 //todo Update ReadMm.md file.
-
-//Delete below rows if you have no integration Pandatech.VerticalSlices.Tests in your solution.
-
-namespace Pandatech.VerticalSlices
-{
-   public class Program;
-}

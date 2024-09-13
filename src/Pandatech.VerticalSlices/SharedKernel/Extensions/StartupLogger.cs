@@ -22,7 +22,7 @@ public static class StartupLogger
       return builder;
    }
 
-   public static void LogStartSuccess()
+   public static WebApplication LogStartSuccess(this WebApplication app)
    {
       _stopwatch.Stop();
       var now = DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
@@ -33,5 +33,7 @@ public static class StartupLogger
          Event = "ApplicationStartSuccess",
          InitializationTime = $"{initializationTime} seconds"
       }));
+      
+      return app;
    }
 }
