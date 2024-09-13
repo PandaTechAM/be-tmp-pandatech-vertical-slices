@@ -13,6 +13,7 @@ public static class ConfigurationExtensions
    private const string SuperUserPasswordConfigurationPath = "Security:SuperUser:Password";
    private const string PersistentConfigurationPath = "PersistentStorage";
    private const string RepositoryNameConfigurationPath = "RepositoryName";
+   private const string CookieDomainConfigurationPath = "Security:CookieDomain";
 
    public static string GetFileStoragePath(this IConfiguration configuration)
    {
@@ -73,5 +74,10 @@ public static class ConfigurationExtensions
    public static string GetSuperuserPassword(this IConfiguration configuration)
    {
       return configuration[SuperUserPasswordConfigurationPath]!;
+   }
+   
+   public static string GetCookieDomain(this IConfiguration configuration)
+   {
+      return configuration[CookieDomainConfigurationPath]!;
    }
 }

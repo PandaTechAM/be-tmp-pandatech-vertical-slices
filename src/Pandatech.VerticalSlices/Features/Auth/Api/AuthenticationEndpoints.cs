@@ -8,6 +8,7 @@ using Pandatech.VerticalSlices.Features.Auth.Application.UpdatePasswordForced;
 using Pandatech.VerticalSlices.Features.Auth.Helpers;
 using Pandatech.VerticalSlices.Features.Auth.Helpers.ApiAuth.MinimalApiExtensions;
 using Pandatech.VerticalSlices.SharedKernel.Enums;
+using Pandatech.VerticalSlices.SharedKernel.Extensions;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
 using ResponseCrafter.Extensions;
 
@@ -46,7 +47,7 @@ public class AuthenticationEndpoints : IEndpoint
                        return TypedResults.Ok(response);
                     }
 
-                    var domain = configuration["Security:CookieDomain"]!;
+                    var domain = configuration.GetCookieDomain();
                     httpContextAccessor.HttpContext!.PrepareAndSetCookies(response, environment, domain);
 
                     return TypedResults.Ok(response);
@@ -75,7 +76,7 @@ public class AuthenticationEndpoints : IEndpoint
                        return TypedResults.Ok(response);
                     }
 
-                    var domain = configuration["Security:CookieDomain"]!;
+                    var domain = configuration.GetCookieDomain();
                     httpContextAccessor.HttpContext!.PrepareAndSetCookies(response, environment, domain);
 
                     return TypedResults.Ok(response);

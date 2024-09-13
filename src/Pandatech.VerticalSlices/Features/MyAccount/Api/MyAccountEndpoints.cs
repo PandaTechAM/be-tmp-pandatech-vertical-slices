@@ -7,6 +7,7 @@ using Pandatech.VerticalSlices.Features.Auth.Helpers.ApiAuth.MinimalApiExtension
 using Pandatech.VerticalSlices.Features.MyAccount.Application.Logout;
 using Pandatech.VerticalSlices.Features.MyAccount.Application.PersonalInformation;
 using Pandatech.VerticalSlices.Features.MyAccount.Application.UpdateOwnPassword;
+using Pandatech.VerticalSlices.SharedKernel.Extensions;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
 using ResponseCrafter.Extensions;
 
@@ -54,7 +55,7 @@ public class MyAccountEndpoints : IEndpoint
                     IConfiguration configuration,
                     CancellationToken token) =>
                  {
-                    var domain = configuration["Security:CookieDomain"]!;
+                    var domain = configuration.GetCookieDomain();
                     await sender.Send(new LogoutCommand(), token);
                     httpContextAccessor.HttpContext!.DeleteAllCookies(environment, domain);
                     return TypedResults.Ok();
