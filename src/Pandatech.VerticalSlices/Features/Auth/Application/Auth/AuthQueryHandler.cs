@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Pandatech.Crypto;
+using Pandatech.Crypto.Helpers;
 using Pandatech.VerticalSlices.Context;
 using Pandatech.VerticalSlices.Domain.Enums;
 using Pandatech.VerticalSlices.Features.Auth.Contracts.Authenticate;
@@ -8,6 +8,7 @@ using Pandatech.VerticalSlices.Features.Auth.Helpers.ApiAuth;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
 using Pandatech.VerticalSlices.SharedKernel.Interfaces;
 using ResponseCrafter.HttpExceptions;
+using SharedKernel.ValidatorAndMediatR;
 
 namespace Pandatech.VerticalSlices.Features.Auth.Application.Auth;
 

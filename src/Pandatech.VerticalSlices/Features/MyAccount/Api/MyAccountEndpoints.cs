@@ -50,14 +50,14 @@ public class MyAccountEndpoints : IEndpoint
 
       groupApp.MapPost("/logout",
                  async (ISender sender,
-                    IHttpContextAccessor httpContextAccessor,
+                    HttpContext httpContext,
                     IHostEnvironment environment,
                     IConfiguration configuration,
                     CancellationToken token) =>
                  {
                     var domain = configuration.GetCookieDomain();
                     await sender.Send(new LogoutCommand(), token);
-                    httpContextAccessor.HttpContext!.DeleteAllCookies(environment, domain);
+                    httpContext.DeleteAllCookies(environment, domain);
                     return TypedResults.Ok();
                  })
               .Authorize(UserRole.User)

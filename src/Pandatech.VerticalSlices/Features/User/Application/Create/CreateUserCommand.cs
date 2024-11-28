@@ -1,5 +1,5 @@
 using Pandatech.VerticalSlices.Domain.Enums;
-using Pandatech.VerticalSlices.SharedKernel.Interfaces;
+using SharedKernel.ValidatorAndMediatR;
 
 namespace Pandatech.VerticalSlices.Features.User.Application.Create;
 

@@ -22,19 +22,6 @@ public class ApiFactory : WebApplicationFactory<AssemblyReference>, IAsyncLifeti
 
    public HttpClient HttpClient { get; private set; } = default!;
 
-   public async Task InitializeAsync()
-   {
-      SetEnvironments();
-      await _dbContainer.StartAsync();
-      await CreateDatabase();
-      HttpClient = CreateClient();
-      await InitializeRespawner();
-   }
-
-   public new async Task DisposeAsync()
-   {
-      await _dbContainer.StopAsync();
-   }
 
    protected override void ConfigureWebHost(IWebHostBuilder builder)
    {
@@ -48,6 +35,19 @@ public class ApiFactory : WebApplicationFactory<AssemblyReference>, IAsyncLifeti
                    .UseSnakeCaseNamingConvention();
          });
       });
+   }
+   public async Task InitializeAsync()
+   {
+      SetEnvironments();
+      await _dbContainer.StartAsync();
+      await CreateDatabase();
+      HttpClient = CreateClient();
+      await InitializeRespawner();
+   }
+
+   public new async Task DisposeAsync()
+   {
+      await _dbContainer.StopAsync();
    }
 
    private async Task InitializeRespawner()

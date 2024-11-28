@@ -1,6 +1,14 @@
+using System.ComponentModel;
 using Pandatech.VerticalSlices.Features.Auth.Contracts.Login;
-using Pandatech.VerticalSlices.SharedKernel.Interfaces;
+using SharedKernel.ValidatorAndMediatR;
 
 namespace Pandatech.VerticalSlices.Features.Auth.Application.Login;
 
-public record LoginCommand(string Username, string Password) : ICommand<LoginCommandResponse>;
+public class LoginCommand : ICommand<LoginCommandResponse>
+{
+   [DefaultValue("admin@admin.com")]
+   public required string Username { get; set; }
+
+   [DefaultValue("Qwertyui123@")]
+   public required string Password { get; set; }
+}

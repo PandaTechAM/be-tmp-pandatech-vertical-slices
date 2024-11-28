@@ -1,5 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using Pandatech.VerticalSlices.SharedKernel.Interfaces;
+using SharedKernel.ValidatorAndMediatR;
 
 namespace Pandatech.VerticalSlices.Features.User.Application.UpdatePassword;
 

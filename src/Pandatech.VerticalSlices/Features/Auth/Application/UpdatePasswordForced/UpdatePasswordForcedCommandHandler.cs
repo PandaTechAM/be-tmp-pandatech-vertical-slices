@@ -1,19 +1,19 @@
 using Hangfire;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Pandatech.Crypto;
+using Pandatech.Crypto.Helpers;
 using Pandatech.VerticalSlices.Context;
 using Pandatech.VerticalSlices.Features.Auth.Application.RevokeAllTokensExceptCurrentSession;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
 using Pandatech.VerticalSlices.SharedKernel.Interfaces;
 using ResponseCrafter.HttpExceptions;
+using SharedKernel.ValidatorAndMediatR;
 
 namespace Pandatech.VerticalSlices.Features.Auth.Application.UpdatePasswordForced;
 
 public class UpdatePasswordForcedCommandHandler(
    IRequestContext requestContext,
-   PostgresContext dbContext,
-   Argon2Id argon2Id)
+   PostgresContext dbContext)
    : ICommandHandler<UpdatePasswordForcedCommand>
 {
    public async Task Handle(UpdatePasswordForcedCommand request, CancellationToken cancellationToken)
@@ -23,11 +23,11 @@ public class UpdatePasswordForcedCommandHandler(
 
       InternalServerErrorException.ThrowIfNull(user, "User not found");
 
-      var sameWithOldPassword = argon2Id.VerifyHash(request.NewPassword, user.PasswordHash);
+      var sameWithOldPassword = Argon2Id.VerifyHash(request.NewPassword, user.PasswordHash);
 
       BadRequestException.ThrowIf(sameWithOldPassword, ErrorMessages.NewPasswordMustBeDifferentFromOldPassword);
 
-      user.PasswordHash = argon2Id.HashPassword(request.NewPassword);
+      user.PasswordHash = Argon2Id.HashPassword(request.NewPassword);
       user.ForcePasswordChange = false;
 
       user.MarkAsUpdated(requestContext.Identity.UserId);

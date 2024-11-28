@@ -1,13 +1,14 @@
 using Microsoft.EntityFrameworkCore;
-using Pandatech.Crypto;
+using Pandatech.Crypto.Helpers;
 using Pandatech.VerticalSlices.Context;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
 using Pandatech.VerticalSlices.SharedKernel.Interfaces;
 using ResponseCrafter.HttpExceptions;
+using SharedKernel.ValidatorAndMediatR;
 
 namespace Pandatech.VerticalSlices.Features.User.Application.Create;
 
-public class CreateUserCommandHandler(PostgresContext dbContext, Argon2Id argon, IRequestContext requestContext)
+public class CreateUserCommandHandler(PostgresContext dbContext, IRequestContext requestContext)
    : ICommandHandler<CreateUserCommand>
 {
    public async Task Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -20,7 +21,7 @@ public class CreateUserCommandHandler(PostgresContext dbContext, Argon2Id argon,
 
       BadRequestException.ThrowIf(isDuplicateUsername, ErrorMessages.DuplicateUsername);
 
-      var passwordHash = argon.HashPassword(request.Password);
+      var passwordHash = Argon2Id.HashPassword(request.Password);
       var user = new Domain.Entities.User
       {
          Username = request.Username.ToLower(),

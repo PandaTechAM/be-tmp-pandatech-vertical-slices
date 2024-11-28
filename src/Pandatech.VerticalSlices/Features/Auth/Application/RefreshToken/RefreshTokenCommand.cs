@@ -1,5 +1,5 @@
 using Pandatech.VerticalSlices.Features.Auth.Contracts.RefreshToken;
-using Pandatech.VerticalSlices.SharedKernel.Interfaces;
+using SharedKernel.ValidatorAndMediatR;
 
 namespace Pandatech.VerticalSlices.Features.Auth.Application.RefreshToken;
 

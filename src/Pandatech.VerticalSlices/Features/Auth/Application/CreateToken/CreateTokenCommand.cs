@@ -1,5 +1,5 @@
 using Pandatech.VerticalSlices.Features.Auth.Contracts.CreateToken;
-using Pandatech.VerticalSlices.SharedKernel.Interfaces;
+using SharedKernel.ValidatorAndMediatR;
 
 namespace Pandatech.VerticalSlices.Features.Auth.Application.CreateToken;
 

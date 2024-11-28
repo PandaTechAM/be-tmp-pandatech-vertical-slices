@@ -1,6 +1,6 @@
 ﻿using GridifyExtensions.Models;
 using Pandatech.VerticalSlices.Features.User.Contracts.GetUser;
-using Pandatech.VerticalSlices.SharedKernel.Interfaces;
+using SharedKernel.ValidatorAndMediatR;
 
 namespace Pandatech.VerticalSlices.Features.User.Application.GetUsers;
 

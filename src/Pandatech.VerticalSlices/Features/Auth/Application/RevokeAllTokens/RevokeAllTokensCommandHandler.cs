@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Pandatech.VerticalSlices.Context;
-using Pandatech.VerticalSlices.SharedKernel.Interfaces;
+using SharedKernel.ValidatorAndMediatR;
 
 namespace Pandatech.VerticalSlices.Features.Auth.Application.RevokeAllTokens;
 

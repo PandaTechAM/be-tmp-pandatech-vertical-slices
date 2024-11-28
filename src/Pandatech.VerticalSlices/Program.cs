@@ -1,68 +1,68 @@
 using Communicator.Extensions;
-using DistributedCache.Extensions;
+using DistributedCache.Options;
 using FluentMinimalApiMapper;
-using GridifyExtensions.Extensions;
 using MassTransit.PostgresOutbox.Extensions;
+using Pandatech.Crypto.Extensions;
 using Pandatech.VerticalSlices.Context;
 using Pandatech.VerticalSlices.Context.SeedDatabase.User;
+using Pandatech.VerticalSlices.Features.Auth.Contracts.Authenticate;
 using Pandatech.VerticalSlices.SharedKernel.Extensions;
-using Pandatech.VerticalSlices.SharedKernel.Helpers;
-using Pandatech.VerticalSlices.SharedKernel.SharedEndpoints;
-using PandaVaultClient;
+using Pandatech.VerticalSlices.SharedKernel.Interfaces;
 using ResponseCrafter.Enums;
 using ResponseCrafter.Extensions;
+using SharedKernel.Extensions;
+using SharedKernel.Helpers;
+using SharedKernel.Logging;
+using SharedKernel.OpenApi;
+using SharedKernel.Postgres.Extensions;
+using SharedKernel.Resilience;
+using SharedKernel.ValidatorAndMediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.LogStartAttempt();
-
-if (!builder.Environment.IsLocal())
-{
-   builder.Configuration.AddPandaVault();
-}
+AssemblyRegistry.Add(typeof(Program).Assembly);
 
 builder
+   .ConfigureWithPandaVault()
    .AddSerilog()
-   .AddHangfireServer()
-   .AddPostgresContext()
-   .AddPandaCrypto()
-   .AddMassTransit(typeof(Program).Assembly)
-   .AddHealthChecks()
-   .AddCors()
-   .RegisterAllServices()
-   .AddSwagger()
    .AddResponseCrafter(NamingConvention.ToSnakeCase)
-   .ConfigureOpenTelemetry()
-   .AddEndpoints()
-   .AddGridify()
+   .AddOpenApi()
+   .AddOpenTelemetry()
+   .AddMinimalApis(AssemblyRegistry.ToArray())
+   .AddControllers(AssemblyRegistry.ToArray())
+   .AddMediatrWithBehaviors(AssemblyRegistry.ToArray())
    .AddResilienceDefaultPipeline()
+   .AddRedis(KeyPrefix.AssemblyNamePrefix)
+   .AddDistributedSignalR("DistributedSignalR")
+   .MapDefaultTimeZone()
+   .AddCors()
+   .AddPostgresContext<PostgresContext>(builder.Configuration.GetPostgresUrl())
+   .AddMassTransit(AssemblyRegistry.ToArray())
+   .AddAes256Key(builder.Configuration.GetAesKey())
    .AddCommunicator()
-   .AddDistributedCache(options =>
-   {
-      options.RedisConnectionString = builder.Configuration.GetRedisUrl();
-   })
-   .AddMediatrWithBehaviors();
+   .AddHangfireServer()
+   .AddHealthChecks();
 
 builder.Services.AddOutboxInboxServices<PostgresContext>();
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddHttpClient();
-builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddScoped<IRequestContext, RequestContext>();
 
 var app = builder.Build();
 
-app.UseStaticFiles();
 app
    .UseRequestResponseLogging()
    .UseResponseCrafter()
-   .MigrateDatabase()
+   .UseCors()
+   .MapMinimalApis()
+   .MapHealthCheckEndpoints()
+   .MapPrometheusExporterEndpoints()
+   .MigrateDatabase<PostgresContext>()
    .EnsureHealthy()
    .UseHangfireServer()
+   .ClearAssemblyRegistry()
+   .UseOpenApi()
    .SeedSystemUser()
-   .UseCors()
-   .UseSwagger(app.Configuration);
-
-app.MapPandaEndpoints();
-app.MapEndpoints();
+   .MapControllers();
 
 app.LogStartSuccess();
 app.Run();
@@ -72,8 +72,7 @@ app.Run();
 //todo Rename application name using PascalCase (ex. PandatechWebsite).
 //todo After renaming application adjust namespaces in .csproj file and refactor namespaces in all files (hint: bulk IDE function).
 //todo Configure dockerfile using application name (ex. PandatechWebsite).
-//todo Delete unrelated nuggets and services. For example you might not need RMQ or Redis in this project. Or you might not need some regex and etc.
-//todo Delete health checks and other configs of unrelated services. For example you might not need RMQ or Redis in this project.
+//todo Delete unrelated services. For example you might not need RMQ or Redis in this project.
 //todo Update all Nuget packages.
-//todo Include all required configurations in appsettings{environment}.json.
-//todo Update ReadMm.md file.
+//todo Change configurations (appsettings).
+//todo Update ReadMe.md file.

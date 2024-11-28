@@ -1,7 +1,7 @@
 ﻿using Pandatech.VerticalSlices.Features.Auth.Contracts.Authenticate;
 using Pandatech.VerticalSlices.Features.Auth.Contracts.Login;
 using Pandatech.VerticalSlices.Features.Auth.Contracts.RefreshToken;
-using Pandatech.VerticalSlices.SharedKernel.Extensions;
+using SharedKernel.Extensions;
 
 namespace Pandatech.VerticalSlices.Features.Auth.Helpers;
 

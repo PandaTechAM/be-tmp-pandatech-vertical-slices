@@ -1,18 +1,18 @@
 using Hangfire;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Pandatech.Crypto;
+using Pandatech.Crypto.Helpers;
 using Pandatech.VerticalSlices.Context;
 using Pandatech.VerticalSlices.Domain.Enums;
 using Pandatech.VerticalSlices.Features.Auth.Application.RevokeAllTokens;
 using Pandatech.VerticalSlices.SharedKernel.Interfaces;
 using ResponseCrafter.HttpExceptions;
+using SharedKernel.ValidatorAndMediatR;
 
 namespace Pandatech.VerticalSlices.Features.User.Application.UpdatePassword;
 
 public class UpdateUserPasswordCommandHandler(
    PostgresContext postgresContext,
-   Argon2Id argon2Id,
    IRequestContext requestContext)
    : ICommandHandler<UpdateUserPasswordCommand>
 {
@@ -25,7 +25,7 @@ public class UpdateUserPasswordCommandHandler(
 
       NotFoundException.ThrowIfNull(user);
 
-      user.PasswordHash = argon2Id.HashPassword(request.NewPassword);
+      user.PasswordHash = Argon2Id.HashPassword(request.NewPassword);
       user.ForcePasswordChange = true;
 
       user.MarkAsUpdated(requestContext.Identity.UserId);

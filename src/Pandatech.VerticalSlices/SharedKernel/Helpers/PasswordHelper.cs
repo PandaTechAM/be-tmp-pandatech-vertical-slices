@@ -1,4 +1,4 @@
-using Pandatech.Crypto;
+using Pandatech.Crypto.Helpers;
 
 namespace Pandatech.VerticalSlices.SharedKernel.Helpers;
 

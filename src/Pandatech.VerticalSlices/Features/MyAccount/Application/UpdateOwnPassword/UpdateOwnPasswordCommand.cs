@@ -1,4 +1,4 @@
-using Pandatech.VerticalSlices.SharedKernel.Interfaces;
+using SharedKernel.ValidatorAndMediatR;
 
 namespace Pandatech.VerticalSlices.Features.MyAccount.Application.UpdateOwnPassword;
 

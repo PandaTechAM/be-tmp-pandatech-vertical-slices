@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using Pandatech.Crypto;
+using Microsoft.EntityFrameworkCore;
+using Pandatech.Crypto.Helpers;
 using Pandatech.VerticalSlices.Domain.Enums;
 using Pandatech.VerticalSlices.SharedKernel.Extensions;
-using Pandatech.VerticalSlices.SharedKernel.Helpers;
 
 namespace Pandatech.VerticalSlices.Context.SeedDatabase.User;
 
@@ -14,49 +14,28 @@ public static class SystemUser
       var services = scope.ServiceProvider;
       var context = services.GetRequiredService<PostgresContext>();
       var configuration = services.GetRequiredService<IConfiguration>();
-      var argon2Id = services.GetRequiredService<Argon2Id>();
 
       var username = configuration.GetSuperUsername();
-      ValidateConfiguration(username, configuration.GetSuperuserPassword());
 
       var normalizedUsername = username.ToLowerInvariant();
+
       var existingUsers = context.Users
-                                 .Where(u => u.Username == normalizedUsername || u.Role == UserRole.SuperAdmin)
-                                 .ToList();
+                                 .Count(u => u.Username == normalizedUsername || u.Role == UserRole.SuperAdmin);
 
-      ValidateSuperUserUniqueness(existingUsers);
-
-      if (existingUsers.Count == 1)
+      if (existingUsers >= 1)
       {
          return app;
       }
 
       var userPassword = configuration.GetSuperuserPassword();
-      ValidateConfiguration(userPassword, configuration.GetSuperuserPassword());
 
-      var passwordHash = argon2Id.HashPassword(userPassword!);
+      var passwordHash = Argon2Id.HashPassword(userPassword);
 
       var newUser = CreateNewUser(normalizedUsername, passwordHash);
       context.Users.Add(newUser);
       context.SaveChanges();
 
       return app;
-   }
-
-   private static void ValidateConfiguration(string? configValue, string configName)
-   {
-      if (string.IsNullOrWhiteSpace(configValue))
-      {
-         throw new ArgumentException($"{configName} is not set in appsettings.json");
-      }
-   }
-
-   private static void ValidateSuperUserUniqueness(ICollection users)
-   {
-      if (users.Count > 1)
-      {
-         throw new InvalidOperationException("There are multiple super users in the database.");
-      }
    }
 
    private static Domain.Entities.User CreateNewUser(string username, byte[] passwordHash)
