@@ -11,7 +11,7 @@
         <PackageReference Include="Pandatech.Communicator" Version="2.1.0" />
         <PackageReference Include="Pandatech.MassTransit.PostgresOutbox" Version="2.0.2" />
         <PackageReference Include="Pandatech.SharedKernel" Version="1.0.10" />
-        <PackageReference Include="Pandatech.SharedKernel.Postgres" Version="1.0.4" />
+        <PackageReference Include="Pandatech.SharedKernel.Postgres" Version="1.0.5" />
         <PackageReference Include="SonarAnalyzer.CSharp" Version="10.3.0.106239" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
     </ItemGroup>
 
