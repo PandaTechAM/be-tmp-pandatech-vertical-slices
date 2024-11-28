@@ -5,10 +5,10 @@ volumes:
     driver: local
   postgres:
     driver: local
-  elasticsearch:
-    driver: local
-  kibana:
-    driver: local
+#  elasticsearch:
+#    driver: local
+#  kibana:
+#    driver: local
   # pgadmin:
   #   driver: local
   # redisinsight:
@@ -48,47 +48,47 @@ services:
   # Elastic search
   # ---------------------------------------------------------------------------------
 
-  elasticsearch:
-    container_name: elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.16.1
-    restart: always
-    ports:
-      - 9200:9200
-    environment:
-      - bootstrap.memory_lock=true
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-      - xpack.security.http.ssl.enabled=false
-      - xpack.security.transport.ssl.enabled=false
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    volumes:
-      - elasticsearch:/usr/share/elasticsearch/data
-    healthcheck:
-      test: [ "CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1" ]
-      interval: 30s
-      timeout: 10s
-      retries: 5
+#  elasticsearch:
+#    container_name: elasticsearch
+#    image: docker.elastic.co/elasticsearch/elasticsearch:8.16.1
+#    restart: always
+#    ports:
+#      - 9200:9200
+#    environment:
+#      - bootstrap.memory_lock=true
+#      - discovery.type=single-node
+#      - xpack.security.enabled=false
+#      - xpack.security.http.ssl.enabled=false
+#      - xpack.security.transport.ssl.enabled=false
+#    ulimits:
+#      memlock:
+#        soft: -1
+#        hard: -1
+#    volumes:
+#      - elasticsearch:/usr/share/elasticsearch/data
+#    healthcheck:
+#      test: [ "CMD-SHELL", "curl --silent --fail localhost:9200/_cluster/health || exit 1" ]
+#      interval: 30s
+#      timeout: 10s
+#      retries: 5
 
   # ---------------------------------------------------------------------------------
   # Kibana
   # ---------------------------------------------------------------------------------
 
-  kibana:
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-    container_name: kibana
-    image: docker.elastic.co/kibana/kibana:8.16.1
-    restart: always
-    ports:
-      - 5601:5601
-    environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-    volumes:
-      - kibana:/usr/share/kibana/data
+#  kibana:
+#    depends_on:
+#      elasticsearch:
+#        condition: service_healthy
+#    container_name: kibana
+#    image: docker.elastic.co/kibana/kibana:8.16.1
+#    restart: always
+#    ports:
+#      - 5601:5601
+#    environment:
+#      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+#    volumes:
+#      - kibana:/usr/share/kibana/data
   
   # ---------------------------------------------------------------------------------
   # PgAdmin

@@ -2,10 +2,11 @@ using System.Net;
 using System.Text;
 using Pandatech.VerticalSlices.Features.Auth.Helpers;
 using Pandatech.VerticalSlices.SharedKernel.Enums;
+using Pandatech.VerticalSlices.SharedKernel.Helpers;
 
-namespace Pandatech.VerticalSlices.SharedKernel.Helpers;
+namespace Pandatech.VerticalSlices.SharedKernel.Extensions;
 
-public static class HttpContextParser
+public static class HttpContextExtensions
 {
    private const string DefaultIpAddress = "0.0.0.0";
 

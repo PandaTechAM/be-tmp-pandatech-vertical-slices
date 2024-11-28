@@ -5,6 +5,7 @@ using Pandatech.VerticalSlices.Domain.Enums;
 using Pandatech.VerticalSlices.Features.Auth.Contracts.Authenticate;
 using Pandatech.VerticalSlices.Features.Auth.Helpers;
 using Pandatech.VerticalSlices.Features.Auth.Helpers.ApiAuth;
+using Pandatech.VerticalSlices.SharedKernel.Extensions;
 using Pandatech.VerticalSlices.SharedKernel.Helpers;
 using Pandatech.VerticalSlices.SharedKernel.Interfaces;
 using ResponseCrafter.HttpExceptions;
