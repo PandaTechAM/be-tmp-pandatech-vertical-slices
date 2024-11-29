@@ -8,7 +8,7 @@ public static class HangfireExtensions
 {
    public static WebApplicationBuilder AddHangfireServer(this WebApplicationBuilder builder)
    {
-      var postgresConnectionString = builder.Configuration.GetConnectionString("Postgres");
+      var postgresConnectionString = builder.Configuration.GetPostgresUrl();
       builder.Services.AddHangfire(configuration =>
       {
          configuration.SetDataCompatibilityLevel(CompatibilityLevel.Version_180);
