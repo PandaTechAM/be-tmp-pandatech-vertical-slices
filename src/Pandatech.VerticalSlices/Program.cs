@@ -1,6 +1,7 @@
 using Communicator.Extensions;
 using DistributedCache.Options;
 using FluentMinimalApiMapper;
+using GridifyExtensions.Extensions;
 using MassTransit.PostgresOutbox.Extensions;
 using Pandatech.Crypto.Extensions;
 using Pandatech.VerticalSlices.Context;
@@ -38,6 +39,7 @@ builder
    .MapDefaultTimeZone()
    .AddCors()
    .AddPostgresContext<PostgresContext>(builder.Configuration.GetPostgresUrl())
+   .AddGridify()
    .AddMassTransit(AssemblyRegistry.ToArray())
    .AddAes256Key(builder.Configuration.GetAesKey())
    .AddCommunicator()
