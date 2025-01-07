@@ -9,13 +9,9 @@ using Pandatech.VerticalSlices.Domain.Entities;
 namespace Pandatech.VerticalSlices.Context;
 
 //dotnet ef migrations add --project src\Pandatech.VerticalSlices\Pandatech.VerticalSlices.csproj --configuration Debug --output-dir Context/Migrations
-public class PostgresContext : PostgresFunctions, IOutboxDbContext, IInboxDbContext
+public class PostgresContext(DbContextOptions<PostgresContext> options)
+   : PostgresFunctions(options), IOutboxDbContext, IInboxDbContext
 {
-   public PostgresContext(DbContextOptions<PostgresContext> options) : base(options)
-   {
-      this.UseAuditPropertyValidation();
-   }
-
    public DbSet<Token> Tokens { get; set; }
    public DbSet<User> Users { get; set; }
    public DbSet<UserConfig> UserConfigs { get; set; }

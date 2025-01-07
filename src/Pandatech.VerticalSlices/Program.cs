@@ -38,7 +38,7 @@ builder
    .AddDistributedSignalR("DistributedSignalR")
    .MapDefaultTimeZone()
    .AddCors()
-   .AddPostgresContext<PostgresContext>(builder.Configuration.GetPostgresUrl())
+   .AddPostgresContextPool<PostgresContext>(builder.Configuration.GetPostgresUrl())
    .AddGridify()
    .AddMassTransit(AssemblyRegistry.ToArray())
    .AddAes256Key(builder.Configuration.GetAesKey())
