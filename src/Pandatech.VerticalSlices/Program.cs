@@ -1,4 +1,5 @@
 using Communicator.Extensions;
+using DistributedCache.Extensions;
 using DistributedCache.Options;
 using FluentMinimalApiMapper;
 using GridifyExtensions.Extensions;
@@ -23,7 +24,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.LogStartAttempt();
 AssemblyRegistry.Add(typeof(Program).Assembly);
-
+var repoName = builder.Environment.GetShortEnvironmentName() + ":" + builder.Configuration.GetRepositoryName();
 builder
    .ConfigureWithPandaVault()
    .AddSerilog()
@@ -35,8 +36,12 @@ builder
    .AddControllers(AssemblyRegistry.ToArray())
    .AddMediatrWithBehaviors(AssemblyRegistry.ToArray())
    .AddResilienceDefaultPipeline()
-   .AddRedis(KeyPrefix.AssemblyNamePrefix)
-   .AddDistributedSignalR("DistributedSignalR")
+   .AddDistributedCache(o =>
+   {
+      o.RedisConnectionString = builder.Configuration.GetRedisUrl();
+      o.ChannelPrefix = repoName;
+   })
+   .AddDistributedSignalR(builder.Configuration.GetRedisUrl(), repoName + ":SignalR")
    .MapDefaultTimeZone()
    .AddCors()
    .AddPostgresContextPool<PostgresContext>(builder.Configuration.GetPostgresUrl())
