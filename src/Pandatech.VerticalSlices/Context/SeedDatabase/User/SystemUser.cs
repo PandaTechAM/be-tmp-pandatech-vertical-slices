@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using Microsoft.EntityFrameworkCore;
-using Pandatech.Crypto.Helpers;
+﻿using Pandatech.Crypto.Helpers;
 using Pandatech.VerticalSlices.Domain.Enums;
 using Pandatech.VerticalSlices.SharedKernel.Extensions;
 

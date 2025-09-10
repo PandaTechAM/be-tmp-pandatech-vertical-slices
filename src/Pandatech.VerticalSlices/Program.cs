@@ -1,6 +1,5 @@
 using Communicator.Extensions;
 using DistributedCache.Extensions;
-using DistributedCache.Options;
 using FluentMinimalApiMapper;
 using GridifyExtensions.Extensions;
 using MassTransit.PostgresOutbox.Extensions;
@@ -15,6 +14,7 @@ using ResponseCrafter.Extensions;
 using SharedKernel.Extensions;
 using SharedKernel.Helpers;
 using SharedKernel.Logging;
+using SharedKernel.Logging.Middleware;
 using SharedKernel.OpenApi;
 using SharedKernel.Postgres.Extensions;
 using SharedKernel.Resilience;
@@ -24,10 +24,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.LogStartAttempt();
 AssemblyRegistry.Add(typeof(Program).Assembly);
+
+builder.WebHost.UseKestrel(o => o.AddServerHeader = false);
+
 var repoName = builder.Environment.GetShortEnvironmentName() + ":" + builder.Configuration.GetRepositoryName();
 builder
    .ConfigureWithPandaVault()
-   .AddSerilog()
+   .AddSerilog(LogBackend.ElasticSearch)
    .AddOutboundLoggingHandler()
    .AddResponseCrafter(NamingConvention.ToSnakeCase)
    .AddOpenApi()
