@@ -1,8 +1,25 @@
 <Project>
     <PropertyGroup>
         <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-        <TargetFramework>net9.0</TargetFramework>
+        <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+
+        <!-- Never run analyzers as part of compilation (local, CI, dotnet build/test/publish) -->
+        <RunAnalyzersDuringBuild>false</RunAnalyzersDuringBuild>
+
+        <!-- Keep background/live analysis in the IDE -->
+        <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+
+        <!-- Optional: ensure code-style analyzers don't run during build either -->
+        <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
     </PropertyGroup>
+    
+    <ItemGroup>
+        <PackageReference Include="Pandatech.Analyzers" Version="1.6.0"/>
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="10.17.0.131074">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
 </Project>

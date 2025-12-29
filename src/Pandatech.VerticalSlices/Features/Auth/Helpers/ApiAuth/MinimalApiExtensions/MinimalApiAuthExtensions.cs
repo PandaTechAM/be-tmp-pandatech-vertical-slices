@@ -6,49 +6,52 @@ namespace Pandatech.VerticalSlices.Features.Auth.Helpers.ApiAuth.MinimalApiExten
 
 public static class MinimalApiAuthExtensions
 {
-   public static RouteHandlerBuilder Authorize(this RouteHandlerBuilder builder,
-      UserRole minimalUserRole = UserRole.Admin)
+   extension(RouteHandlerBuilder builder)
    {
-      builder.Add(endpointBuilder =>
+      public RouteHandlerBuilder Authorize(UserRole minimalUserRole = UserRole.Admin)
       {
-         var original = endpointBuilder.RequestDelegate;
-
-         endpointBuilder.RequestDelegate = async context =>
+         builder.Add(endpointBuilder =>
          {
-            var forceToChangePassword =
-               context.GetEndpoint()
-                      ?.Metadata
-                      .GetMetadata<ForcedPasswordChangeMetadata>() != null;
-            var ignoreClientType = context.GetEndpoint()
-                                          ?.Metadata
-                                          .GetMetadata<IgnoreClientTypeMetadata>() != null;
-            var sender = context.RequestServices.GetRequiredService<ISender>();
+            var original = endpointBuilder.RequestDelegate;
+
+            endpointBuilder.RequestDelegate = async context =>
+            {
+               var forceToChangePassword =
+                  context.GetEndpoint()
+                         ?.Metadata
+                         .GetMetadata<ForcedPasswordChangeMetadata>() != null;
+               var ignoreClientType = context.GetEndpoint()
+                                             ?.Metadata
+                                             .GetMetadata<IgnoreClientTypeMetadata>() != null;
+               var sender = context.RequestServices.GetRequiredService<ISender>();
 
 
-            await sender.Send(new AuthQuery(context,
-                  minimalUserRole,
-                  false,
-                  forceToChangePassword,
-                  ignoreClientType),
-               context.RequestAborted);
+               await sender.Send(new AuthQuery(context,
+                     minimalUserRole,
+                     false,
+                     forceToChangePassword,
+                     ignoreClientType),
+                  context.RequestAborted);
 
 
-            await original!(context);
-            // Post-execution logic
-         };
-      });
+               await original!(context);
+               // Post-execution logic
+            };
+         });
 
-      return builder;
-   }
-   public static RouteHandlerBuilder ForcedPasswordChange(this RouteHandlerBuilder builder)
-   {
-      builder.WithMetadata(new ForcedPasswordChangeMetadata());
-      return builder;
-   }
+         return builder;
+      }
 
-   public static RouteHandlerBuilder IgnoreClientType(this RouteHandlerBuilder builder)
-   {
-      builder.WithMetadata(new IgnoreClientTypeMetadata());
-      return builder;
+      public RouteHandlerBuilder ForcedPasswordChange()
+      {
+         builder.WithMetadata(new ForcedPasswordChangeMetadata());
+         return builder;
+      }
+
+      public RouteHandlerBuilder IgnoreClientType()
+      {
+         builder.WithMetadata(new IgnoreClientTypeMetadata());
+         return builder;
+      }
    }
 }

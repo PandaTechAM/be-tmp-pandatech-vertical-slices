@@ -22,16 +22,14 @@ public class UserConfigEndpoints : IEndpoint
       var groupApp = app
                      .MapGroup(RoutePrefix)
                      .WithTags(TagName)
-                     .WithGroupName(ApiHelper.GroupVertical)
-                     .DisableAntiforgery()
-                     .WithOpenApi();
+                     .WithGroupName(ApiHelper.GroupVertical);
 
       groupApp.MapPost("/frontend/configs",
                  async ([FromBody] CreateOrUpdateUserConfigCommand request,
                     [FromServices] ISender sender,
-                    CancellationToken token) =>
+                    CancellationToken ct) =>
                  {
-                    await sender.Send(request, token);
+                    await sender.Send(request, ct);
                     return TypedResults.Ok();
                  })
               .WithSummary("Create or update user frontend configs")
@@ -41,9 +39,9 @@ public class UserConfigEndpoints : IEndpoint
       groupApp.MapGet("/frontend/configs",
                  async ([AsParameters] GetUserConfigsQuery query,
                     [FromServices] ISender sender,
-                    CancellationToken token) =>
+                    CancellationToken ct) =>
                  {
-                    var configs = await sender.Send(query, token);
+                    var configs = await sender.Send(query, ct);
                     return TypedResults.Ok(configs);
                  })
               .WithSummary("Get user frontend configs")
@@ -53,9 +51,9 @@ public class UserConfigEndpoints : IEndpoint
       groupApp.MapDelete("/frontend/configs",
                  async ([FromBody] DeleteUserConfigsCommand request,
                     [FromServices] ISender sender,
-                    CancellationToken token) =>
+                    CancellationToken ct) =>
                  {
-                    await sender.Send(request, token);
+                    await sender.Send(request, ct);
                     return TypedResults.Ok();
                  })
               .WithSummary("Delete user frontend configs")

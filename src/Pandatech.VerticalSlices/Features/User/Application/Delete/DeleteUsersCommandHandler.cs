@@ -25,6 +25,6 @@ public class DeleteUsersCommandHandler(PostgresContext postgresContext, IRequest
              .Users
              .Where(x => x.Role != UserRole.SuperAdmin)
              .ApplyFilter(filterModel)
-             .ExecuteSoftDeleteAsync(requestContext.Identity.UserId, cancellationToken: cancellationToken);
+             .ExecuteSoftDeleteAsync(requestContext.Identity.UserId, ct: cancellationToken);
    }
 }

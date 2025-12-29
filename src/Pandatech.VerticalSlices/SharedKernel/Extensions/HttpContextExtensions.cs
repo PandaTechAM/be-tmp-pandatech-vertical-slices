@@ -10,199 +10,202 @@ public static class HttpContextExtensions
 {
    private const string DefaultIpAddress = "0.0.0.0";
 
-   public static string TryParseAccessTokenSignature(this HttpContext httpContext, IHostEnvironment environment)
+   extension(HttpContext httpContext)
    {
-      var accessTokenName = CookieHelper.FormatCookieName("access_token", environment);
-      var accessTokenSignature = httpContext.Request.Cookies[accessTokenName];
-
-      if (!string.IsNullOrEmpty(accessTokenSignature))
+      public string TryParseAccessTokenSignature(IHostEnvironment environment)
       {
+         var accessTokenName = CookieHelper.FormatCookieName("access_token", environment);
+         var accessTokenSignature = httpContext.Request.Cookies[accessTokenName];
+
+         if (!string.IsNullOrEmpty(accessTokenSignature))
+         {
+            return accessTokenSignature;
+         }
+
+         accessTokenSignature = httpContext.Request.Headers.Authorization.ToString();
+
          return accessTokenSignature;
       }
 
-      accessTokenSignature = httpContext.Request.Headers.Authorization.ToString();
-
-      return accessTokenSignature;
-   }
-
-   public static string TryParseRefreshTokenSignature(this HttpContext httpContext, IHostEnvironment environment)
-   {
-      var refreshTokenName = CookieHelper.FormatCookieName("refresh_token", environment);
-      var refreshTokenSignature = httpContext.Request.Cookies[refreshTokenName];
-
-      if (!string.IsNullOrEmpty(refreshTokenSignature))
+      public string TryParseRefreshTokenSignature(IHostEnvironment environment)
       {
+         var refreshTokenName = CookieHelper.FormatCookieName("refresh_token", environment);
+         var refreshTokenSignature = httpContext.Request.Cookies[refreshTokenName];
+
+         if (!string.IsNullOrEmpty(refreshTokenSignature))
+         {
+            return refreshTokenSignature;
+         }
+
+         refreshTokenSignature = httpContext.Request
+                                            .Headers["refresh-token"]
+                                            .ToString();
+
          return refreshTokenSignature;
       }
 
-      refreshTokenSignature = httpContext.Request
-                                         .Headers["refresh-token"]
-                                         .ToString();
-
-      return refreshTokenSignature;
-   }
-
-   public static string TryParseClientType(this HttpContext httpContext)
-   {
-      var clientType = httpContext.Request
-                                  .Headers["client-type"]
-                                  .ToString();
-      return clientType;
-   }
-
-   public static string TryParseRequestId(this HttpContext httpContext)
-   {
-      var requestId = httpContext.Request.Headers.RequestId.ToString();
-      return requestId;
-   }
-
-   public static string TryParseUniqueIdPerDevice(this HttpContext httpContext, IHostEnvironment environment)
-   {
-      var deviceCookie = CookieHelper.FormatCookieName("device", environment);
-      var uniqueIdPerDevice = httpContext.Request.Cookies[deviceCookie];
-
-      if (string.IsNullOrEmpty(uniqueIdPerDevice))
+      public string TryParseClientType()
       {
-         uniqueIdPerDevice = httpContext.Request
-                                        .Headers["device"]
-                                        .ToString();
+         var clientType = httpContext.Request
+                                     .Headers["client-type"]
+                                     .ToString();
+         return clientType;
       }
 
-      return uniqueIdPerDevice;
-   }
-
-   public static string TryParseDeviceName(this HttpContext httpContext)
-   {
-      return httpContext.Request
-                        .Headers["device-name"]
-                        .ToString();
-   }
-
-   public static SupportedLanguageType TryParseLanguageId(this HttpContext httpContext)
-   {
-      return httpContext.Request
-                        .Headers
-                        .AcceptLanguage
-                        .ToString()
-                        .GetLanguage();
-   }
-
-   public static string TryParseUserAgent(this HttpContext httpContext)
-   {
-      return httpContext.Request.Headers.UserAgent.ToString();
-   }
-
-   public static string? TryParseForwardedHeaders(this HttpContext httpContext)
-   {
-      var forwardedHeaders = httpContext.Request.Headers.ToDictionary(x => x.Key, x => x.Value.ToString());
-
-      var headerNames = new List<string>
+      public string TryParseRequestId()
       {
-         "X-Forwarded-For",
-         "Forwarded-For",
-         "X-Forwarded",
-         "Forwarded",
-         "X-Real-IP",
-         "X-ProxyUser-IP",
-         "X-Original-URL",
-         "X-Rewrite-URL",
-         "Via",
-         "X-Forwarded-Host",
-         "X-Forwarded-Proto",
-         "X-Forwarded-Server",
-         "X-Forwarded-Port",
-         "CF-Connecting-IP"
-      };
+         var requestId = httpContext.Request.Headers.RequestId.ToString();
+         return requestId;
+      }
 
-      var stringBuilder = new StringBuilder();
-
-      var foundHeader = false;
-
-      foreach (var headerName in headerNames)
+      public string TryParseUniqueIdPerDevice(IHostEnvironment environment)
       {
-         if (forwardedHeaders.TryGetValue(headerName, out var headerValue))
+         var deviceCookie = CookieHelper.FormatCookieName("device", environment);
+         var uniqueIdPerDevice = httpContext.Request.Cookies[deviceCookie];
+
+         if (string.IsNullOrEmpty(uniqueIdPerDevice))
          {
-            if (foundHeader)
-            {
-               stringBuilder.Append(", ");
-            }
-
-            if (string.IsNullOrEmpty(headerValue))
-            {
-               foundHeader = false;
-               continue;
-            }
-
-            stringBuilder.Append($"{headerName}: {headerValue}");
-            foundHeader = true;
+            uniqueIdPerDevice = httpContext.Request
+                                           .Headers["device"]
+                                           .ToString();
          }
+
+         return uniqueIdPerDevice;
       }
 
-      return foundHeader ? stringBuilder.ToString() : null;
-   }
-
-   public static string TryParseLatitude(this HttpContext httpContext)
-   {
-      var latitude = "0";
-
-      httpContext.Request.Headers.TryGetValue("Latitude", out var latValue);
-
-      if (!string.IsNullOrEmpty(latValue.ToString()))
+      public string TryParseDeviceName()
       {
-         latitude = latValue.ToString();
+         return httpContext.Request
+                           .Headers["device-name"]
+                           .ToString();
       }
 
-      return latitude;
-   }
-
-   public static string TryParseLongitude(this HttpContext httpContext)
-   {
-      var longitude = "0";
-
-      httpContext.Request.Headers.TryGetValue("Longitude", out var longValue);
-
-      if (!string.IsNullOrEmpty(longValue.ToString()))
+      public SupportedLanguageType TryParseLanguageId()
       {
-         longitude = longValue.ToString();
+         return httpContext.Request
+                           .Headers
+                           .AcceptLanguage
+                           .ToString()
+                           .GetLanguage();
       }
 
-      return longitude;
-   }
-
-   public static decimal TryParseAccuracy(this HttpContext httpContext)
-   {
-      var accuracy = 0m;
-
-      httpContext.Request.Headers.TryGetValue("Accuracy", out var accValue);
-
-
-      if (!string.IsNullOrEmpty(accValue))
+      public string TryParseUserAgent()
       {
+         return httpContext.Request.Headers.UserAgent.ToString();
+      }
+
+      public string? TryParseForwardedHeaders()
+      {
+         var forwardedHeaders = httpContext.Request.Headers.ToDictionary(x => x.Key, x => x.Value.ToString());
+
+         var headerNames = new List<string>
+         {
+            "X-Forwarded-For",
+            "Forwarded-For",
+            "X-Forwarded",
+            "Forwarded",
+            "X-Real-IP",
+            "X-ProxyUser-IP",
+            "X-Original-URL",
+            "X-Rewrite-URL",
+            "Via",
+            "X-Forwarded-Host",
+            "X-Forwarded-Proto",
+            "X-Forwarded-Server",
+            "X-Forwarded-Port",
+            "CF-Connecting-IP"
+         };
+
+         var stringBuilder = new StringBuilder();
+
+         var foundHeader = false;
+
+         foreach (var headerName in headerNames)
+         {
+            if (forwardedHeaders.TryGetValue(headerName, out var headerValue))
+            {
+               if (foundHeader)
+               {
+                  stringBuilder.Append(", ");
+               }
+
+               if (string.IsNullOrEmpty(headerValue))
+               {
+                  foundHeader = false;
+                  continue;
+               }
+
+               stringBuilder.Append($"{headerName}: {headerValue}");
+               foundHeader = true;
+            }
+         }
+
+         return foundHeader ? stringBuilder.ToString() : null;
+      }
+
+      public string TryParseLatitude()
+      {
+         var latitude = "0";
+
+         httpContext.Request.Headers.TryGetValue("Latitude", out var latValue);
+
+         if (!string.IsNullOrEmpty(latValue.ToString()))
+         {
+            latitude = latValue.ToString();
+         }
+
+         return latitude;
+      }
+
+      public string TryParseLongitude()
+      {
+         var longitude = "0";
+
+         httpContext.Request.Headers.TryGetValue("Longitude", out var longValue);
+
+         if (!string.IsNullOrEmpty(longValue.ToString()))
+         {
+            longitude = longValue.ToString();
+         }
+
+         return longitude;
+      }
+
+      public decimal TryParseAccuracy()
+      {
+         var accuracy = 0m;
+
+         httpContext.Request.Headers.TryGetValue("Accuracy", out var accValue);
+
+
+         if (!string.IsNullOrEmpty(accValue))
+         {
+            return accuracy;
+         }
+
+         decimal.TryParse(accValue, out accuracy);
+
          return accuracy;
       }
 
-      decimal.TryParse(accValue, out accuracy);
-
-      return accuracy;
-   }
-
-   public static string TryParseUserNetworkAddress(this HttpContext httpContext)
-   {
-      // Check at first Cloudflare "CF-Connecting-IP" header, which contains client real IP address
-      string[] headersToCheck = ["CF-Connecting-IP", "X-Forwarded-For", "Forwarded", "X-Real-IP"];
-
-      foreach (var header in headersToCheck)
+      public string TryParseUserNetworkAddress()
       {
-         var ipAddress = ExtractIpAddressFromHeader(httpContext, header);
-         if (IsValidIpAddress(ipAddress))
-         {
-            return ipAddress!;
-         }
-      }
+         // Check at first Cloudflare "CF-Connecting-IP" header, which contains client real IP address
+         string[] headersToCheck = ["CF-Connecting-IP", "X-Forwarded-For", "Forwarded", "X-Real-IP"];
 
-      return IsValidIpAddress(httpContext.Connection.RemoteIpAddress?.ToString() ?? "")
-         ? httpContext.Connection.RemoteIpAddress!.ToString()
-         : DefaultIpAddress;
+         foreach (var header in headersToCheck)
+         {
+            var ipAddress = ExtractIpAddressFromHeader(httpContext, header);
+            if (IsValidIpAddress(ipAddress))
+            {
+               return ipAddress!;
+            }
+         }
+
+         return IsValidIpAddress(httpContext.Connection.RemoteIpAddress?.ToString() ?? "")
+            ? httpContext.Connection.RemoteIpAddress!.ToString()
+            : DefaultIpAddress;
+      }
    }
 
    private static string? ExtractIpAddressFromHeader(HttpContext httpContext, string headerName)

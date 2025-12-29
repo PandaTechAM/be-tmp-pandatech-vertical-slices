@@ -27,23 +27,21 @@ public class UserEndpoints : IEndpoint
       var groupApp = app
                      .MapGroup(RoutePrefix)
                      .WithTags(TagName)
-                     .WithGroupName(ApiHelper.GroupVertical)
-                     .DisableAntiforgery()
-                     .WithOpenApi();
+                     .WithGroupName(ApiHelper.GroupVertical);
 
       groupApp.MapPost("",
-                 async (ISender sender, [FromBody] CreateUserCommand command, CancellationToken token) =>
+                 async (ISender sender, [FromBody] CreateUserCommand command, CancellationToken ct) =>
                  {
-                    await sender.Send(command, token);
+                    await sender.Send(command, ct);
                     return TypedResults.Ok();
                  })
               .Authorize()
               .ProducesBadRequest();
 
       groupApp.MapGet("/{id}",
-                 async (ISender sender, long id, CancellationToken token) =>
+                 async (ISender sender, long id, CancellationToken ct) =>
                  {
-                    var user = await sender.Send(new GetUserQuery(id), token);
+                    var user = await sender.Send(new GetUserQuery(id), ct);
                     return TypedResults.Ok(user);
                  })
               .Authorize()
@@ -54,10 +52,10 @@ public class UserEndpoints : IEndpoint
                  async (ISender sender,
                     long id,
                     [FromBody] UpdateUserCommand command,
-                    CancellationToken token) =>
+                    CancellationToken ct) =>
                  {
                     command.Id = id;
-                    await sender.Send(command, token);
+                    await sender.Send(command, ct);
                     return TypedResults.Ok();
                  })
               .Authorize()
@@ -69,10 +67,10 @@ public class UserEndpoints : IEndpoint
                  async (ISender sender,
                     long id,
                     [FromBody] UpdateUserPasswordCommand command,
-                    CancellationToken token) =>
+                    CancellationToken ct) =>
                  {
                     command.Id = id;
-                    await sender.Send(command, token);
+                    await sender.Send(command, ct);
                     return TypedResults.Ok();
                  })
               .Authorize()
@@ -80,10 +78,10 @@ public class UserEndpoints : IEndpoint
               .ProducesNotFound();
 
       groupApp.MapPatch("/{id}/status",
-                 async (ISender sender, long id, [FromBody] UpdateUserStatusCommand command, CancellationToken token) =>
+                 async (ISender sender, long id, [FromBody] UpdateUserStatusCommand command, CancellationToken ct) =>
                  {
                     command.Id = id;
-                    await sender.Send(command, token);
+                    await sender.Send(command, ct);
                     return TypedResults.Ok();
                  })
               .Authorize()
@@ -91,18 +89,18 @@ public class UserEndpoints : IEndpoint
               .ProducesNotFound();
 
       groupApp.MapDelete("",
-                 async (ISender sender, [FromBody] DeleteUsersCommand command, CancellationToken token) =>
+                 async (ISender sender, [FromBody] DeleteUsersCommand command, CancellationToken ct) =>
                  {
-                    await sender.Send(command, token);
+                    await sender.Send(command, ct);
                     return TypedResults.Ok();
                  })
               .Authorize()
               .ProducesBadRequest();
 
       groupApp.MapGet("",
-                 async ([AsParameters] GetUsersQuery request, ISender sender, CancellationToken token) =>
+                 async ([AsParameters] GetUsersQuery request, ISender sender, CancellationToken ct) =>
                  {
-                    var users = await sender.Send(request, token);
+                    var users = await sender.Send(request, ct);
                     return TypedResults.Ok(users);
                  })
               .Authorize()
@@ -111,9 +109,9 @@ public class UserEndpoints : IEndpoint
       groupApp.MapGet("/column-distinct-values",
                  async ([AsParameters] GetUserColumnDistinctValuesQuery query,
                     ISender sender,
-                    CancellationToken token) =>
+                    CancellationToken ct) =>
                  {
-                    var distinctValues = await sender.Send(query, token);
+                    var distinctValues = await sender.Send(query, ct);
                     return TypedResults.Ok(distinctValues);
                  })
               .Authorize()

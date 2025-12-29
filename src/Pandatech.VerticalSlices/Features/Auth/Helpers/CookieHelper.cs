@@ -47,65 +47,66 @@ public static class CookieHelper
          : $"ti_{attributeName}";
    }
 
-   public static void DeleteAllCookies(this HttpContext httpContext, IHostEnvironment environment, string domain)
+   extension(HttpContext httpContext)
    {
-      foreach (var cookie in httpContext.Request.Cookies)
+      public void DeleteAllCookies(IHostEnvironment environment, string domain)
       {
-         if (cookie.Key.Contains(FormatCookieName("device", environment)))
+         foreach (var cookie in httpContext.Request.Cookies)
          {
-            continue; // Skip deletion for cookies containing the unique device ID
+            if (cookie.Key.Contains(FormatCookieName("device", environment)))
+            {
+               continue; // Skip deletion for cookies containing the unique device ID
+            }
+
+
+            var cookieOptions = new CookieOptions
+            {
+               Secure = true,
+               HttpOnly = true,
+               SameSite = SameSiteMode.None
+            };
+
+            if (!environment.IsLocal())
+            {
+               cookieOptions.Domain = domain;
+            }
+
+            if (!environment.IsLocalOrDevelopment())
+            {
+               cookieOptions.SameSite = SameSiteMode.Strict;
+            }
+
+            httpContext.Response.Cookies.Delete(cookie.Key, cookieOptions);
          }
-
-
-         var cookieOptions = new CookieOptions
-         {
-            Secure = true,
-            HttpOnly = true,
-            SameSite = SameSiteMode.None
-         };
-
-         if (!environment.IsLocal())
-         {
-            cookieOptions.Domain = domain;
-         }
-
-         if (!environment.IsLocalOrDevelopment())
-         {
-            cookieOptions.SameSite = SameSiteMode.Strict;
-         }
-
-         httpContext.Response.Cookies.Delete(cookie.Key, cookieOptions);
       }
-   }
 
-   public static void PrepareAndSetCookies(this HttpContext httpContext,
-      RefreshTokenV1CommandResponse mediatorResponse,
-      IHostEnvironment environment,
-      string domain)
-   {
-      var cookies = new IdentityCookies
+      public void PrepareAndSetCookies(RefreshTokenV1CommandResponse mediatorResponse,
+         IHostEnvironment environment,
+         string domain)
       {
-         AccessTokenSignature = mediatorResponse.AccessTokenSignature,
-         RefreshTokenSignature = mediatorResponse.RefreshTokenSignature,
-         RefreshTokenExpiresAt = mediatorResponse.RefreshTokenExpiration,
-         AccessTokenExpiresAt = mediatorResponse.AccessTokenExpiration
-      };
-      RefreshIdentityCookies(cookies, httpContext, environment, domain);
-   }
+         var cookies = new IdentityCookies
+         {
+            AccessTokenSignature = mediatorResponse.AccessTokenSignature,
+            RefreshTokenSignature = mediatorResponse.RefreshTokenSignature,
+            RefreshTokenExpiresAt = mediatorResponse.RefreshTokenExpiration,
+            AccessTokenExpiresAt = mediatorResponse.AccessTokenExpiration
+         };
+         RefreshIdentityCookies(cookies, httpContext, environment, domain);
+      }
 
-   public static void PrepareAndSetCookies(this HttpContext httpContext,
-      LoginCommandResponse mediatorResponse,
-      IHostEnvironment environment,
-      string domain)
-   {
-      var cookies = new IdentityCookies
+      public void PrepareAndSetCookies(LoginCommandResponse mediatorResponse,
+         IHostEnvironment environment,
+         string domain)
       {
-         AccessTokenSignature = mediatorResponse.AccessTokenSignature,
-         RefreshTokenSignature = mediatorResponse.RefreshTokenSignature,
-         RefreshTokenExpiresAt = mediatorResponse.RefreshTokenExpiration,
-         AccessTokenExpiresAt = mediatorResponse.AccessTokenExpiration
-      };
-      RefreshIdentityCookies(cookies, httpContext, environment, domain);
+         var cookies = new IdentityCookies
+         {
+            AccessTokenSignature = mediatorResponse.AccessTokenSignature,
+            RefreshTokenSignature = mediatorResponse.RefreshTokenSignature,
+            RefreshTokenExpiresAt = mediatorResponse.RefreshTokenExpiration,
+            AccessTokenExpiresAt = mediatorResponse.AccessTokenExpiration
+         };
+         RefreshIdentityCookies(cookies, httpContext, environment, domain);
+      }
    }
 
 

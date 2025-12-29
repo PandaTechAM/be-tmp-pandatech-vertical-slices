@@ -25,9 +25,7 @@ public class AuthenticationEndpoints : IEndpoint
       var groupApp = app
                      .MapGroup(RoutePrefix)
                      .WithTags(TagName)
-                     .WithGroupName(ApiHelper.GroupVertical)
-                     .DisableAntiforgery()
-                     .WithOpenApi();
+                     .WithGroupName(ApiHelper.GroupVertical);
 
 
       groupApp.MapPost("/login",
@@ -36,9 +34,9 @@ public class AuthenticationEndpoints : IEndpoint
                     HttpContext httpContext,
                     IHostEnvironment environment,
                     IConfiguration configuration,
-                    CancellationToken token) =>
+                    CancellationToken ct) =>
                  {
-                    var response = await sender.Send(command, token);
+                    var response = await sender.Send(command, ct);
                     var clientType = httpContext.TryParseClientType()
                                                 .ConvertToEnum();
 
@@ -63,11 +61,11 @@ public class AuthenticationEndpoints : IEndpoint
                     HttpContext httpContext,
                     IHostEnvironment environment,
                     IConfiguration configuration,
-                    CancellationToken token) =>
+                    CancellationToken ct) =>
                  {
                     var refreshTokenSignature =
                        httpContext.TryParseRefreshTokenSignature(environment);
-                    var response = await sender.Send(new RefreshTokenCommand(refreshTokenSignature), token);
+                    var response = await sender.Send(new RefreshTokenCommand(refreshTokenSignature), ct);
                     var clientType = httpContext.TryParseClientType()
                                                             .ConvertToEnum();
 
@@ -87,9 +85,9 @@ public class AuthenticationEndpoints : IEndpoint
 
 
       groupApp.MapGet("/state",
-                 async (ISender sender, CancellationToken token) =>
+                 async (ISender sender, CancellationToken ct) =>
                  {
-                    var identity = await sender.Send(new GetIdentityStateQuery(), token);
+                    var identity = await sender.Send(new GetIdentityStateQuery(), ct);
                     return TypedResults.Ok(identity);
                  })
               .Authorize(UserRole.User)
@@ -97,9 +95,9 @@ public class AuthenticationEndpoints : IEndpoint
 
 
       groupApp.MapPatch("/password/force",
-                 async (ISender sender, UpdatePasswordForcedCommand command, CancellationToken token) =>
+                 async (ISender sender, UpdatePasswordForcedCommand command, CancellationToken ct) =>
                  {
-                    await sender.Send(command, token);
+                    await sender.Send(command, ct);
                     return TypedResults.Ok();
                  })
               .Authorize(UserRole.User)

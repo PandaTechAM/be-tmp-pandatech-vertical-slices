@@ -60,11 +60,14 @@ builder.Services.AddScoped<IRequestContext, RequestContext>();
 
 var app = builder.Build();
 
+var groupPolicy = app.MapGroup("")
+                     .DisableAntiforgery();
+
 app
    .UseRequestLogging()
    .UseResponseCrafter()
    .UseCors()
-   .MapMinimalApis()
+   .MapMinimalApis(groupPolicy)
    .MapHealthCheckEndpoints()
    .MapPrometheusExporterEndpoints()
    .MigrateDatabase<PostgresContext>()

@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="docker-compose.yml" />
+    <File Path="Dockerfile" />
+    <File Path="Dockerfile.Local" />
+    <File Path="global.json" />
+    <File Path="nuget.config" />
+    <File Path="Readme.md" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/Pandatech.VerticalSlices/Pandatech.VerticalSlices.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="test/Pandatech.VerticalSlices.Tests/Pandatech.VerticalSlices.Tests.csproj" />
+  </Folder>
+</Solution>

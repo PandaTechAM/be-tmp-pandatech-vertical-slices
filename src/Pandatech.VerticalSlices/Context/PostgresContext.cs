@@ -1,5 +1,4 @@
 ﻿using EFCore.AuditBase;
-using GridifyExtensions.DbContextFunction;
 using MassTransit.PostgresOutbox.Abstractions;
 using MassTransit.PostgresOutbox.Entities;
 using MassTransit.PostgresOutbox.Extensions;
@@ -10,7 +9,7 @@ namespace Pandatech.VerticalSlices.Context;
 
 //dotnet ef migrations add --project src\Pandatech.VerticalSlices\Pandatech.VerticalSlices.csproj --configuration Debug --output-dir Context/Migrations
 public class PostgresContext(DbContextOptions<PostgresContext> options)
-   : PostgresFunctions(options), IOutboxDbContext, IInboxDbContext
+   : DbContext(options), IOutboxDbContext, IInboxDbContext
 {
    public DbSet<Token> Tokens { get; set; }
    public DbSet<User> Users { get; set; }

@@ -24,23 +24,21 @@ public class MyAccountEndpoints : IEndpoint
       var groupApp = app
                      .MapGroup(RoutePrefix)
                      .WithTags(TagName)
-                     .WithGroupName(ApiHelper.GroupVertical)
-                     .DisableAntiforgery()
-                     .WithOpenApi();
+                     .WithGroupName(ApiHelper.GroupVertical);
 
       groupApp.MapGet("/personal-information",
-                 async (ISender sender, CancellationToken token) =>
+                 async (ISender sender, CancellationToken ct) =>
                  {
-                    var personalInformation = await sender.Send(new GetPersonalInformationQuery(), token);
+                    var personalInformation = await sender.Send(new GetPersonalInformationQuery(), ct);
                     return TypedResults.Ok(personalInformation);
                  })
               .WithSummary("Get personal information")
               .Authorize(UserRole.User);
 
       groupApp.MapPatch("/password",
-                 async (ISender sender, [FromBody] UpdateOwnPasswordCommand command, CancellationToken token) =>
+                 async (ISender sender, [FromBody] UpdateOwnPasswordCommand command, CancellationToken ct) =>
                  {
-                    await sender.Send(command, token);
+                    await sender.Send(command, ct);
                     return TypedResults.Ok();
                  })
               .Authorize(UserRole.User)
@@ -53,10 +51,10 @@ public class MyAccountEndpoints : IEndpoint
                     HttpContext httpContext,
                     IHostEnvironment environment,
                     IConfiguration configuration,
-                    CancellationToken token) =>
+                    CancellationToken ct) =>
                  {
                     var domain = configuration.GetCookieDomain();
-                    await sender.Send(new LogoutCommand(), token);
+                    await sender.Send(new LogoutCommand(), ct);
                     httpContext.DeleteAllCookies(environment, domain);
                     return TypedResults.Ok();
                  })

@@ -13,53 +13,56 @@ public static class ConfigurationExtensions
    private const string SuperUserPasswordConfigurationPath = "Security:SuperUser:Password";
    private const string CookieDomainConfigurationPath = "Security:CookieDomain";
 
-   public static string GetAesKey(this IConfiguration configuration)
+   extension(IConfiguration configuration)
    {
-      return configuration[AesKeyConfigurationPath]!;
-   }
+      public string GetAesKey()
+      {
+         return configuration[AesKeyConfigurationPath]!;
+      }
 
-   public static string GetRepositoryName(this IConfiguration configuration)
-   {
-      return configuration[RepositoryNameConfigurationPath]!;
-   }
+      public string GetRepositoryName()
+      {
+         return configuration[RepositoryNameConfigurationPath]!;
+      }
 
-   public static string GetRedisUrl(this IConfiguration configuration)
-   {
-      return configuration.GetConnectionString(RedisConfigurationPath)!;
-   }
+      public string GetRedisUrl()
+      {
+         return configuration.GetConnectionString(RedisConfigurationPath)!;
+      }
 
-   public static string GetRabbitMqUrl(this IConfiguration configuration)
-   {
-      return configuration.GetConnectionString(RabbitMqConfigurationPath)!;
-   }
+      public string GetRabbitMqUrl()
+      {
+         return configuration.GetConnectionString(RabbitMqConfigurationPath)!;
+      }
 
-   public static string GetPostgresUrl(this IConfiguration configuration)
-   {
-      return configuration.GetConnectionString(PostgresConfigurationPath)!;
-   }
+      public string GetPostgresUrl()
+      {
+         return configuration.GetConnectionString(PostgresConfigurationPath)!;
+      }
 
-   public static string GetHangfireUsername(this IConfiguration configuration)
-   {
-      return configuration[HangfireUserConfigurationPath]!;
-   }
+      public string GetHangfireUsername()
+      {
+         return configuration[HangfireUserConfigurationPath]!;
+      }
 
-   public static string GetHangfirePassword(this IConfiguration configuration)
-   {
-      return configuration[HangfirePasswordConfigurationPath]!;
-   }
+      public string GetHangfirePassword()
+      {
+         return configuration[HangfirePasswordConfigurationPath]!;
+      }
 
-   public static string GetSuperUsername(this IConfiguration configuration)
-   {
-      return configuration[SuperUsernameConfigurationPath]!;
-   }
+      public string GetSuperUsername()
+      {
+         return configuration[SuperUsernameConfigurationPath]!;
+      }
 
-   public static string GetSuperuserPassword(this IConfiguration configuration)
-   {
-      return configuration[SuperUserPasswordConfigurationPath]!;
-   }
+      public string GetSuperuserPassword()
+      {
+         return configuration[SuperUserPasswordConfigurationPath]!;
+      }
 
-   public static string GetCookieDomain(this IConfiguration configuration)
-   {
-      return configuration[CookieDomainConfigurationPath]!;
+      public string GetCookieDomain()
+      {
+         return configuration[CookieDomainConfigurationPath]!;
+      }
    }
 }
