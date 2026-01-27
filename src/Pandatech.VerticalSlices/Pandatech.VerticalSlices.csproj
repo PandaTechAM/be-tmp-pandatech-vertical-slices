@@ -3,14 +3,14 @@
     <ItemGroup>
         <PackageReference Include="Hangfire" Version="1.8.22"/>
         <PackageReference Include="Hangfire.Dashboard.Basic.Authentication" Version="8.0.0"/>
-        <PackageReference Include="Hangfire.EntityFrameworkCore" Version="0.8.0"/>
+        <PackageReference Include="Hangfire.EntityFrameworkCore" Version="0.9.0" />
         <PackageReference Include="Hangfire.PostgreSql" Version="1.20.13"/>
-        <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.7"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.1" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive"/>
-        <PackageReference Include="Pandatech.Communicator" Version="3.0.0"/>
-        <PackageReference Include="Pandatech.MassTransit.PostgresOutbox" Version="4.0.0"/>
-        <PackageReference Include="Pandatech.SharedKernel" Version="2.0.0"/>
-        <PackageReference Include="Pandatech.SharedKernel.Postgres" Version="2.0.0"/>
+        <PackageReference Include="MassTransit.RabbitMQ" Version="[8.5.7]"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.2" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
+        <PackageReference Include="Pandatech.Communicator" Version="3.0.1" />
+        <PackageReference Include="Pandatech.MassTransit.PostgresOutbox" Version="4.1.0" />
+        <PackageReference Include="Pandatech.SharedKernel" Version="2.1.1" />
+        <PackageReference Include="Pandatech.SharedKernel.Postgres" Version="2.0.2" />
         <PackageReference Include="SonarAnalyzer.CSharp" Version="10.15.0.120848" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive"/>
     </ItemGroup>
 

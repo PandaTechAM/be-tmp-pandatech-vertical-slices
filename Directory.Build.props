@@ -14,12 +14,18 @@
         <!-- Optional: ensure code-style analyzers don't run during build either -->
         <EnforceCodeStyleInBuild>false</EnforceCodeStyleInBuild>
     </PropertyGroup>
-    
+
     <ItemGroup>
-        <PackageReference Include="Pandatech.Analyzers" Version="1.6.0"/>
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="10.17.0.131074">
+        <PackageReference Include="Pandatech.Analyzers"
+                          Version="2.1.0"
+                          PrivateAssets="all"/>
+
+        <PackageReference Include="SonarAnalyzer.CSharp"
+                          Version="10.18.0.131500">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
     </ItemGroup>
+
+
 </Project>
