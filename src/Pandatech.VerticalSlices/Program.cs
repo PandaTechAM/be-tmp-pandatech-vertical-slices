@@ -1,5 +1,6 @@
 using Communicator.Extensions;
 using DistributedCache.Extensions;
+using FileExporter.Extensions;
 using FluentMinimalApiMapper;
 using GridifyExtensions.Extensions;
 using MassTransit.PostgresOutbox.Extensions;
@@ -53,6 +54,7 @@ builder
    .AddAes256Key(builder.Configuration.GetAesKey())
    .AddCommunicator()
    .AddHangfireServer()
+   .AddFileExporter(AssemblyRegistry.ToArray())
    .AddHealthChecks();
 
 builder.Services.AddOutboxInboxServices<PostgresContext>();
