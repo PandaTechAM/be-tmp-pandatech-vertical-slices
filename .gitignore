@@ -88,6 +88,8 @@ StyleCopReport.xml
 *.pgc
 *.pgd
 *.rsp
+# but not Directory.Build.rsp, as it configures directory-level build defaults
+!Directory.Build.rsp
 *.sbr
 *.tlb
 *.tli
@@ -484,6 +486,7 @@ $RECYCLE.BIN/
 *.swp
 
 # Added by me
-logs
-LocalFileStorage
+.logs
+.LocalFileStorage
 *.db*
+*.claude

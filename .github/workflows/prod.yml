@@ -1,5 +1,9 @@
 name: Production CI Pipeline
 
+# Template repo: this pipeline builds and tests only. The Docker build/push and Kubernetes deploy
+# steps are intentionally commented out (a template has no live environment to deploy to). When you
+# fork this template into a real service, uncomment the deploy steps below.
+
 on:
   push:
     branches:
@@ -16,7 +20,7 @@ env:
   ASPNETCORE_ENVIRONMENT: "Production"
 
 jobs:
-  build-and-deploy:
+  build-and-test:
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
@@ -33,37 +37,43 @@ jobs:
           dotnet nuget add source ${{ env.NUGET_ORG_SOURCE }} -n nuget.org
         continue-on-error: true
 
-      - name: Build and Publish .NET App
+      - name: Build and Test .NET App
         run: |
           dotnet restore --no-cache --force --disable-parallel
           dotnet build --no-restore --configuration Release
-          dotnet publish --no-build --configuration Release --output ./publish
-          echo "DOCKER_TAG=$(date +'%Y-%m-%d-%H-%M')-$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+          dotnet test --no-build --configuration Release
 
-      - name: Login to Docker Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.DOCKER_REPO_BASE }}
-          username: ${{ env.NEXUS_USERNAME }}
-          password: ${{ env.NEXUS_PASSWORD }}
-
-      - name: Build and Push Docker Image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: |
-            ${{ env.DOCKER_REPO_BASE }}/${{ env.DOCKER_REPO_PATH }}/${{ github.event.repository.name }}:${{ env.DOCKER_TAG }}
-            ${{ env.DOCKER_REPO_BASE }}/${{ env.DOCKER_REPO_PATH }}/${{ github.event.repository.name }}:latest
-
-      - name: Update and Apply Kubernetes Deployment
-        run: |
-          export KUBECONFIG=/home/runner/.kube/config
-          sed -i "s|\$(ASPNETCORE_ENVIRONMENT)|${{ env.ASPNETCORE_ENVIRONMENT }}|g" ./kubernetes/deployment.yaml
-          sed -i "s|namespace: .*|namespace: ${{ env.K8S_NAMESPACE }}|g" ./kubernetes/deployment.yaml
-          sed -i "s|\$(IMAGE_REFERENCE)|${{ env.DOCKER_REPO_BASE }}/${{ env.DOCKER_REPO_PATH }}/${{ github.event.repository.name }}:${{ env.DOCKER_TAG }}|g" ./kubernetes/deployment.yaml
-
-          kubectl apply -f ./kubernetes/deployment.yaml -n ${{ env.K8S_NAMESPACE }}
-
-      - name: Cleanup
-        run: rm -rf ./publish
+      # =====================================================================================
+      # Deploy pipeline (disabled for the template). Uncomment when forking into a service.
+      # =====================================================================================
+      # - name: Publish .NET App
+      #   run: |
+      #     dotnet publish --no-build --configuration Release --output ./publish
+      #     echo "DOCKER_TAG=$(date +'%Y-%m-%d-%H-%M')-$GITHUB_RUN_NUMBER" >> $GITHUB_ENV
+      #
+      # - name: Login to Docker Registry
+      #   uses: docker/login-action@v3
+      #   with:
+      #     registry: ${{ env.DOCKER_REPO_BASE }}
+      #     username: ${{ env.NEXUS_USERNAME }}
+      #     password: ${{ env.NEXUS_PASSWORD }}
+      #
+      # - name: Build and Push Docker Image
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: .
+      #     push: true
+      #     tags: |
+      #       ${{ env.DOCKER_REPO_BASE }}/${{ env.DOCKER_REPO_PATH }}/${{ github.event.repository.name }}:${{ env.DOCKER_TAG }}
+      #       ${{ env.DOCKER_REPO_BASE }}/${{ env.DOCKER_REPO_PATH }}/${{ github.event.repository.name }}:latest
+      #
+      # - name: Update and Apply Kubernetes Deployment
+      #   run: |
+      #     export KUBECONFIG=/home/runner/.kube/config
+      #     sed -i "s|\$(ASPNETCORE_ENVIRONMENT)|${{ env.ASPNETCORE_ENVIRONMENT }}|g" ./kubernetes/deployment.yaml
+      #     sed -i "s|namespace: .*|namespace: ${{ env.K8S_NAMESPACE }}|g" ./kubernetes/deployment.yaml
+      #     sed -i "s|\$(IMAGE_REFERENCE)|${{ env.DOCKER_REPO_BASE }}/${{ env.DOCKER_REPO_PATH }}/${{ github.event.repository.name }}:${{ env.DOCKER_TAG }}|g" ./kubernetes/deployment.yaml
+      #     kubectl apply -f ./kubernetes/deployment.yaml -n ${{ env.K8S_NAMESPACE }}
+      #
+      # - name: Cleanup
+      #   run: rm -rf ./publish

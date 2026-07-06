@@ -20,7 +20,13 @@ namespace Pandatech.VerticalSlices.Context.Migrations
                     consumer_id = table.Column<string>(type: "text", nullable: false),
                     state = table.Column<int>(type: "integer", nullable: false),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    payload = table.Column<string>(type: "text", nullable: true),
+                    type = table.Column<string>(type: "text", nullable: true),
+                    destination_address = table.Column<string>(type: "text", nullable: true),
+                    retry_count = table.Column<int>(type: "integer", nullable: false),
+                    next_retry_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    last_error = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -35,6 +41,7 @@ namespace Pandatech.VerticalSlices.Context.Migrations
                     state = table.Column<int>(type: "integer", nullable: false),
                     payload = table.Column<string>(type: "text", nullable: false),
                     type = table.Column<string>(type: "text", nullable: false),
+                    destination_address = table.Column<string>(type: "text", nullable: true),
                     created_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     updated_at = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
@@ -126,6 +133,11 @@ namespace Pandatech.VerticalSlices.Context.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "ix_inbox_messages_state_retry_count_next_retry_at",
+                table: "inbox_messages",
+                columns: new[] { "state", "retry_count", "next_retry_at" });
 
             migrationBuilder.CreateIndex(
                 name: "ix_tokens_access_token_hash",

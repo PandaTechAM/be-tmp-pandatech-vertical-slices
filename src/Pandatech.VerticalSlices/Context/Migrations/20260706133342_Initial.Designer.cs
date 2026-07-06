@@ -12,7 +12,7 @@ using Pandatech.VerticalSlices.Context;
 namespace Pandatech.VerticalSlices.Context.Migrations
 {
     [DbContext(typeof(PostgresContext))]
-    [Migration("20240703100452_Initial")]
+    [Migration("20260706133342_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Pandatech.VerticalSlices.Context.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "10.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -39,9 +39,33 @@ namespace Pandatech.VerticalSlices.Context.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
 
+                    b.Property<string>("DestinationAddress")
+                        .HasColumnType("text")
+                        .HasColumnName("destination_address");
+
+                    b.Property<string>("LastError")
+                        .HasColumnType("text")
+                        .HasColumnName("last_error");
+
+                    b.Property<DateTime?>("NextRetryAt")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("next_retry_at");
+
+                    b.Property<string>("Payload")
+                        .HasColumnType("text")
+                        .HasColumnName("payload");
+
+                    b.Property<int>("RetryCount")
+                        .HasColumnType("integer")
+                        .HasColumnName("retry_count");
+
                     b.Property<int>("State")
                         .HasColumnType("integer")
                         .HasColumnName("state");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("text")
+                        .HasColumnName("type");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone")
@@ -49,6 +73,9 @@ namespace Pandatech.VerticalSlices.Context.Migrations
 
                     b.HasKey("MessageId", "ConsumerId")
                         .HasName("pk_inbox_messages");
+
+                    b.HasIndex("State", "RetryCount", "NextRetryAt")
+                        .HasDatabaseName("ix_inbox_messages_state_retry_count_next_retry_at");
 
                     b.ToTable("inbox_messages", (string)null);
                 });
@@ -62,6 +89,10 @@ namespace Pandatech.VerticalSlices.Context.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("created_at");
+
+                    b.Property<string>("DestinationAddress")
+                        .HasColumnType("text")
+                        .HasColumnName("destination_address");
 
                     b.Property<string>("Payload")
                         .IsRequired()

@@ -7,29 +7,29 @@ using SharedKernel.ValidatorAndMediatR;
 namespace Pandatech.VerticalSlices.Features.MyAccount.Application.Logout;
 
 public class LogoutCommandHandler(IRequestContext requestContext, PostgresContext dbContext)
-   : ICommandHandler<LogoutCommand>
+    : ICommandHandler<LogoutCommand>
 {
-   public async Task Handle(LogoutCommand request, CancellationToken cancellationToken)
-   {
-      var now = DateTime.UtcNow;
+    public async Task Handle(LogoutCommand request, CancellationToken cancellationToken)
+    {
+        var now = DateTime.UtcNow;
 
-      var token = await dbContext.Tokens
-                                 .FirstOrDefaultAsync(x => x.Id == requestContext.Identity.TokenId, cancellationToken);
+        var token = await dbContext.Tokens
+            .FirstOrDefaultAsync(x => x.Id == requestContext.Identity.TokenId, cancellationToken);
 
-      InternalServerErrorException.ThrowIfNull(token, "Token not found");
+        InternalServerErrorException.ThrowIfNull(token, "Token not found");
 
-      if (token.AccessTokenExpiresAt > now)
-      {
-         token.AccessTokenExpiresAt = now;
-         token.UpdatedAt = now;
-      }
+        if (token.AccessTokenExpiresAt > now)
+        {
+            token.AccessTokenExpiresAt = now;
+            token.UpdatedAt = now;
+        }
 
-      if (token.RefreshTokenExpiresAt > now)
-      {
-         token.RefreshTokenExpiresAt = now;
-         token.UpdatedAt = now;
-      }
+        if (token.RefreshTokenExpiresAt > now)
+        {
+            token.RefreshTokenExpiresAt = now;
+            token.UpdatedAt = now;
+        }
 
-      await dbContext.SaveChangesAsync(cancellationToken);
-   }
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
 }

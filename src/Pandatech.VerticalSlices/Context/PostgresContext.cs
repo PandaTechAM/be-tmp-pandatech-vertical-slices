@@ -9,21 +9,21 @@ namespace Pandatech.VerticalSlices.Context;
 
 //dotnet ef migrations add --project src\Pandatech.VerticalSlices\Pandatech.VerticalSlices.csproj --configuration Debug --output-dir Context/Migrations
 public class PostgresContext(DbContextOptions<PostgresContext> options)
-   : DbContext(options), IOutboxDbContext, IInboxDbContext
+    : DbContext(options), IOutboxDbContext, IInboxDbContext
 {
-   public DbSet<Token> Tokens { get; set; }
-   public DbSet<User> Users { get; set; }
-   public DbSet<UserConfig> UserConfigs { get; set; }
+    public DbSet<Token> Tokens { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<UserConfig> UserConfigs { get; set; }
 
-   public DbSet<InboxMessage> InboxMessages { get; set; }
+    public DbSet<InboxMessage> InboxMessages { get; set; }
 
-   public DbSet<OutboxMessage> OutboxMessages { get; set; }
+    public DbSet<OutboxMessage> OutboxMessages { get; set; }
 
-   protected override void OnModelCreating(ModelBuilder modelBuilder)
-   {
-      base.OnModelCreating(modelBuilder);
-      modelBuilder.ConfigureInboxOutboxEntities();
-      modelBuilder.FilterOutDeletedMarkedObjects();
-      modelBuilder.ApplyConfigurationsFromAssembly(typeof(Program).Assembly);
-   }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        modelBuilder.ConfigureInboxOutboxEntities();
+        modelBuilder.FilterOutDeletedMarkedObjects();
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(Program).Assembly);
+    }
 }

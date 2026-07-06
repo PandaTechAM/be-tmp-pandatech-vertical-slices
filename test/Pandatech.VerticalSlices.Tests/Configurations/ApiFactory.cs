@@ -1,94 +1,84 @@
 ﻿using System.Data.Common;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.AspNetCore.TestHost;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Npgsql;
-using Pandatech.VerticalSlices.Context;
 using Respawn;
 using Testcontainers.PostgreSql;
+using Testcontainers.RabbitMq;
+using Testcontainers.Redis;
 
 namespace Pandatech.VerticalSlices.Tests.Configurations;
 
 public class ApiFactory : WebApplicationFactory<AssemblyReference>, IAsyncLifetime
 {
-   private readonly PostgreSqlContainer _dbContainer = new PostgreSqlBuilder()
-      .Build();
+    // Images match docker-compose.yml so tests run against the same infra versions as the app.
+    private readonly PostgreSqlContainer _postgresContainer = new PostgreSqlBuilder("postgres:latest")
+        .Build();
 
-   private DbConnection _dbConnection = default!;
-   private Respawner _respawner = default!;
+    private readonly RabbitMqContainer _rabbitMqContainer = new RabbitMqBuilder("rabbitmq:4-management-alpine")
+        .Build();
 
-   public HttpClient HttpClient { get; private set; } = default!;
+    private readonly RedisContainer _redisContainer = new RedisBuilder("redis:latest")
+        .Build();
 
+    private DbConnection _dbConnection = default!;
+    private Respawner _respawner = default!;
 
-   protected override void ConfigureWebHost(IWebHostBuilder builder)
-   {
-      base.ConfigureWebHost(builder);
-      builder.ConfigureTestServices(services =>
-      {
-         services.RemoveAll(typeof(DbContextOptions<PostgresContext>));
-         services.AddDbContextPool<PostgresContext>(options =>
-         {
-            options.UseNpgsql(_dbContainer.GetConnectionString())
-                   .UseSnakeCaseNamingConvention();
-         });
-      });
-   }
-   public async Task InitializeAsync()
-   {
-      SetEnvironments();
-      await _dbContainer.StartAsync();
-      await CreateDatabase();
-      HttpClient = CreateClient();
-      await InitializeRespawner();
-   }
+    public HttpClient HttpClient { get; private set; } = default!;
 
-   public new async Task DisposeAsync()
-   {
-      await _dbContainer.StopAsync();
-   }
+    public async ValueTask InitializeAsync()
+    {
+        await Task.WhenAll(
+            _postgresContainer.StartAsync(),
+            _rabbitMqContainer.StartAsync(),
+            _redisContainer.StartAsync());
 
-   private async Task InitializeRespawner()
-   {
-      _dbConnection = new NpgsqlConnection(_dbContainer.GetConnectionString());
+        SetEnvironments();
 
-      await _dbConnection.OpenAsync();
-      _respawner = await Respawner.CreateAsync(_dbConnection,
-         new RespawnerOptions
-         {
-            DbAdapter = DbAdapter.Postgres,
-            SchemasToInclude = ["public"]
-         });
-   }
+        // Building the client runs the real app pipeline (migrations + seeding).
+        HttpClient = CreateClient();
 
-   public async Task ResetStateAsync()
-   {
-      await _respawner.ResetAsync(_dbConnection);
-   }
+        await InitializeRespawner();
+    }
 
+    public override async ValueTask DisposeAsync()
+    {
+        await Task.WhenAll(
+            _postgresContainer.DisposeAsync()
+                .AsTask(),
+            _rabbitMqContainer.DisposeAsync()
+                .AsTask(),
+            _redisContainer.DisposeAsync()
+                .AsTask());
 
-   private async Task CreateDatabase() //not sure if this is needed
-   {
-      using var scope = Services.CreateScope();
-      var scopedServices = scope.ServiceProvider;
-      var context = scopedServices.GetRequiredService<PostgresContext>();
-      await context.Database.MigrateAsync();
-   }
+        await base.DisposeAsync();
+    }
 
-   private void SetEnvironments()
-   {
-      Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
-      Environment.SetEnvironmentVariable("POSTGRES_CONNECTION_STRING", _dbContainer.GetConnectionString());
-      Environment.SetEnvironmentVariable("REDIS_CONNECTION_STRING", "localhost:6379");
-      Environment.SetEnvironmentVariable("RABBITMQ_EXCHANGE_NAME", "panda");
-      Environment.SetEnvironmentVariable("RABBITMQ_ROUTING_KEY", "panda");
-      Environment.SetEnvironmentVariable("RABBITMQ_QUEUE_NAME", "panda");
-      Environment.SetEnvironmentVariable("RABBITMQ_ROUTING_KEY_DLX", "panda-dlx");
-      Environment.SetEnvironmentVariable("RABBITMQ_QUEUE_NAME_DLX", "panda-dlx");
-      Environment.SetEnvironmentVariable("RABBITMQ_URI", "amqp://guest:guest@localhost:5672");
-      Environment.SetEnvironmentVariable("CORS_ALLOWED_ORIGINS", "http://localhost:3000");
-      Environment.SetEnvironmentVariable("USER_MANAGEMENT_ADDRESS", "http://localhost:5000");
-   }
+    public async Task ResetStateAsync()
+    {
+        await _respawner.ResetAsync(_dbConnection);
+    }
+
+    private async Task InitializeRespawner()
+    {
+        _dbConnection = new NpgsqlConnection(_postgresContainer.GetConnectionString());
+
+        await _dbConnection.OpenAsync();
+        _respawner = await Respawner.CreateAsync(_dbConnection,
+            new RespawnerOptions
+            {
+                DbAdapter = DbAdapter.Postgres,
+                SchemasToInclude = ["public"]
+            });
+    }
+
+    // Local environment: SharedKernel skips PandaVault, so appsettings.Local.json supplies the AES
+    // key + faked SMS/email; the harness only overrides the infra connection strings with the
+    // Testcontainers endpoints.
+    private void SetEnvironments()
+    {
+        Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Local");
+        Environment.SetEnvironmentVariable("ConnectionStrings:Postgres", _postgresContainer.GetConnectionString());
+        Environment.SetEnvironmentVariable("ConnectionStrings:Redis", _redisContainer.GetConnectionString());
+        Environment.SetEnvironmentVariable("ConnectionStrings:RabbitMq", _rabbitMqContainer.GetConnectionString());
+    }
 }

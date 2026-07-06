@@ -5,33 +5,33 @@ namespace Pandatech.VerticalSlices.Tests.Tests.IntegrationTests;
 [Collection("Shared Postgres")]
 public class IntegrationTest : IAsyncLifetime
 {
-   private readonly HttpClient _client;
-   private readonly Func<Task> _resetState;
+    private readonly HttpClient _client;
+    private readonly Func<Task> _resetState;
 
-   public IntegrationTest(ApiFactory factory)
-   {
-      _client = factory.HttpClient;
-      _resetState = factory.ResetStateAsync;
-   }
+    public IntegrationTest(ApiFactory factory)
+    {
+        _client = factory.HttpClient;
+        _resetState = factory.ResetStateAsync;
+    }
 
-   public Task InitializeAsync()
-   {
-      return Task.CompletedTask;
-   }
+    public ValueTask InitializeAsync()
+    {
+        return ValueTask.CompletedTask;
+    }
 
-   public Task DisposeAsync()
-   {
-      return _resetState();
-   }
+    public async ValueTask DisposeAsync()
+    {
+        await _resetState();
+    }
 
-   [Fact]
-   public void MethodName()
-   {
-      // Arrange
+    [Fact]
+    public void MethodName()
+    {
+        // Arrange
 
-      // Act
+        // Act
 
-      // Assert
-      Assert.True(true);
-   }
+        // Assert
+        Assert.True(true);
+    }
 }

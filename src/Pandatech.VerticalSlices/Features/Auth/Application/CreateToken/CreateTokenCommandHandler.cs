@@ -8,38 +8,38 @@ using SharedKernel.ValidatorAndMediatR;
 namespace Pandatech.VerticalSlices.Features.Auth.Application.CreateToken;
 
 public class CreateTokenCommandHandler(IConfiguration configuration, PostgresContext dbContext)
-   : ICommandHandler<CreateTokenCommand, CreateTokenCommandResponse>
+    : ICommandHandler<CreateTokenCommand, CreateTokenCommandResponse>
 {
-   private const int AccessTokenExpirationMinutes = TokenHelpers.AccessTokenExpirationMinutes;
+    private const int AccessTokenExpirationMinutes = TokenHelpers.AccessTokenExpirationMinutes;
 
-   private readonly int _refreshTokenExpirationMinutes =
-      TokenHelpers.SetRefreshTokenExpirationMinutes(configuration);
+    private readonly int _refreshTokenExpirationMinutes =
+        TokenHelpers.SetRefreshTokenExpirationMinutes(configuration);
 
-   public async Task<CreateTokenCommandResponse> Handle(CreateTokenCommand request,
-      CancellationToken cancellationToken)
-   {
-      var now = DateTime.UtcNow;
+    public async Task<CreateTokenCommandResponse> Handle(CreateTokenCommand request,
+        CancellationToken cancellationToken)
+    {
+        var now = DateTime.UtcNow;
 
-      var accessTokenSignature = Guid.NewGuid()
-                                     .ToString();
-      var refreshTokenSignature = Guid.NewGuid()
-                                      .ToString();
+        var accessTokenSignature = Guid.NewGuid()
+            .ToString();
+        var refreshTokenSignature = Guid.NewGuid()
+            .ToString();
 
-      var token = new Token
-      {
-         UserId = request.UserId,
-         AccessTokenHash = Sha3.Hash(accessTokenSignature),
-         RefreshTokenHash = Sha3.Hash(refreshTokenSignature),
-         AccessTokenExpiresAt = now.AddMinutes(AccessTokenExpirationMinutes),
-         RefreshTokenExpiresAt = now.AddMinutes(_refreshTokenExpirationMinutes),
-         InitialRefreshTokenCreatedAt = now,
-         CreatedAt = now,
-         UpdatedAt = now
-      };
+        var token = new Token
+        {
+            UserId = request.UserId,
+            AccessTokenHash = Sha3.Hash(accessTokenSignature),
+            RefreshTokenHash = Sha3.Hash(refreshTokenSignature),
+            AccessTokenExpiresAt = now.AddMinutes(AccessTokenExpirationMinutes),
+            RefreshTokenExpiresAt = now.AddMinutes(_refreshTokenExpirationMinutes),
+            InitialRefreshTokenCreatedAt = now,
+            CreatedAt = now,
+            UpdatedAt = now
+        };
 
-      dbContext.Tokens.Add(token);
-      await dbContext.SaveChangesAsync(cancellationToken);
+        dbContext.Tokens.Add(token);
+        await dbContext.SaveChangesAsync(cancellationToken);
 
-      return CreateTokenCommandResponse.MapFromEntity(token, accessTokenSignature, refreshTokenSignature);
-   }
+        return CreateTokenCommandResponse.MapFromEntity(token, accessTokenSignature, refreshTokenSignature);
+    }
 }

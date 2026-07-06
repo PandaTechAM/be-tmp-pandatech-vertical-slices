@@ -9,36 +9,36 @@ using SharedKernel.ValidatorAndMediatR;
 namespace Pandatech.VerticalSlices.Features.User.Application.Update;
 
 public class UpdateUserCommandHandler(PostgresContext postgresContext, IRequestContext requestContext)
-   : ICommandHandler<UpdateUserCommand>
+    : ICommandHandler<UpdateUserCommand>
 {
-   public async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
-   {
-      var user = await postgresContext
-                       .Users
-                       .FirstOrDefaultAsync(u => u.Id == request.Id && u.Role != UserRole.SuperAdmin,
-                          cancellationToken);
+    public async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+    {
+        var user = await postgresContext
+            .Users
+            .FirstOrDefaultAsync(u => u.Id == request.Id && u.Role != UserRole.SuperAdmin,
+                cancellationToken);
 
-      NotFoundException.ThrowIfNull(user);
+        NotFoundException.ThrowIfNull(user);
 
 
-      var username = request.Username.ToLower();
+        var username = request.Username.ToLower();
 
-      if (user.Username != username)
-      {
-         var duplicateUser =
-            await postgresContext
-                  .Users
-                  .AnyAsync(x => x.Username == request.Username, cancellationToken);
+        if (user.Username != username)
+        {
+            var duplicateUser =
+                await postgresContext
+                    .Users
+                    .AnyAsync(x => x.Username == request.Username, cancellationToken);
 
-         ConflictException.ThrowIf(duplicateUser, ErrorMessages.DuplicateUsername);
-      }
+            ConflictException.ThrowIf(duplicateUser, ErrorMessages.DuplicateUsername);
+        }
 
-      user.Username = username;
-      user.FullName = request.FullName;
-      user.Role = request.Role;
-      user.Comment = request.Comment ?? "";
-      user.MarkAsUpdated(requestContext.Identity.UserId);
+        user.Username = username;
+        user.FullName = request.FullName;
+        user.Role = request.Role;
+        user.Comment = request.Comment ?? "";
+        user.MarkAsUpdated(requestContext.Identity.UserId);
 
-      await postgresContext.SaveChangesAsync(cancellationToken);
-   }
+        await postgresContext.SaveChangesAsync(cancellationToken);
+    }
 }

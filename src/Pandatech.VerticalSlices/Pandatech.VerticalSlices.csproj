@@ -1,25 +1,32 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-    <ItemGroup>
-        <PackageReference Include="Hangfire" Version="1.8.22"/>
-        <PackageReference Include="Hangfire.Dashboard.Basic.Authentication" Version="8.0.0"/>
-        <PackageReference Include="Hangfire.EntityFrameworkCore" Version="0.9.0" />
-        <PackageReference Include="Hangfire.PostgreSql" Version="1.20.13"/>
-        <PackageReference Include="MassTransit.RabbitMQ" Version="[8.5.7]"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.2" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive" />
-        <PackageReference Include="Pandatech.Communicator" Version="3.0.1" />
-        <PackageReference Include="Pandatech.MassTransit.PostgresOutbox" Version="4.1.0" />
-        <PackageReference Include="Pandatech.SharedKernel" Version="2.1.1" />
-        <PackageReference Include="Pandatech.SharedKernel.Postgres" Version="2.0.2" />
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="10.15.0.120848" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive"/>
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Hangfire" Version="1.8.23"/>
+    <PackageReference Include="Hangfire.Dashboard.Basic.Authentication" Version="8.0.0"/>
+    <PackageReference Include="Hangfire.EntityFrameworkCore" Version="0.9.0"/>
+    <PackageReference Include="Hangfire.PostgreSql" Version="1.21.1"/>
+    <PackageReference Include="MassTransit.RabbitMQ" Version="[8.5.10]"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.9"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="10.0.9"/>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.9" PrivateAssets="all" IncludeAssets="runtime; build; native; contentfiles; analyzers; buildtransitive"/>
+    <!-- TEMPORARY: overrides the vulnerable Microsoft.OpenApi 2.0.0 (NU1903 / GHSA-v5pm-xwqc-g5wc)
+         pulled in transitively via Pandatech.SharedKernel. 2.9.0 is the latest patched 2.x.
+         Delete this explicit pin once the upstream chain resolves a patched Microsoft.OpenApi on
+         its own, so we no longer need to specify it here. Do NOT let IDE "remove redundant
+         reference" cleanup strip it while the transitive is still 2.0.0. -->
+    <PackageReference Include="Microsoft.OpenApi" Version="2.9.0"/>
+    <PackageReference Include="Pandatech.Communicator" Version="4.0.3"/>
+    <PackageReference Include="Pandatech.MassTransit.PostgresOutbox" Version="7.1.1"/>
+    <PackageReference Include="Pandatech.SharedKernel" Version="2.4.1"/>
+    <PackageReference Include="Pandatech.SharedKernel.Postgres" Version="2.1.6"/>
+  </ItemGroup>
 
-    <ItemGroup>
-        <_ContentIncludedByDefault Remove="wwwroot\assets\css\panda-style.css"/>
-        <_ContentIncludedByDefault Remove="wwwroot\assets\images\favicon.svg"/>
-        <_ContentIncludedByDefault Remove="wwwroot\assets\images\logo-wording.svg"/>
-        <_ContentIncludedByDefault Remove="wwwroot\assets\images\logo.svg"/>
-        <_ContentIncludedByDefault Remove="wwwroot\assets\js\docs.js"/>
-    </ItemGroup>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\assets\css\panda-style.css"/>
+    <_ContentIncludedByDefault Remove="wwwroot\assets\images\favicon.svg"/>
+    <_ContentIncludedByDefault Remove="wwwroot\assets\images\logo-wording.svg"/>
+    <_ContentIncludedByDefault Remove="wwwroot\assets\images\logo.svg"/>
+    <_ContentIncludedByDefault Remove="wwwroot\assets\js\docs.js"/>
+  </ItemGroup>
 
 </Project>

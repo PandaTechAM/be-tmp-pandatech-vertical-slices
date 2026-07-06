@@ -6,14 +6,14 @@ namespace Pandatech.VerticalSlices.Context.EntityConfigurations;
 
 public class UserConfigEntityConfiguration : IEntityTypeConfiguration<UserConfig>
 {
-   public void Configure(EntityTypeBuilder<UserConfig> builder)
-   {
-      builder.HasKey(e => e.Id);
-      builder.HasIndex(e => new
-             {
+    public void Configure(EntityTypeBuilder<UserConfig> builder)
+    {
+        builder.HasKey(e => e.Id);
+        builder.HasIndex(e => new
+            {
                 e.UserId,
                 e.Key
-             })
-             .IsUnique();
-   }
+            })
+            .IsUnique();
+    }
 }

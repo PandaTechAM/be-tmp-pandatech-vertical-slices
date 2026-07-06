@@ -12,25 +12,25 @@ using SharedKernel.ValidatorAndMediatR;
 namespace Pandatech.VerticalSlices.Features.User.Application.UpdatePassword;
 
 public class UpdateUserPasswordCommandHandler(
-   PostgresContext postgresContext,
-   IRequestContext requestContext)
-   : ICommandHandler<UpdateUserPasswordCommand>
+    PostgresContext postgresContext,
+    IRequestContext requestContext)
+    : ICommandHandler<UpdateUserPasswordCommand>
 {
-   public async Task Handle(UpdateUserPasswordCommand request, CancellationToken cancellationToken)
-   {
-      var user = await postgresContext
-                       .Users
-                       .FirstOrDefaultAsync(u => u.Id == request.Id && u.Role != UserRole.SuperAdmin,
-                          cancellationToken);
+    public async Task Handle(UpdateUserPasswordCommand request, CancellationToken cancellationToken)
+    {
+        var user = await postgresContext
+            .Users
+            .FirstOrDefaultAsync(u => u.Id == request.Id && u.Role != UserRole.SuperAdmin,
+                cancellationToken);
 
-      NotFoundException.ThrowIfNull(user);
+        NotFoundException.ThrowIfNull(user);
 
-      user.PasswordHash = Argon2Id.HashPassword(request.NewPassword);
-      user.ForcePasswordChange = true;
+        user.PasswordHash = Argon2Id.HashPassword(request.NewPassword);
+        user.ForcePasswordChange = true;
 
-      user.MarkAsUpdated(requestContext.Identity.UserId);
-      await postgresContext.SaveChangesAsync(cancellationToken);
+        user.MarkAsUpdated(requestContext.Identity.UserId);
+        await postgresContext.SaveChangesAsync(cancellationToken);
 
-      BackgroundJob.Enqueue<ISender>(x => x.Send(new RevokeAllTokensCommand(request.Id), cancellationToken));
-   }
+        BackgroundJob.Enqueue<ISender>(x => x.Send(new RevokeAllTokensCommand(request.Id), cancellationToken));
+    }
 }

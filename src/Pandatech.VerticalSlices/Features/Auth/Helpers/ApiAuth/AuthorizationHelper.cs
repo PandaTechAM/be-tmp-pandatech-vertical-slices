@@ -7,19 +7,19 @@ namespace Pandatech.VerticalSlices.Features.Auth.Helpers.ApiAuth;
 
 public static class AuthorizationHelper
 {
-   public static void Authorize(Identity identity, UserRole minimumRole, bool isForcedToChange)
-   {
-      if (identity.UserRole > minimumRole)
-      {
-         throw new ForbiddenException();
-      }
+    public static void Authorize(Identity identity, UserRole minimumRole, bool isForcedToChange)
+    {
+        if (identity.UserRole > minimumRole)
+        {
+            throw new ForbiddenException();
+        }
 
-      switch (identity.ForcePasswordChange)
-      {
-         case true when !isForcedToChange:
-            throw new ForbiddenException(ErrorMessages.YourPasswordIsExpired);
-         case false when isForcedToChange:
-            throw new ForbiddenException(ErrorMessages.YourPasswordIsNotExpired);
-      }
-   }
+        switch (identity.ForcePasswordChange)
+        {
+            case true when !isForcedToChange:
+                throw new ForbiddenException(ErrorMessages.YourPasswordIsExpired);
+            case false when isForcedToChange:
+                throw new ForbiddenException(ErrorMessages.YourPasswordIsNotExpired);
+        }
+    }
 }

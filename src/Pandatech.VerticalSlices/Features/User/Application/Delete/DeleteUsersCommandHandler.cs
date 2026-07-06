@@ -9,22 +9,22 @@ using SharedKernel.ValidatorAndMediatR;
 namespace Pandatech.VerticalSlices.Features.User.Application.Delete;
 
 public class DeleteUsersCommandHandler(PostgresContext postgresContext, IRequestContext requestContext)
-   : ICommandHandler<DeleteUsersCommand>
+    : ICommandHandler<DeleteUsersCommand>
 {
-   public Task Handle(DeleteUsersCommand request, CancellationToken cancellationToken)
-   {
-      var filterModel = new GridifyQueryModel
-      {
-         Page = 1,
-         PageSize = 1,
-         OrderBy = null,
-         Filter = request.Filter
-      };
+    public Task Handle(DeleteUsersCommand request, CancellationToken cancellationToken)
+    {
+        var filterModel = new GridifyQueryModel
+        {
+            Page = 1,
+            PageSize = 1,
+            OrderBy = null,
+            Filter = request.Filter
+        };
 
-      return postgresContext
-             .Users
-             .Where(x => x.Role != UserRole.SuperAdmin)
-             .ApplyFilter(filterModel)
-             .ExecuteSoftDeleteAsync(requestContext.Identity.UserId, ct: cancellationToken);
-   }
+        return postgresContext
+            .Users
+            .Where(x => x.Role != UserRole.SuperAdmin)
+            .ApplyFilter(filterModel)
+            .ExecuteSoftDeleteAsync(requestContext.Identity.UserId, ct: cancellationToken);
+    }
 }

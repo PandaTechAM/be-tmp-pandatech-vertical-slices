@@ -30,32 +30,32 @@ builder.WebHost.UseKestrel(o => o.AddServerHeader = false);
 
 var repoName = builder.Environment.GetShortEnvironmentName() + ":" + builder.Configuration.GetRepositoryName();
 builder
-   .ConfigureWithPandaVault()
-   .AddSerilog(LogBackend.ElasticSearch)
-   .AddOutboundLoggingHandler()
-   .AddResponseCrafter(NamingConvention.ToSnakeCase)
-   .AddOpenApi()
-   .AddOpenTelemetry()
-   .AddMinimalApis(AssemblyRegistry.ToArray())
-   .AddControllers(AssemblyRegistry.ToArray())
-   .AddMediatrWithBehaviors(AssemblyRegistry.ToArray())
-   .AddResilienceDefaultPipeline()
-   .AddDistributedCache(o =>
-   {
-      o.RedisConnectionString = builder.Configuration.GetRedisUrl();
-      o.ChannelPrefix = repoName;
-   })
-   .AddDistributedSignalR(builder.Configuration.GetRedisUrl(), repoName + ":SignalR")
-   .MapDefaultTimeZone()
-   .AddCors()
-   .AddPostgresContextPool<PostgresContext>(builder.Configuration.GetPostgresUrl())
-   .AddGridify()
-   .AddMassTransit(AssemblyRegistry.ToArray())
-   .AddAes256Key(builder.Configuration.GetAesKey())
-   .AddCommunicator()
-   .AddHangfireServer()
-   .AddFileExporter(AssemblyRegistry.ToArray())
-   .AddHealthChecks();
+    .ConfigureWithPandaVault()
+    .AddSerilog(LogBackend.ElasticSearch)
+    .AddOutboundLoggingHandler()
+    .AddResponseCrafter(NamingConvention.ToSnakeCase)
+    .AddOpenApi()
+    .AddOpenTelemetry()
+    .AddMinimalApis(AssemblyRegistry.ToArray())
+    .AddControllers(AssemblyRegistry.ToArray())
+    .AddMediatrWithBehaviors(AssemblyRegistry.ToArray())
+    .AddResilienceDefaultPipeline()
+    .AddDistributedCache(o =>
+    {
+        o.RedisConnectionString = builder.Configuration.GetRedisUrl();
+        o.ChannelPrefix = repoName;
+    })
+    .AddDistributedSignalR(builder.Configuration.GetRedisUrl(), repoName + ":SignalR")
+    .MapDefaultTimeZone()
+    .AddCors()
+    .AddPostgresContextPool<PostgresContext>(builder.Configuration.GetPostgresUrl())
+    .AddGridify()
+    .AddMassTransit(AssemblyRegistry.ToArray())
+    .AddAes256Key(builder.Configuration.GetAesKey())
+    .AddCommunicator()
+    .AddHangfireServer()
+    .AddFileExporter(AssemblyRegistry.ToArray())
+    .AddHealthChecks();
 
 builder.Services.AddOutboxInboxServices<PostgresContext>();
 builder.Services.AddScoped<IRequestContext, RequestContext>();
@@ -63,22 +63,22 @@ builder.Services.AddScoped<IRequestContext, RequestContext>();
 var app = builder.Build();
 
 var groupPolicy = app.MapGroup("")
-                     .DisableAntiforgery();
+    .DisableAntiforgery();
 
 app
-   .UseRequestLogging()
-   .UseResponseCrafter()
-   .UseCors()
-   .MapMinimalApis(groupPolicy)
-   .MapHealthCheckEndpoints()
-   .MapPrometheusExporterEndpoints()
-   .MigrateDatabase<PostgresContext>()
-   .EnsureHealthy()
-   .UseHangfireServer()
-   .ClearAssemblyRegistry()
-   .UseOpenApi()
-   .SeedSystemUser()
-   .MapControllers();
+    .UseRequestLogging()
+    .UseResponseCrafter()
+    .UseCors()
+    .MapMinimalApis(groupPolicy)
+    .MapHealthCheckEndpoints()
+    .MapPrometheusExporterEndpoints()
+    .MigrateDatabase<PostgresContext>()
+    .EnsureHealthy()
+    .UseHangfireServer()
+    .ClearAssemblyRegistry()
+    .UseOpenApi()
+    .SeedSystemUser()
+    .MapControllers();
 
 app.LogStartSuccess();
 app.Run();

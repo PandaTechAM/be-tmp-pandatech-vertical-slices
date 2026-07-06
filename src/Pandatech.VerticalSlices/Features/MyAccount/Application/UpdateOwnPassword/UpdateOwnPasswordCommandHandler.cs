@@ -12,27 +12,27 @@ using SharedKernel.ValidatorAndMediatR;
 namespace Pandatech.VerticalSlices.Features.MyAccount.Application.UpdateOwnPassword;
 
 public class UpdateOwnPasswordCommandHandler(
-   IRequestContext requestContext,
-   PostgresContext postgresContext)
-   : ICommandHandler<UpdateOwnPasswordCommand>
+    IRequestContext requestContext,
+    PostgresContext postgresContext)
+    : ICommandHandler<UpdateOwnPasswordCommand>
 {
-   public async Task Handle(UpdateOwnPasswordCommand request, CancellationToken cancellationToken)
-   {
-      var user = await postgresContext
-                       .Users
-                       .FirstOrDefaultAsync(x =>
-                             x.Id == requestContext.Identity.UserId && x.Role != UserRole.SuperAdmin,
-                          cancellationToken);
+    public async Task Handle(UpdateOwnPasswordCommand request, CancellationToken cancellationToken)
+    {
+        var user = await postgresContext
+            .Users
+            .FirstOrDefaultAsync(x =>
+                    x.Id == requestContext.Identity.UserId && x.Role != UserRole.SuperAdmin,
+                cancellationToken);
 
-      InternalServerErrorException.ThrowIfNull(user, "User not found");
+        InternalServerErrorException.ThrowIfNull(user, "User not found");
 
 
-      user.PasswordHash = Argon2Id.HashPassword(request.NewPassword);
+        user.PasswordHash = Argon2Id.HashPassword(request.NewPassword);
 
-      user.MarkAsUpdated(requestContext.Identity.UserId);
+        user.MarkAsUpdated(requestContext.Identity.UserId);
 
-      await postgresContext.SaveChangesAsync(cancellationToken);
+        await postgresContext.SaveChangesAsync(cancellationToken);
 
-      BackgroundJob.Enqueue<ISender>(x => x.Send(new RevokeAllTokensExceptCurrentCommand(), cancellationToken));
-   }
+        BackgroundJob.Enqueue<ISender>(x => x.Send(new RevokeAllTokensExceptCurrentCommand(), cancellationToken));
+    }
 }

@@ -5,13 +5,13 @@ namespace Pandatech.VerticalSlices.Context;
 
 public class PostgresContextFactory : IDesignTimeDbContextFactory<PostgresContext>
 {
-   public PostgresContext CreateDbContext(string[] args)
-   {
-      var optionsBuilder = new DbContextOptionsBuilder<PostgresContext>();
+    public PostgresContext CreateDbContext(string[] args)
+    {
+        var optionsBuilder = new DbContextOptionsBuilder<PostgresContext>();
 
-      optionsBuilder.UseNpgsql()
-                    .UseSnakeCaseNamingConvention();
+        optionsBuilder.UseNpgsql()
+            .UseSnakeCaseNamingConvention();
 
-      return new PostgresContext(optionsBuilder.Options);
-   }
+        return new PostgresContext(optionsBuilder.Options);
+    }
 }

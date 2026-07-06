@@ -9,30 +9,30 @@ using SharedKernel.ValidatorAndMediatR;
 namespace Pandatech.VerticalSlices.Features.User.Application.Create;
 
 public class CreateUserCommandHandler(PostgresContext dbContext, IRequestContext requestContext)
-   : ICommandHandler<CreateUserCommand>
+    : ICommandHandler<CreateUserCommand>
 {
-   public async Task Handle(CreateUserCommand request, CancellationToken cancellationToken)
-   {
-      var isDuplicateUsername = await dbContext.Users
-                                               .AnyAsync(u => u.Username
-                                                               .ToLower()
-                                                               .Equals(request.Username.ToLower()),
-                                                  cancellationToken);
+    public async Task Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    {
+        var isDuplicateUsername = await dbContext.Users
+            .AnyAsync(u => u.Username
+                    .ToLower()
+                    .Equals(request.Username.ToLower()),
+                cancellationToken);
 
-      BadRequestException.ThrowIf(isDuplicateUsername, ErrorMessages.DuplicateUsername);
+        BadRequestException.ThrowIf(isDuplicateUsername, ErrorMessages.DuplicateUsername);
 
-      var passwordHash = Argon2Id.HashPassword(request.Password);
-      var user = new Domain.Entities.User
-      {
-         Username = request.Username.ToLower(),
-         FullName = request.FullName,
-         PasswordHash = passwordHash,
-         Role = request.UserRole,
-         Comment = request.Comment ?? "",
-         CreatedByUserId = requestContext.Identity.UserId
-      };
+        var passwordHash = Argon2Id.HashPassword(request.Password);
+        var user = new Domain.Entities.User
+        {
+            Username = request.Username.ToLower(),
+            FullName = request.FullName,
+            PasswordHash = passwordHash,
+            Role = request.UserRole,
+            Comment = request.Comment ?? "",
+            CreatedByUserId = requestContext.Identity.UserId
+        };
 
-      dbContext.Users.Add(user);
-      await dbContext.SaveChangesAsync(cancellationToken);
-   }
+        dbContext.Users.Add(user);
+        await dbContext.SaveChangesAsync(cancellationToken);
+    }
 }

@@ -5,11 +5,11 @@ using SharedKernel.ValidatorAndMediatR;
 namespace Pandatech.VerticalSlices.Features.Auth.Application.IdentityState;
 
 public class GetIdentityStateQueryHandler(IRequestContext requestContext)
-   : IQueryHandler<GetIdentityStateQuery, IdentityStateCommandResponse>
+    : IQueryHandler<GetIdentityStateQuery, IdentityStateCommandResponse>
 {
-   public Task<IdentityStateCommandResponse> Handle(GetIdentityStateQuery request,
-      CancellationToken cancellationToken)
-   {
-      return Task.FromResult(IdentityStateCommandResponse.MapFromIdentity(requestContext.Identity));
-   }
+    public Task<IdentityStateCommandResponse> Handle(GetIdentityStateQuery request,
+        CancellationToken cancellationToken)
+    {
+        return Task.FromResult(IdentityStateCommandResponse.MapFromIdentity(requestContext.Identity));
+    }
 }

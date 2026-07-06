@@ -4,28 +4,28 @@ namespace Pandatech.VerticalSlices.Features.User.Contracts.GetUser;
 
 public class GetUserQueryResponse
 {
-   public long Id { get; set; }
+    public long Id { get; set; }
 
-   public required string Username { get; set; }
-   public required string FullName { get; set; }
-   public UserRole Role { get; set; }
-   public UserStatus Status { get; set; }
-   public DateTime CreatedAt { get; set; }
-   public DateTime? UpdatedAt { get; set; }
-   public string? Comment { get; set; }
+    public required string Username { get; set; }
+    public required string FullName { get; set; }
+    public UserRole Role { get; set; }
+    public UserStatus Status { get; set; }
+    public DateTime CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
+    public string? Comment { get; set; }
 
-   public static GetUserQueryResponse MapFromEntity(Domain.Entities.User entity)
-   {
-      return new GetUserQueryResponse
-      {
-         Id = entity.Id,
-         Username = entity.Username,
-         FullName = entity.FullName,
-         Role = entity.Role,
-         Status = entity.Status,
-         CreatedAt = entity.CreatedAt,
-         UpdatedAt = entity.UpdatedAt,
-         Comment = entity.Comment
-      };
-   }
+    public static GetUserQueryResponse MapFromEntity(Domain.Entities.User entity)
+    {
+        return new GetUserQueryResponse
+        {
+            Id = entity.Id,
+            Username = entity.Username,
+            FullName = entity.FullName,
+            Role = entity.Role,
+            Status = entity.Status,
+            CreatedAt = entity.CreatedAt,
+            UpdatedAt = entity.UpdatedAt,
+            Comment = entity.Comment
+        };
+    }
 }
